@@ -1,0 +1,11 @@
+{
+    "log_level": "INFO",
+    "log_file": "logs/processing.log",
+    "spreadsheet_dir": "spreadsheets",
+    "pdf_dir": "pdfs",
+    "template_path": "templates/card_template.xlsx",
+    "payment_method": "A VISTA",
+    "reconcile_tolerance": 0.01,
+    "backup_enabled": true,
+    "max_transactions": 500
+}
