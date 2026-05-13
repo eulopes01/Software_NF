@@ -1,0 +1,111 @@
+{"person_name": "John Doe", "sheet_name": "MAIO 2025", "spreadsheet_path": "/tmp/pytest-of-galopes/pytest-0/test_match_result0/card_test.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1337.61, "difference": 0.0, "status": "MATCH", "message": "✅ MATCH — John Doe: PDF R$ 1337.61 = Spreadsheet R$ 1337.61 (difference: R$ 0.00)", "timestamp": "2026-05-12T22:21:11"}
+{"person_name": "John Doe", "sheet_name": "MAIO 2025", "spreadsheet_path": "/tmp/pytest-of-galopes/pytest-0/test_divergence_result0/card_test.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1000.0, "difference": 337.61, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — John Doe: PDF R$ 1337.61 ≠ Spreadsheet R$ 1000.00 (difference: R$ 337.61). Manual review required.", "timestamp": "2026-05-12T22:21:12"}
+{"person_name": "Aline Maris", "sheet_name": "MAIO 2025", "spreadsheet_path": "/tmp/pytest-of-galopes/pytest-0/test_result_contains_person_na0/card_test.xlsx", "pdf_total": 500.0, "spreadsheet_total": 500.0, "difference": 0.0, "status": "MATCH", "message": "✅ MATCH — Aline Maris: PDF R$ 500.00 = Spreadsheet R$ 500.00 (difference: R$ 0.00)", "timestamp": "2026-05-12T22:21:12"}
+{"person_name": "John", "sheet_name": "MAIO 2025", "spreadsheet_path": "/tmp/pytest-of-galopes/pytest-0/test_result_contains_correct_t0/card_test.xlsx", "pdf_total": 850.0, "spreadsheet_total": 850.0, "difference": 0.0, "status": "MATCH", "message": "✅ MATCH — John: PDF R$ 850.00 = Spreadsheet R$ 850.00 (difference: R$ 0.00)", "timestamp": "2026-05-12T22:21:12"}
+{"person_name": "John", "sheet_name": "MAIO 2025", "spreadsheet_path": "/tmp/pytest-of-galopes/pytest-0/test_result_is_dataclass0/card_test.xlsx", "pdf_total": 200.0, "spreadsheet_total": 200.0, "difference": 0.0, "status": "MATCH", "message": "✅ MATCH — John: PDF R$ 200.00 = Spreadsheet R$ 200.00 (difference: R$ 0.00)", "timestamp": "2026-05-12T22:21:12"}
+2026-05-12 22:29:56,783 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-12 22:30:43,291 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-12 22:31:35,619 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-12 22:32:03,406 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-12 22:32:06,310 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-12 22:32:06,310 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:06,310 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:06,695 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:06,695 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:06,696 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:06,696 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': name 're' is not defined
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 442, in process_all_invoices
+    person_name = _resolve_person_name(path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 665, in _resolve_person_name
+    clean = re.sub(r"[_\-]\d{2}[_\-]\d{4}$", "", stem)
+            ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+2026-05-12 22:32:24,820 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-12 22:32:24,820 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:24,820 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:25,199 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:25,200 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:25,200 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:25,200 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': name 're' is not defined
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 442, in process_all_invoices
+    person_name = _resolve_person_name(path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 665, in _resolve_person_name
+    clean = re.sub(r"[_\-]\d{2}[_\-]\d{4}$", "", stem)
+            ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+2026-05-12 22:32:30,956 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-12 22:32:30,956 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:30,956 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:31,334 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:31,335 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:31,335 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:32:31,335 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': name 're' is not defined
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 442, in process_all_invoices
+    person_name = _resolve_person_name(path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 665, in _resolve_person_name
+    clean = re.sub(r"[_\-]\d{2}[_\-]\d{4}$", "", stem)
+            ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+2026-05-12 22:43:43,652 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-12 22:43:49,812 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-12 22:43:49,812 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:43:49,812 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:43:50,239 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:43:50,240 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:43:50,240 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:43:50,240 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': name 're' is not defined
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 442, in process_all_invoices
+    person_name = _resolve_person_name(path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 665, in _resolve_person_name
+    clean = re.sub(r"[_\-]\d{2}[_\-]\d{4}$", "", stem)
+            ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+2026-05-12 22:44:49,629 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-12 22:45:08,309 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-12 22:45:11,804 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-12 22:45:11,804 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:45:11,805 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:45:12,196 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:45:12,196 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:45:12,196 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:45:12,197 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': name 're' is not defined
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 442, in process_all_invoices
+    person_name = _resolve_person_name(path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 665, in _resolve_person_name
+    clean = re.sub(r"[_\-]\d{2}[_\-]\d{4}$", "", stem)
+            ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+2026-05-12 22:46:42,941 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-12 22:47:04,469 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-12 22:47:08,978 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-12 22:47:08,978 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:47:08,979 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:47:09,374 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:47:09,374 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:47:09,375 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:47:09,375 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-12 22:47:13,978 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Nome_Pessoa_1_MAIO_2025.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-12 22:47:13,989 | INFO | spreadsheet_writer | Backup created: Card_Nome_Pessoa_1_MAIO_2025.20260512_224713.backup.xlsx
+2026-05-12 22:47:14,011 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-12 22:52:23,505 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-12 22:52:56,384 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-12 22:52:58,767 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-12 22:52:58,767 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:52:58,767 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:52:59,170 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:52:59,171 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:52:59,171 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-12 22:52:59,172 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-12 22:53:07,253 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Nome_Pessoa_1_MAIO_2025.20260512_224713.backup.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-12 22:53:07,254 | INFO | spreadsheet_writer | Backup created: Card_Nome_Pessoa_1_MAIO_2025.20260512_224713.backup.20260512_225307.backup.xlsx
+2026-05-12 22:53:07,277 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.

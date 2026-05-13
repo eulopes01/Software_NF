@@ -43,12 +43,14 @@ logger = logging.getLogger(__name__)
 # Configuration — edit before running
 # ─────────────────────────────────────────────
 
-PEOPLE: list[str] = [
-    "Aline Maris",
-    "Carlos Belruss",
-    "Daniela Sa",
-    # Add or remove names as needed
+PEOPLE = [
+    "Nome Pessoa 1",
+    "Nome Pessoa 2",
+    "Nome Pessoa 3",
 ]
+
+REFERENCE_MONTH = "MAIO 2025"
+DUE_DATE        = "15/06/2025"
 
 REFERENCE_MONTH  = "MAIO 2025"    # Sheet tab name and header label
 DUE_DATE         = "15/06/2025"   # Invoice due date shown in the header

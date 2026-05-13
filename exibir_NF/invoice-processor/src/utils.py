@@ -1,36 +1,26 @@
 """
-reconciler.py — Phase 4: Invoice Reconciler
----------------------------------------------
-Responsible for reading the invoice total from the PDF,
-reading the computed total from the spreadsheet, comparing
-both values, reporting the result (match or divergence),
-and writing a structured log entry for audit purposes.
+utils.py — Shared Utility Functions
+-------------------------------------
+Provides reusable helper functions used across all modules:
+pdf_reader, spreadsheet_writer, reconciler, and main.
 
 Each function has a single responsibility and at least 25 lines,
 following Clean Architecture, SOLID, and Secure by Design principles.
 
-Dependencies:
-    pip install openpyxl
+No external dependencies — uses only Python standard library.
 
 Usage:
-    from reconciler import reconcile
-
-    result = reconcile(
-        person_name="Aline Maris",
-        sheet_name="MAIO 2025",
-        spreadsheet_path="spreadsheets/card_Aline_Maris_MAIO_2025.xlsx",
-        pdf_total=1337.61,
-    )
+    from utils import format_currency, format_date, validate_file,
+                      sanitize_text, load_config
 """
 
-import logging
 import json
-from dataclasses import dataclass, asdict
+import logging
+import os
+import re
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
-
-from openpyxl import load_workbook
+from typing import Any, Optional
 
 # ─────────────────────────────────────────────
 # Logging setup
@@ -42,519 +32,435 @@ logger = logging.getLogger(__name__)
 # Constants
 # ─────────────────────────────────────────────
 
-# Tolerance in BRL to handle floating point rounding differences
-# Example: 1337.61 vs 1337.6099999 → considered a match
-RECONCILE_TOLERANCE     = 0.01
+# Supported file extensions per type
+ALLOWED_PDF_EXTENSION   = ".pdf"
+ALLOWED_XLSX_EXTENSION  = ".xlsx"
 
-# Column index of VALOR (amount) in the spreadsheet
-COL_AMOUNT              = 5
+# File size limits
+MAX_PDF_SIZE_MB         = 20
+MAX_XLSX_SIZE_MB        = 20
 
-# Markers that identify the SUB TOTAL row in the spreadsheet
-SUBTOTAL_MARKERS        = ["sub total", "subtotal"]
+# Text sanitization limits
+MAX_TEXT_LENGTH         = 500
+MAX_CELL_LENGTH         = 100
 
-# Default log directory and file
-DEFAULT_LOG_DIR         = Path("logs")
-DEFAULT_LOG_FILE        = DEFAULT_LOG_DIR / "processing.log"
+# Date formats
+INVOICE_DATE_FORMAT     = "%d/%m"           # DD/MM  — from PDF invoices
+FULL_DATE_FORMAT        = "%d/%m/%Y"        # DD/MM/YYYY — full date
+ISO_DATE_FORMAT         = "%Y-%m-%d"        # ISO 8601
 
-# Result status constants
-STATUS_MATCH            = "MATCH"
-STATUS_DIVERGENCE       = "DIVERGENCE"
-STATUS_ERROR            = "ERROR"
+# Brazilian currency pattern: 1.234,56 or -1.234,56
+BRAZILIAN_CURRENCY_RE   = re.compile(
+    r"^-?\d{1,3}(?:\.\d{3})*,\d{2}$"
+)
 
-# Maximum rows to scan when searching for the subtotal row
-MAX_SCAN_ROWS           = 600
+# Characters that trigger Excel formula injection
+EXCEL_INJECTION_CHARS   = ("=", "+", "-", "@", "|", "%", "\t", "\r")
 
-# Allowed spreadsheet extension
-ALLOWED_EXTENSION       = ".xlsx"
+# Default config file path
+DEFAULT_CONFIG_PATH     = Path("config.json")
+
+# Default configuration values used when config.json is absent
+DEFAULT_CONFIG: dict[str, Any] = {
+    "log_level":         "INFO",
+    "log_file":          "logs/processing.log",
+    "spreadsheet_dir":   "spreadsheets",
+    "pdf_dir":           "pdfs",
+    "template_path":     "templates/card_template.xlsx",
+    "payment_method":    "A VISTA",
+    "reconcile_tolerance": 0.01,
+    "backup_enabled":    True,
+    "max_transactions":  500,
+}
 
 
 # ─────────────────────────────────────────────
-# Data model
+# Function 1 — format_currency
 # ─────────────────────────────────────────────
 
-@dataclass
-class ReconciliationResult:
+def format_currency(value: float, symbol: str = "R$") -> str:
     """
-    Structured result of a single invoice reconciliation operation.
+    Formats a float value as a Brazilian Real currency string.
 
-    Attributes:
-        person_name:       Full name of the cardholder.
-        sheet_name:        Name of the worksheet tab processed.
-        spreadsheet_path:  Path to the .xlsx file.
-        pdf_total:         Total value extracted from the PDF invoice.
-        spreadsheet_total: Total value computed from the spreadsheet.
-        difference:        Absolute difference between both totals.
-        status:            "MATCH", "DIVERGENCE", or "ERROR".
-        message:           Human-readable summary of the result.
-        timestamp:         ISO-8601 timestamp of when reconciliation ran.
-    """
-    person_name:       str
-    sheet_name:        str
-    spreadsheet_path:  str
-    pdf_total:         float
-    spreadsheet_total: float
-    difference:        float
-    status:            str
-    message:           str
-    timestamp:         str
+    Uses Brazilian number formatting conventions:
+        - Thousands separator: period (.)
+        - Decimal separator: comma (,)
+        - Prefix: currency symbol followed by a space
 
-
-# ─────────────────────────────────────────────
-# Function 1 — reconcile
-# ─────────────────────────────────────────────
-
-def reconcile(
-    person_name: str,
-    sheet_name: str,
-    spreadsheet_path: str,
-    pdf_total: float,
-) -> ReconciliationResult:
-    """
-    Main entry point for the reconciliation pipeline.
-
-    Reads the spreadsheet total, compares it against the PDF total,
-    builds a structured result, reports it to the console, and
-    writes a log entry for audit purposes.
+    Examples:
+        format_currency(1337.61)     → "R$ 1.337,61"
+        format_currency(-50.00)      → "R$ -50,00"
+        format_currency(0.0)         → "R$ 0,00"
+        format_currency(1000000.99)  → "R$ 1.000.000,99"
 
     Args:
-        person_name:      Full name of the cardholder. Used in reporting.
-        sheet_name:       Name of the worksheet tab to reconcile.
-        spreadsheet_path: Path to the person's .xlsx file.
-        pdf_total:        The total invoice value extracted from the PDF.
+        value:  The numeric value to format. Must be int or float.
+        symbol: The currency symbol prefix. Defaults to "R$".
 
     Returns:
-        A ReconciliationResult dataclass with all comparison details.
+        A formatted currency string in Brazilian format.
+
+    Raises:
+        TypeError: If value is not a numeric type.
     """
-    timestamp = datetime.now().isoformat(timespec="seconds")
+    if not isinstance(value, (int, float)):
+        raise TypeError(
+            f"format_currency expects int or float. "
+            f"Received: {type(value).__name__} ({value!r})"
+        )
 
-    logger.info(
-        f"Starting reconciliation | Person: {person_name} "
-        f"| Sheet: {sheet_name} | PDF total: R$ {pdf_total:.2f}"
+    if value != value:
+        # NaN check
+        logger.warning("format_currency received NaN — returning 'R$ 0,00'")
+        return f"{symbol} 0,00"
+
+    is_negative = value < 0
+    abs_value = abs(value)
+
+    # Format with 2 decimal places using standard float formatting
+    # then convert to Brazilian notation
+    formatted = f"{abs_value:,.2f}"               # → "1,337.61"
+    formatted = formatted.replace(",", "X")        # → "1X337.61"
+    formatted = formatted.replace(".", ",")        # → "1X337,61"
+    formatted = formatted.replace("X", ".")        # → "1.337,61"
+
+    sign = "-" if is_negative else ""
+
+    result = f"{symbol} {sign}{formatted}"
+    logger.debug(f"format_currency: {value} → '{result}'")
+    return result
+
+
+# ─────────────────────────────────────────────
+# Function 2 — format_date
+# ─────────────────────────────────────────────
+
+def format_date(
+    date_str: str,
+    input_format: str = INVOICE_DATE_FORMAT,
+    output_format: str = FULL_DATE_FORMAT,
+    reference_year: Optional[int] = None,
+) -> str:
+    """
+    Parses and reformats a date string from one format to another.
+
+    Primarily used to convert the DD/MM format found in Itaú invoices
+    to DD/MM/YYYY by injecting the current or reference year.
+
+    Examples:
+        format_date("03/10")                      → "03/10/2025"
+        format_date("03/10/2025", "%d/%m/%Y")     → "03/10/2025"
+        format_date("2025-10-03", "%Y-%m-%d",
+                    output_format="%d/%m/%Y")      → "03/10/2025"
+
+    Args:
+        date_str:        The raw date string to convert.
+        input_format:    strptime format of the input string.
+                         Defaults to "%d/%m" (Itaú invoice format).
+        output_format:   strftime format of the output string.
+                         Defaults to "%d/%m/%Y".
+        reference_year:  Year to inject when input_format has no year.
+                         Defaults to the current year if not provided.
+
+    Returns:
+        The reformatted date string, or the original string if parsing fails.
+    """
+    if not date_str or not isinstance(date_str, str):
+        logger.warning(f"format_date received invalid input: {date_str!r}")
+        return date_str or ""
+
+    cleaned = date_str.strip()
+
+    if not cleaned:
+        logger.warning("format_date received empty string after stripping.")
+        return ""
+
+    # Inject reference year when input format has no year component
+    parse_str = cleaned
+    parse_fmt = input_format
+
+    if "%Y" not in input_format and "%y" not in input_format:
+        year = reference_year or datetime.now().year
+        parse_str = f"{cleaned}/{year}"
+        parse_fmt = f"{input_format}/%Y"
+
+    try:
+        parsed_date = datetime.strptime(parse_str, parse_fmt)
+        result = parsed_date.strftime(output_format)
+        logger.debug(f"format_date: '{date_str}' → '{result}'")
+        return result
+    except ValueError as exc:
+        logger.warning(
+            f"format_date could not parse '{date_str}' "
+            f"with format '{input_format}': {exc}. "
+            "Returning original string."
+        )
+        return date_str
+
+
+# ─────────────────────────────────────────────
+# Function 3 — validate_file
+# ─────────────────────────────────────────────
+
+def validate_file(
+    file_path: str,
+    allowed_extension: str,
+    max_size_mb: float = MAX_PDF_SIZE_MB,
+) -> Path:
+    """
+    Validates that a file path points to a real, readable, non-empty
+    file of the correct type within the allowed size limit.
+
+    Performs the following checks in order:
+        1. Path is not empty or None
+        2. Path exists on disk
+        3. Path points to a file (not a directory)
+        4. File extension matches the allowed extension
+        5. File size is within the allowed limit
+        6. File is not empty (size > 0 bytes)
+
+    Used as the first line of defense in pdf_reader and
+    spreadsheet_writer before attempting to open any file.
+
+    Args:
+        file_path:         Absolute or relative path to the file.
+        allowed_extension: Required file extension (e.g. ".pdf", ".xlsx").
+                           Case-insensitive comparison is applied.
+        max_size_mb:       Maximum allowed file size in megabytes.
+                           Defaults to MAX_PDF_SIZE_MB (20 MB).
+
+    Returns:
+        A resolved Path object if all validations pass.
+
+    Raises:
+        ValueError: If file_path is empty or None.
+        FileNotFoundError: If the file does not exist.
+        ValueError: If any validation check fails.
+    """
+    if not file_path or not isinstance(file_path, str):
+        raise ValueError(
+            f"file_path must be a non-empty string. "
+            f"Received: {file_path!r}"
+        )
+
+    path = Path(file_path.strip())
+
+    if not path.exists():
+        raise FileNotFoundError(
+            f"File not found: '{path}'. "
+            "Please check the path and try again."
+        )
+
+    if not path.is_file():
+        raise ValueError(
+            f"Path is not a file: '{path}'. "
+            "Directories and symlinks are not accepted."
+        )
+
+    if path.suffix.lower() != allowed_extension.lower():
+        raise ValueError(
+            f"Invalid file type '{path.suffix}' for '{path.name}'. "
+            f"Expected: '{allowed_extension}'."
+        )
+
+    file_size_mb = path.stat().st_size / (1024 * 1024)
+    if file_size_mb > max_size_mb:
+        raise ValueError(
+            f"File '{path.name}' is too large: {file_size_mb:.2f} MB. "
+            f"Maximum allowed: {max_size_mb} MB."
+        )
+
+    if path.stat().st_size == 0:
+        raise ValueError(
+            f"File '{path.name}' is empty (0 bytes). "
+            "Please provide a valid non-empty file."
+        )
+
+    logger.debug(
+        f"File validated: '{path.name}' "
+        f"({file_size_mb:.3f} MB, extension='{path.suffix}')"
     )
 
-    _validate_reconcile_inputs(person_name, sheet_name, spreadsheet_path, pdf_total)
+    return path.resolve()
 
-    spreadsheet_total = read_spreadsheet_total(spreadsheet_path, sheet_name)
-    difference = read_difference(pdf_total, spreadsheet_total)
-    status, message = compare_totals(person_name, pdf_total, spreadsheet_total, difference)
 
-    result = ReconciliationResult(
-        person_name=person_name,
-        sheet_name=sheet_name,
-        spreadsheet_path=str(spreadsheet_path),
-        pdf_total=round(pdf_total, 2),
-        spreadsheet_total=round(spreadsheet_total, 2),
-        difference=round(difference, 2),
-        status=status,
-        message=message,
-        timestamp=timestamp,
-    )
+# ─────────────────────────────────────────────
+# Function 4 — sanitize_text
+# ─────────────────────────────────────────────
 
-    report_result(result)
-    write_log(result)
+def sanitize_text(
+    text: str,
+    max_length: int = MAX_CELL_LENGTH,
+    allow_newlines: bool = False,
+) -> str:
+    """
+    Sanitizes a raw text string for safe use in spreadsheet cells
+    and log entries.
+
+    The following transformations are applied in order:
+        1. Convert to string and strip surrounding whitespace
+        2. Remove ASCII control characters (0x00–0x1F) except:
+           - Tab (0x09) is always removed
+           - Newline (0x0A) is kept only if allow_newlines=True
+        3. Collapse multiple consecutive whitespace into single space
+        4. Prevent Excel formula injection by prefixing dangerous
+           leading characters (=, +, -, @, |, %) with a single quote
+        5. Truncate to max_length characters
+
+    This function is critical for security: without it, a malicious
+    PDF could inject formulas into Excel cells (e.g. a description
+    starting with "=CMD|' /C calc'!A0" would execute on open).
+
+    Args:
+        text:           The raw string to sanitize.
+        max_length:     Maximum allowed character length after sanitization.
+                        Defaults to MAX_CELL_LENGTH (100).
+        allow_newlines: If True, preserves newline characters (0x0A).
+                        Defaults to False (strip all control chars).
+
+    Returns:
+        A sanitized, safe string ready for spreadsheet or log insertion.
+    """
+    if text is None:
+        return ""
+
+    if not isinstance(text, str):
+        text = str(text)
+
+    # Strip surrounding whitespace
+    result = text.strip()
+
+    if not result:
+        return ""
+
+    # Remove control characters
+    if allow_newlines:
+        # Keep newlines (0x0A), remove everything else in 0x00–0x1F
+        result = re.sub(r"[\x00-\x09\x0b-\x1f\x7f]", "", result)
+    else:
+        # Remove all control characters including newlines
+        result = re.sub(r"[\x00-\x1f\x7f]", "", result)
+
+    # Collapse multiple whitespace into a single space
+    result = re.sub(r"\s+", " ", result).strip()
+
+    # Prevent Excel formula injection
+    # Leading dangerous characters get a single-quote prefix
+    if result and result[0] in EXCEL_INJECTION_CHARS:
+        result = "'" + result
+        logger.warning(
+            f"sanitize_text: Excel injection character detected and escaped. "
+            f"Original start: {text[:10]!r}"
+        )
+
+    # Truncate to safe length
+    if len(result) > max_length:
+        logger.debug(
+            f"sanitize_text: text truncated from {len(result)} "
+            f"to {max_length} chars."
+        )
+        result = result[:max_length]
 
     return result
 
 
 # ─────────────────────────────────────────────
-# Function 2 — read_pdf_total (wrapper/validator)
+# Function 5 — load_config
 # ─────────────────────────────────────────────
 
-def read_pdf_total(pdf_total_raw: float, file_name: str = "") -> float:
+def load_config(config_path: Optional[str] = None) -> dict[str, Any]:
     """
-    Validates and returns the PDF invoice total value.
+    Loads the application configuration from a JSON file.
 
-    The actual PDF extraction is performed by pdf_reader.read_pdf().
-    This function acts as a validation and normalization layer before
-    the value enters the reconciliation pipeline, ensuring the total
-    is a valid positive float and within a reasonable range for a
-    corporate credit card invoice.
+    If the config file does not exist at the given path, the
+    function falls back to DEFAULT_CONFIG and logs a warning.
+    This ensures the application always has a valid configuration
+    to run with, even on first run before config.json is created.
+
+    The loaded config is merged with DEFAULT_CONFIG so that any
+    missing keys in the user's file are filled with safe defaults.
+    This makes the config file forward-compatible with new settings.
+
+    Security rules enforced:
+        - Config file must be a .json file
+        - Config file must not exceed 1 MB (prevents DoS via huge config)
+        - Only known keys from DEFAULT_CONFIG are returned
+          (unknown keys are ignored to prevent injection via config)
 
     Args:
-        pdf_total_raw: The raw total value returned by pdf_reader.
-        file_name:     Original PDF file name for logging purposes only.
+        config_path: Path to the JSON config file.
+                     Defaults to DEFAULT_CONFIG_PATH ("config.json").
 
     Returns:
-        The validated and rounded PDF total as a float.
-
-    Raises:
-        ValueError: If the total is invalid, negative, or unreasonably large.
+        A dictionary containing the merged application configuration.
+        Always returns a complete config (never raises on missing file).
     """
-    if not isinstance(pdf_total_raw, (int, float)):
-        raise ValueError(
-            f"PDF total must be a number. "
-            f"Received: {type(pdf_total_raw)} from '{file_name}'."
-        )
+    path = Path(config_path) if config_path else DEFAULT_CONFIG_PATH
 
-    if pdf_total_raw != pdf_total_raw:
-        # NaN check: float('nan') != float('nan') is True
-        raise ValueError(
-            f"PDF total is NaN (not a number) in '{file_name}'. "
-            "The PDF may be malformed or the extraction failed."
-        )
-
-    if pdf_total_raw < 0:
-        raise ValueError(
-            f"PDF total is negative (R$ {pdf_total_raw:.2f}) in '{file_name}'. "
-            "Invoice totals must be positive values."
-        )
-
-    if pdf_total_raw > 1_000_000:
-        raise ValueError(
-            f"PDF total (R$ {pdf_total_raw:,.2f}) exceeds the safety limit "
-            f"of R$ 1,000,000.00. Please verify the file: '{file_name}'."
-        )
-
-    if pdf_total_raw == 0.0:
-        logger.warning(
-            f"PDF total is R$ 0.00 for '{file_name}'. "
-            "This may indicate an extraction failure."
-        )
-
-    rounded = round(pdf_total_raw, 2)
-    logger.debug(f"PDF total validated: R$ {rounded:.2f} | File: {file_name}")
-    return rounded
-
-
-# ─────────────────────────────────────────────
-# Function 3 — read_spreadsheet_total
-# ─────────────────────────────────────────────
-
-def read_spreadsheet_total(spreadsheet_path: str, sheet_name: str) -> float:
-    """
-    Opens the spreadsheet and reads the computed SUB TOTAL value
-    from the national purchases section of the specified sheet.
-
-    The SUB TOTAL row is identified by scanning column D (DESCRIÇÃO)
-    for a cell containing "SUB TOTAL" (case-insensitive). The
-    corresponding value is read from column E (VALOR).
-
-    If the cell contains a formula (e.g. =SUM(E5:E54)), openpyxl
-    returns None for the cached value when data_only=False. In that
-    case, the function manually sums all transaction amounts from
-    the data rows as a fallback.
-
-    Args:
-        spreadsheet_path: Path to the person's .xlsx file.
-        sheet_name:       Name of the worksheet tab.
-
-    Returns:
-        The SUB TOTAL value as a float (>= 0.0).
-
-    Raises:
-        ValueError: If the file cannot be opened or the sheet is not found.
-        ValueError: If no SUB TOTAL row is found in the sheet.
-    """
-    path = Path(spreadsheet_path)
-
+    # Return defaults immediately if config file does not exist
     if not path.exists():
-        raise FileNotFoundError(f"Spreadsheet not found: '{path}'")
-
-    if path.suffix.lower() != ALLOWED_EXTENSION:
-        raise ValueError(f"Invalid file type: '{path.suffix}'")
-
-    try:
-        # data_only=True reads cached formula results
-        workbook = load_workbook(str(path), data_only=True)
-    except Exception as exc:
-        raise ValueError(
-            f"Failed to open spreadsheet '{path.name}': {exc}"
-        ) from exc
-
-    if sheet_name not in workbook.sheetnames:
-        available = ", ".join(f"'{s}'" for s in workbook.sheetnames)
-        raise ValueError(
-            f"Sheet '{sheet_name}' not found. Available: [{available}]"
-        )
-
-    worksheet = workbook[sheet_name]
-    subtotal_row = _find_subtotal_row(worksheet)
-
-    if subtotal_row is None:
         logger.warning(
-            f"SUB TOTAL row not found in '{sheet_name}'. "
-            "Falling back to manual sum of transaction rows."
+            f"Config file not found at '{path}'. "
+            "Using default configuration. "
+            "Create 'config.json' to customize settings."
         )
-        return _manual_sum_transactions(worksheet)
+        return dict(DEFAULT_CONFIG)
 
-    raw_value = worksheet.cell(row=subtotal_row, column=COL_AMOUNT).value
-
-    if raw_value is None:
-        logger.warning(
-            f"SUB TOTAL cell is None (formula not cached) in '{sheet_name}'. "
-            "Falling back to manual sum."
-        )
-        return _manual_sum_transactions(worksheet)
-
-    try:
-        total = float(raw_value)
-        logger.debug(f"Spreadsheet total read: R$ {total:.2f} | Sheet: {sheet_name}")
-        return round(total, 2)
-    except (TypeError, ValueError) as exc:
-        logger.warning(f"Could not parse SUB TOTAL value '{raw_value}': {exc}")
-        return _manual_sum_transactions(worksheet)
-
-
-# ─────────────────────────────────────────────
-# Function 4 — compare_totals
-# ─────────────────────────────────────────────
-
-def compare_totals(
-    person_name: str,
-    pdf_total: float,
-    spreadsheet_total: float,
-    difference: float,
-) -> tuple[str, str]:
-    """
-    Compares the PDF invoice total against the spreadsheet total
-    and determines whether they match within the allowed tolerance.
-
-    A tolerance of R$ 0.01 is applied to handle floating point
-    rounding artifacts that can appear when summing BRL values
-    (e.g. 1337.61 vs 1337.6099999).
-
-    Args:
-        person_name:       Full name of the cardholder.
-        pdf_total:         Total extracted from the PDF invoice.
-        spreadsheet_total: Total computed from the spreadsheet.
-        difference:        Absolute difference between both totals.
-
-    Returns:
-        A tuple of (status: str, message: str) where status is one
-        of STATUS_MATCH or STATUS_DIVERGENCE, and message is a
-        human-readable description of the comparison outcome.
-    """
-    if not isinstance(pdf_total, (int, float)):
-        return STATUS_ERROR, f"Invalid PDF total type: {type(pdf_total)}"
-
-    if not isinstance(spreadsheet_total, (int, float)):
-        return STATUS_ERROR, f"Invalid spreadsheet total type: {type(spreadsheet_total)}"
-
-    if not isinstance(difference, (int, float)):
-        return STATUS_ERROR, f"Invalid difference type: {type(difference)}"
-
-    is_match = difference <= RECONCILE_TOLERANCE
-
-    if is_match:
-        status = STATUS_MATCH
-        message = (
-            f"✅ MATCH — {person_name}: "
-            f"PDF R$ {pdf_total:.2f} = Spreadsheet R$ {spreadsheet_total:.2f} "
-            f"(difference: R$ {difference:.2f})"
-        )
-        logger.info(message)
-    else:
-        status = STATUS_DIVERGENCE
-        message = (
-            f"❌ DIVERGENCE — {person_name}: "
-            f"PDF R$ {pdf_total:.2f} ≠ Spreadsheet R$ {spreadsheet_total:.2f} "
-            f"(difference: R$ {difference:.2f}). Manual review required."
-        )
-        logger.warning(message)
-
-    return status, message
-
-
-# ─────────────────────────────────────────────
-# Function 5 — report_result
-# ─────────────────────────────────────────────
-
-def report_result(result: ReconciliationResult) -> None:
-    """
-    Prints a formatted reconciliation summary to stdout.
-
-    Output format:
-    ─────────────────────────────────────────
-    RECONCILIATION RESULT
-    ─────────────────────────────────────────
-    Person       : Aline Maris
-    Sheet        : MAIO 2025
-    PDF Total    : R$ 1.337,61
-    Sheet Total  : R$ 1.337,61
-    Difference   : R$ 0,00
-    Status       : ✅ MATCH
-    Timestamp    : 2025-05-01T14:30:00
-    ─────────────────────────────────────────
-
-    Args:
-        result: A fully populated ReconciliationResult dataclass.
-
-    Returns:
-        None. Output is printed to stdout only.
-    """
-    if not isinstance(result, ReconciliationResult):
+    # Security: only accept .json files
+    if path.suffix.lower() != ".json":
         logger.error(
-            f"report_result received invalid input: {type(result)}. "
-            "Expected ReconciliationResult."
+            f"Config file must be a .json file. "
+            f"Received: '{path.suffix}'. Using defaults."
         )
-        return
+        return dict(DEFAULT_CONFIG)
 
-    status_icon = "✅" if result.status == STATUS_MATCH else (
-                  "❌" if result.status == STATUS_DIVERGENCE else "⚠️")
-
-    separator = "─" * 50
-
-    lines = [
-        "",
-        separator,
-        "  RECONCILIATION RESULT",
-        separator,
-        f"  Person       : {result.person_name}",
-        f"  Sheet        : {result.sheet_name}",
-        f"  PDF Total    : R$ {result.pdf_total:,.2f}",
-        f"  Sheet Total  : R$ {result.spreadsheet_total:,.2f}",
-        f"  Difference   : R$ {result.difference:,.2f}",
-        f"  Status       : {status_icon} {result.status}",
-        f"  Timestamp    : {result.timestamp}",
-        separator,
-        "",
-    ]
-
-    print("\n".join(lines))
-    logger.info(
-        f"Result reported | Person: {result.person_name} "
-        f"| Status: {result.status} | Diff: R$ {result.difference:.2f}"
-    )
-
-
-# ─────────────────────────────────────────────
-# Private helpers
-# ─────────────────────────────────────────────
-
-def read_difference(pdf_total: float, spreadsheet_total: float) -> float:
-    """
-    Calculates the absolute difference between the PDF total
-    and the spreadsheet total, rounded to 2 decimal places.
-
-    Args:
-        pdf_total:         Total from the PDF invoice.
-        spreadsheet_total: Total from the spreadsheet.
-
-    Returns:
-        Absolute difference as a float rounded to 2 decimal places.
-    """
-    if not isinstance(pdf_total, (int, float)) or not isinstance(spreadsheet_total, (int, float)):
+    # Security: reject oversized config files
+    max_config_size_bytes = 1024 * 1024  # 1 MB
+    if path.stat().st_size > max_config_size_bytes:
         logger.error(
-            f"read_difference received invalid types: "
-            f"pdf_total={type(pdf_total)}, spreadsheet_total={type(spreadsheet_total)}"
+            f"Config file '{path.name}' exceeds 1 MB size limit. "
+            "Using defaults."
         )
-        return 0.0
-
-    difference = abs(round(pdf_total, 2) - round(spreadsheet_total, 2))
-    return round(difference, 2)
-
-
-def write_log(result: ReconciliationResult) -> None:
-    """
-    Appends a structured JSON log entry to the processing log file.
-
-    Each log entry contains the full ReconciliationResult as JSON,
-    one entry per line (JSONL format), making it easy to parse
-    programmatically for future reporting or auditing.
-
-    Log directory is created automatically if it does not exist.
-    Sensitive fields (passwords, tokens) are never logged.
-
-    Args:
-        result: A fully populated ReconciliationResult dataclass.
-    """
-    DEFAULT_LOG_DIR.mkdir(parents=True, exist_ok=True)
-
-    log_entry = asdict(result)
-    log_line = json.dumps(log_entry, ensure_ascii=False)
+        return dict(DEFAULT_CONFIG)
 
     try:
-        with open(DEFAULT_LOG_FILE, "a", encoding="utf-8") as log_file:
-            log_file.write(log_line + "\n")
-        logger.debug(f"Log entry written to: {DEFAULT_LOG_FILE}")
+        with open(path, "r", encoding="utf-8") as config_file:
+            raw_config = json.load(config_file)
+    except json.JSONDecodeError as exc:
+        logger.error(
+            f"Config file '{path.name}' contains invalid JSON: {exc}. "
+            "Using defaults."
+        )
+        return dict(DEFAULT_CONFIG)
     except Exception as exc:
+        logger.error(
+            f"Failed to read config file '{path.name}': {exc}. "
+            "Using defaults."
+        )
+        return dict(DEFAULT_CONFIG)
+
+    if not isinstance(raw_config, dict):
+        logger.error(
+            f"Config file '{path.name}' must contain a JSON object. "
+            "Using defaults."
+        )
+        return dict(DEFAULT_CONFIG)
+
+    # Merge: start with defaults, override only known keys
+    merged = dict(DEFAULT_CONFIG)
+    unknown_keys = []
+
+    for key, value in raw_config.items():
+        if key in DEFAULT_CONFIG:
+            merged[key] = value
+        else:
+            unknown_keys.append(key)
+
+    if unknown_keys:
         logger.warning(
-            f"Failed to write log entry for '{result.person_name}': {exc}. "
-            "Reconciliation result was not persisted to disk."
+            f"Config file contains unknown keys (ignored): {unknown_keys}. "
+            "Only known configuration keys are accepted."
         )
 
-
-def _validate_reconcile_inputs(
-    person_name: str,
-    sheet_name: str,
-    spreadsheet_path: str,
-    pdf_total: float,
-) -> None:
-    """
-    Validates all inputs to the reconcile() pipeline.
-
-    Raises:
-        ValueError: If any required input is missing or invalid.
-        FileNotFoundError: If the spreadsheet file does not exist.
-    """
-    if not person_name or not isinstance(person_name, str) or not person_name.strip():
-        raise ValueError(f"person_name must be a non-empty string. Received: {person_name!r}")
-
-    if not sheet_name or not isinstance(sheet_name, str) or not sheet_name.strip():
-        raise ValueError(f"sheet_name must be a non-empty string. Received: {sheet_name!r}")
-
-    path = Path(spreadsheet_path)
-    if not path.exists():
-        raise FileNotFoundError(f"Spreadsheet not found: '{path}'")
-
-    if not isinstance(pdf_total, (int, float)) or pdf_total < 0:
-        raise ValueError(
-            f"pdf_total must be a non-negative number. Received: {pdf_total!r}"
-        )
-
-    logger.debug(
-        f"Reconcile input validation passed | person='{person_name}' "
-        f"| sheet='{sheet_name}' | pdf_total={pdf_total}"
-    )
-
-
-def _find_subtotal_row(worksheet) -> Optional[int]:
-    """
-    Scans the worksheet to find the row number of the first
-    SUB TOTAL row by checking column D (DESCRIÇÃO) for a
-    cell whose value contains "sub total" (case-insensitive).
-
-    Returns:
-        The row number (int) if found, or None if not found.
-    """
-    for row in range(1, MAX_SCAN_ROWS + 1):
-        cell_value = worksheet.cell(row=row, column=4).value
-        if cell_value is None:
-            continue
-        cell_str = str(cell_value).strip().lower()
-        if any(marker in cell_str for marker in SUBTOTAL_MARKERS):
-            logger.debug(f"SUB TOTAL row found at row: {row}")
-            return row
-    return None
-
-
-def _manual_sum_transactions(worksheet) -> float:
-    """
-    Manually sums all numeric values in the VALOR column (E)
-    from DATA_START_ROW downward, stopping at the first
-    non-numeric, non-empty cell (which marks a summary row).
-
-    This is used as a fallback when the SUB TOTAL formula
-    has not been cached by Excel (data_only=True returns None).
-
-    Returns:
-        Sum of all transaction amounts as a float.
-    """
-    DATA_START_ROW = 5
-    total = 0.0
-
-    for row in range(DATA_START_ROW, MAX_SCAN_ROWS + 1):
-        cell_value = worksheet.cell(row=row, column=COL_AMOUNT).value
-
-        if cell_value is None:
-            continue
-
-        try:
-            total += float(cell_value)
-        except (TypeError, ValueError):
-            # Hit a non-numeric cell (formula string or label) — stop summing
-            logger.debug(f"Manual sum stopped at row {row} (non-numeric: {cell_value!r})")
-            break
-
-    logger.debug(f"Manual sum result: R$ {total:.2f}")
-    return round(total, 2)
+    logger.info(f"Configuration loaded from '{path.name}'.")
+    return merged
