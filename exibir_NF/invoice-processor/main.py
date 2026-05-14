@@ -18,10 +18,12 @@ Dependencies:
 """
 
 import logging
-import re
 import sys
+import re
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).parent / "src"))
+
 import threading
 import tkinter as tk
 from pathlib import Path
@@ -51,6 +53,7 @@ try:
     from spreadsheet_writer import write_transactions
     from reconciler import reconcile, read_pdf_total
     from utils import load_config, format_currency, sanitize_text
+    from pdf_unlocker import is_pdf_protected, unlock_pdf_context
 except ImportError as exc:
     # Show a user-friendly error if a module is missing
     root = tk.Tk()
@@ -201,6 +204,29 @@ def build_main_window(root: tk.Tk) -> dict:
     )
     btn_clear_table.pack(side="right")
     widgets["btn_clear_table"] = btn_clear_table
+
+    # ── Password frame ────────────────────────
+    password_frame = tk.Frame(root, bg=COLOR_BG, pady=2)
+    password_frame.pack(fill="x", padx=16)
+
+    tk.Label(
+        password_frame, text="🔒  PDF Password (if protected):",
+        font=FONT_LABEL_BOLD, bg=COLOR_BG,
+    ).pack(side="left", padx=(0, 8))
+
+    password_var = tk.StringVar()
+    password_entry = tk.Entry(
+        password_frame, textvariable=password_var,
+        font=FONT_LABEL, width=24, show="●",
+    )
+    password_entry.pack(side="left")
+    widgets["password_var"] = password_var
+
+    tk.Label(
+        password_frame,
+        text="Leave blank if PDF has no password.",
+        font=("Arial", 9), bg=COLOR_BG, fg="#6C757D",
+    ).pack(side="left", padx=(8, 0))
 
     # ── Transactions table ────────────────────
     table_frame = tk.LabelFrame(
@@ -435,8 +461,21 @@ def process_all_invoices(widgets: dict, pdf_paths: list[str]) -> None:
         logger.info(f"Processing: {path.name}")
 
         try:
-            # Step 1 — Read PDF
-            transactions, raw_total = read_pdf(pdf_path)
+            # Step 1 — Unlock if protected, then read PDF
+            password = widgets.get("password_var", tk.StringVar()).get().strip()
+            protected = is_pdf_protected(pdf_path)
+
+            if protected and not password:
+                logger.warning(f"'{path.name}' is password-protected but no password was provided.")
+                _set_status(widgets, f"🔒 '{path.name}' is protected — enter the password and try again.")
+                continue
+
+            if protected:
+                with unlock_pdf_context(pdf_path, password) as unlocked_path:
+                    transactions, raw_total = read_pdf(str(unlocked_path))
+            else:
+                transactions, raw_total = read_pdf(pdf_path)
+
             validated_total = read_pdf_total(raw_total, path.name)
 
             # Step 2 — Resolve person name and spreadsheet path
@@ -720,12 +759,28 @@ def _resolve_spreadsheet_path(person_name: str, widgets: dict) -> Optional[Path]
 
 def _resolve_sheet_name(config: dict) -> str:
     """
-    Resolves the target sheet (tab) name from the config or
-    prompts the user for input if not set.
+    Resolves the target sheet (tab) name from config.json.
+
+    Priority:
+        1. Uses 'reference_month' key from config.json if present
+           Example: "MAIO 2025"
+        2. Falls back to the current month/year if not set
+
+    To change the active month, edit config.json:
+        "reference_month": "JUNHO 2025"
 
     Returns a string like 'MAIO 2025'.
     """
     from datetime import datetime
+
+    reference_month = config.get("reference_month", "").strip()
+
+    if reference_month:
+        normalized = reference_month.upper()
+        logger.debug(f"Sheet name from config: '{normalized}'")
+        return normalized
+
+    # Fallback to current month if not set in config
     now = datetime.now()
     months_pt = [
         "JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL",
@@ -733,7 +788,13 @@ def _resolve_sheet_name(config: dict) -> str:
         "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO",
     ]
     month_name = months_pt[now.month - 1]
-    return f"{month_name} {now.year}"
+    fallback = f"{month_name} {now.year}"
+    logger.warning(
+        f"'reference_month' not set in config.json. "
+        f"Using current month as fallback: '{fallback}'. "
+        "Add 'reference_month' to config.json to avoid this warning."
+    )
+    return fallback
 
 
 # ─────────────────────────────────────────────

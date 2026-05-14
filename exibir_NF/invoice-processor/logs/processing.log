@@ -109,3 +109,341 @@ NameError: name 're' is not defined. Did you forget to import 're'
 2026-05-12 22:53:07,253 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Nome_Pessoa_1_MAIO_2025.20260512_224713.backup.xlsx | Sheet: MAIO 2026 | Transactions: 14
 2026-05-12 22:53:07,254 | INFO | spreadsheet_writer | Backup created: Card_Nome_Pessoa_1_MAIO_2025.20260512_224713.backup.20260512_225307.backup.xlsx
 2026-05-12 22:53:07,277 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-13 20:09:42,823 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 20:24:01,236 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 20:24:23,960 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 20:24:31,490 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 20:24:31,490 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:24:31,491 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:24:31,914 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:24:31,914 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:24:31,915 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:24:31,915 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': name 're' is not defined
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 482, in process_all_invoices
+    person_name = _resolve_person_name(path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 705, in _resolve_person_name
+    clean = re.sub(r"[_\-]\d{2}[_\-]\d{4}$", "", stem)
+            ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+2026-05-13 20:40:26,531 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 20:40:26,902 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 20:40:44,216 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 20:40:47,567 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 20:40:47,567 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:40:47,571 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:40:47,976 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:40:47,976 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:40:47,976 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:40:47,976 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': name 're' is not defined
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 482, in process_all_invoices
+    person_name = _resolve_person_name(path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 705, in _resolve_person_name
+    clean = re.sub(r"[_\-]\d{2}[_\-]\d{4}$", "", stem)
+            ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+2026-05-13 20:41:39,101 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 20:41:39,430 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 20:41:53,219 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 20:41:57,282 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 20:41:57,282 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:41:57,288 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:41:57,693 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:41:57,693 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:41:57,693 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:41:57,693 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': name 're' is not defined
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 482, in process_all_invoices
+    person_name = _resolve_person_name(path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 705, in _resolve_person_name
+    clean = re.sub(r"[_\-]\d{2}[_\-]\d{4}$", "", stem)
+            ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+2026-05-13 20:45:07,436 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 20:45:07,747 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 20:45:20,714 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 20:45:22,168 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 20:45:22,169 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:45:22,172 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:45:22,581 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:45:22,581 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:45:22,582 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:45:22,582 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 20:45:29,463 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Nome_Pessoa_2_MAIO_2025.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-13 20:45:29,473 | INFO | spreadsheet_writer | Backup created: Card_Nome_Pessoa_2_MAIO_2025.20260513_204529.backup.xlsx
+2026-05-13 20:45:29,502 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-13 20:50:34,968 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 20:50:35,454 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 20:50:48,268 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 20:50:50,620 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 20:50:50,621 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:50:50,638 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:50:51,037 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:50:51,037 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:50:51,037 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:50:51,048 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 20:51:32,227 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Nome_Pessoa_3_MAIO_2025.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-13 20:51:32,239 | INFO | spreadsheet_writer | Backup created: Card_Nome_Pessoa_3_MAIO_2025.20260513_205132.backup.xlsx
+2026-05-13 20:51:32,269 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-13 20:54:34,489 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 20:54:34,810 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 20:54:53,551 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 20:54:57,229 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 20:54:57,229 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:54:57,231 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:54:57,637 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:54:57,638 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:54:57,638 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:54:57,639 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 20:55:28,202 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Nome_Pessoa_3_MAIO_2025.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-13 20:55:28,203 | INFO | spreadsheet_writer | Backup created: Card_Nome_Pessoa_3_MAIO_2025.20260513_205528.backup.xlsx
+2026-05-13 20:55:28,230 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-13 20:59:09,835 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 20:59:10,149 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 20:59:26,159 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 20:59:28,686 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 20:59:28,686 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:59:28,688 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:59:29,114 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:59:29,115 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:59:29,115 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 20:59:29,116 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 20:59:50,800 | WARNING | __main__ | No spreadsheet found for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'. Skipping.
+2026-05-13 21:19:19,191 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 21:19:19,533 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 21:19:32,333 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 21:19:34,469 | WARNING | utils | Config file contains unknown keys (ignored): ['reference_month']. Only known configuration keys are accepted.
+2026-05-13 21:19:34,469 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 21:19:34,469 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:19:34,483 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:19:34,921 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:19:34,922 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:19:34,922 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:19:34,923 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 21:19:51,342 | WARNING | __main__ | No spreadsheet found for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'. Skipping.
+2026-05-13 21:21:18,854 | INFO | __main__ | PDF selection: added=0, rejected=0, total=1
+2026-05-13 21:21:20,222 | WARNING | utils | Config file contains unknown keys (ignored): ['reference_month']. Only known configuration keys are accepted.
+2026-05-13 21:21:20,222 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 21:21:20,222 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:21:20,223 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:21:20,616 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:21:20,616 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:21:20,616 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:21:20,616 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 21:21:23,103 | WARNING | __main__ | 'reference_month' not set in config.json. Using current month as fallback: 'MAIO 2026'. Add 'reference_month' to config.json to avoid this warning.
+2026-05-13 21:21:23,103 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline_3_MAIO_2025.20260513_205132.backup.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-13 21:21:23,114 | INFO | spreadsheet_writer | Backup created: aline_3_MAIO_2025.20260513_205132.backup.20260513_212123.backup.xlsx
+2026-05-13 21:21:23,138 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-13 21:25:23,515 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 21:25:23,874 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 21:26:07,999 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 21:26:09,437 | WARNING | utils | Config file contains unknown keys (ignored): ['reference_month']. Only known configuration keys are accepted.
+2026-05-13 21:26:09,438 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 21:26:09,438 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:26:09,452 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:26:09,899 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:26:09,905 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:26:09,905 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:26:09,905 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 21:26:14,036 | WARNING | __main__ | 'reference_month' not set in config.json. Using current month as fallback: 'MAIO 2026'. Add 'reference_month' to config.json to avoid this warning.
+2026-05-13 21:26:14,036 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline_3_MAIO_2025.20260513_205132.backup.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-13 21:26:14,047 | INFO | spreadsheet_writer | Backup created: aline_3_MAIO_2025.20260513_205132.backup.20260513_212614.backup.xlsx
+2026-05-13 21:26:14,075 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-13 21:27:43,139 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 21:27:43,441 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 21:28:00,455 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 21:28:03,109 | WARNING | utils | Config file contains unknown keys (ignored): ['reference_month']. Only known configuration keys are accepted.
+2026-05-13 21:28:03,109 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 21:28:03,109 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:28:03,113 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:28:03,530 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:28:03,530 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:28:03,530 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:28:03,531 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 21:28:05,997 | WARNING | __main__ | 'reference_month' not set in config.json. Using current month as fallback: 'MAIO 2026'. Add 'reference_month' to config.json to avoid this warning.
+2026-05-13 21:28:05,997 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline.backup.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-13 21:28:05,998 | INFO | spreadsheet_writer | Backup created: aline.backup.20260513_212805.backup.xlsx
+2026-05-13 21:28:06,018 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2026' not found in the workbook. Available sheets: ['MAIO 2025']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-13 21:32:35,490 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 21:32:35,828 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 21:32:52,666 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 21:34:37,845 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 21:34:38,253 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 21:34:51,106 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 21:34:52,315 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 21:34:52,315 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:34:52,318 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:34:52,724 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:34:52,724 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:34:52,724 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:34:52,725 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 21:34:55,288 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline.backup.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-13 21:34:55,299 | INFO | spreadsheet_writer | Backup created: aline.backup.20260513_213455.backup.xlsx
+2026-05-13 21:34:55,326 | INFO | spreadsheet_writer | insert_rows complete: 14 rows written starting at row 5.
+2026-05-13 21:34:55,349 | INFO | spreadsheet_writer | Spreadsheet saved successfully: aline.backup.xlsx
+2026-05-13 21:34:55,349 | INFO | spreadsheet_writer | Write complete | 14 transactions inserted | File: aline.backup.xlsx | Sheet: MAIO 2025
+2026-05-13 21:34:55,349 | INFO | reconciler | Starting reconciliation | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Sheet: MAIO 2025 | PDF total: R$ 1337.61
+2026-05-13 21:34:55,388 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2025'. Falling back to manual sum of transaction rows.
+2026-05-13 21:34:55,389 | WARNING | reconciler | ❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 2888.04 (difference: R$ 1550.43). Manual review required.
+2026-05-13 21:34:55,389 | INFO | reconciler | Result reported | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Status: DIVERGENCE | Diff: R$ 1550.43
+{"person_name": "toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66", "sheet_name": "MAIO 2025", "spreadsheet_path": "/home/galopes/Viber_coders/exibir_NF/invoice-processor/spreadsheets/aline.backup.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 2888.04, "difference": 1550.43, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 2888.04 (difference: R$ 1550.43). Manual review required.", "timestamp": "2026-05-13T21:34:55"}
+2026-05-13 21:34:55,395 | INFO | __main__ | Done — 14 transaction(s) processed | 0 ✅ match | 1 ❌ divergence
+2026-05-13 21:38:46,122 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 21:38:46,511 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 21:38:56,995 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 21:38:58,801 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 21:38:58,801 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:38:58,812 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:38:59,213 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:38:59,213 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:38:59,214 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 21:38:59,215 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 21:39:01,705 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline.backup.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-13 21:39:01,716 | INFO | spreadsheet_writer | Backup created: aline.backup.20260513_213901.backup.xlsx
+2026-05-13 21:39:01,746 | INFO | spreadsheet_writer | insert_rows complete: 14 rows written starting at row 19.
+2026-05-13 21:39:01,786 | INFO | spreadsheet_writer | Spreadsheet saved successfully: aline.backup.xlsx
+2026-05-13 21:39:01,787 | INFO | spreadsheet_writer | Write complete | 14 transactions inserted | File: aline.backup.xlsx | Sheet: MAIO 2025
+2026-05-13 21:39:01,787 | INFO | reconciler | Starting reconciliation | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Sheet: MAIO 2025 | PDF total: R$ 1337.61
+2026-05-13 21:39:01,811 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2025'. Falling back to manual sum of transaction rows.
+2026-05-13 21:39:01,813 | WARNING | reconciler | ❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 5757.33 (difference: R$ 4419.72). Manual review required.
+2026-05-13 21:39:01,814 | INFO | reconciler | Result reported | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Status: DIVERGENCE | Diff: R$ 4419.72
+{"person_name": "toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66", "sheet_name": "MAIO 2025", "spreadsheet_path": "/home/galopes/Viber_coders/exibir_NF/invoice-processor/spreadsheets/aline.backup.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 5757.33, "difference": 4419.72, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 5757.33 (difference: R$ 4419.72). Manual review required.", "timestamp": "2026-05-13T21:39:01"}
+2026-05-13 21:39:01,816 | INFO | __main__ | Done — 14 transaction(s) processed | 0 ✅ match | 1 ❌ divergence
+2026-05-13 22:20:08,016 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 22:20:08,358 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 22:20:20,345 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 22:20:23,039 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 22:20:23,040 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:20:23,041 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:20:23,455 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:20:23,455 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:20:23,456 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:20:23,457 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 22:20:26,552 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline.backup.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-13 22:20:26,553 | INFO | spreadsheet_writer | Backup created: aline.backup.20260513_222026.backup.xlsx
+2026-05-13 22:20:26,585 | INFO | spreadsheet_writer | insert_rows complete: 14 rows written starting at row 33.
+2026-05-13 22:20:26,619 | INFO | spreadsheet_writer | Spreadsheet saved successfully: aline.backup.xlsx
+2026-05-13 22:20:26,619 | INFO | spreadsheet_writer | Write complete | 14 transactions inserted | File: aline.backup.xlsx | Sheet: MAIO 2025
+2026-05-13 22:20:26,620 | INFO | reconciler | Starting reconciliation | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Sheet: MAIO 2025 | PDF total: R$ 1337.61
+2026-05-13 22:20:26,648 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2025'. Falling back to manual sum of transaction rows.
+2026-05-13 22:20:26,650 | WARNING | reconciler | ❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 8626.62 (difference: R$ 7289.01). Manual review required.
+2026-05-13 22:20:26,650 | INFO | reconciler | Result reported | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Status: DIVERGENCE | Diff: R$ 7289.01
+{"person_name": "toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66", "sheet_name": "MAIO 2025", "spreadsheet_path": "/home/galopes/Viber_coders/exibir_NF/invoice-processor/spreadsheets/aline.backup.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 8626.62, "difference": 7289.01, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 8626.62 (difference: R$ 7289.01). Manual review required.", "timestamp": "2026-05-13T22:20:26"}
+2026-05-13 22:20:26,654 | INFO | __main__ | Done — 14 transaction(s) processed | 0 ✅ match | 1 ❌ divergence
+2026-05-13 22:27:22,096 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-13 22:27:22,482 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-13 22:27:32,003 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-13 22:27:35,635 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 22:27:35,636 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:35,638 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:36,041 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:36,041 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:36,042 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:36,042 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 22:27:38,120 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline.backup.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-13 22:27:38,121 | INFO | spreadsheet_writer | Backup created: aline.backup.20260513_222738.backup.xlsx
+2026-05-13 22:27:38,151 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': 'MergedCell' object attribute 'value' is read-only
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 492, in process_all_invoices
+    write_transactions(
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/src/spreadsheet_writer.py", line 137, in write_transactions
+    written_count = insert_rows(worksheet, transactions, first_empty_row)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/src/spreadsheet_writer.py", line 317, in insert_rows
+    worksheet.cell(row=current_row, column=COL_SUPPLIER,       value=supplier)
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/venv/lib/python3.12/site-packages/openpyxl/worksheet/worksheet.py", line 246, in cell
+    cell.value = value
+    ^^^^^^^^^^
+AttributeError: 'MergedCell' object attribute 'value' is read-only
+2026-05-13 22:27:42,657 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-13 22:27:42,657 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:42,660 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:43,056 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:43,057 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:43,057 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-13 22:27:43,057 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-13 22:27:45,648 | WARNING | __main__ | No spreadsheet found for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'. Skipping.
+2026-05-14 08:23:38,355 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 08:23:38,756 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 08:23:54,312 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 08:23:58,864 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 08:23:58,864 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:23:58,866 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:23:59,370 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:23:59,370 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:23:59,370 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:23:59,371 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 08:24:43,129 | WARNING | __main__ | No spreadsheet found for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'. Skipping.
+2026-05-14 08:25:36,672 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 08:25:36,672 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:25:36,675 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:25:37,215 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:25:37,215 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:25:37,215 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:25:37,215 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 08:25:40,793 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline.backup.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-14 08:25:40,804 | INFO | spreadsheet_writer | Backup created: aline.backup.20260514_082540.backup.xlsx
+2026-05-14 08:25:40,871 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': 'MergedCell' object attribute 'value' is read-only
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 492, in process_all_invoices
+    write_transactions(
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/src/spreadsheet_writer.py", line 137, in write_transactions
+    written_count = insert_rows(worksheet, transactions, first_empty_row)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/src/spreadsheet_writer.py", line 317, in insert_rows
+    worksheet.cell(row=current_row, column=COL_SUPPLIER,       value=supplier)
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/venv/lib/python3.12/site-packages/openpyxl/worksheet/worksheet.py", line 246, in cell
+    cell.value = value
+    ^^^^^^^^^^
+AttributeError: 'MergedCell' object attribute 'value' is read-only
+2026-05-14 08:26:15,682 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 08:26:18,036 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 08:26:18,037 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:26:18,038 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:26:18,614 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:26:18,614 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:26:18,614 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:26:18,615 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 08:26:21,785 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline.backup.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-14 08:26:21,786 | INFO | spreadsheet_writer | Backup created: aline.backup.20260514_082621.backup.xlsx
+2026-05-14 08:26:21,846 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': 'MergedCell' object attribute 'value' is read-only
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 492, in process_all_invoices
+    write_transactions(
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/src/spreadsheet_writer.py", line 137, in write_transactions
+    written_count = insert_rows(worksheet, transactions, first_empty_row)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/src/spreadsheet_writer.py", line 317, in insert_rows
+    worksheet.cell(row=current_row, column=COL_SUPPLIER,       value=supplier)
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/venv/lib/python3.12/site-packages/openpyxl/worksheet/worksheet.py", line 246, in cell
+    cell.value = value
+    ^^^^^^^^^^
+AttributeError: 'MergedCell' object attribute 'value' is read-only
+2026-05-14 08:30:19,680 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 08:30:19,681 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:30:19,682 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:30:20,239 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:30:20,239 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:30:20,239 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 08:30:20,239 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 08:30:23,667 | INFO | spreadsheet_writer | Starting spreadsheet write | File: aline.backup.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-14 08:30:23,668 | INFO | spreadsheet_writer | Backup created: aline.backup.20260514_083023.backup.xlsx
+2026-05-14 08:30:23,731 | ERROR | __main__ | Unexpected error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': 'MergedCell' object attribute 'value' is read-only
+Traceback (most recent call last):
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/main.py", line 492, in process_all_invoices
+    write_transactions(
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/src/spreadsheet_writer.py", line 137, in write_transactions
+    written_count = insert_rows(worksheet, transactions, first_empty_row)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/src/spreadsheet_writer.py", line 317, in insert_rows
+    worksheet.cell(row=current_row, column=COL_SUPPLIER,       value=supplier)
+  File "/home/galopes/Viber_coders/exibir_NF/invoice-processor/venv/lib/python3.12/site-packages/openpyxl/worksheet/worksheet.py", line 246, in cell
+    cell.value = value
+    ^^^^^^^^^^
+AttributeError: 'MergedCell' object attribute 'value' is read-only
+2026-05-14 09:19:07,858 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 09:19:08,245 | INFO | __main__ | Invoice Processor v1.0.0 started.

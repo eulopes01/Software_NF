@@ -24,6 +24,14 @@ from typing import Optional
 
 import pdfplumber
 
+try:
+    from pdf_ocr import extract_text_from_scanned_pdf, is_scanned_pdf, check_tesseract_installation
+    TESSERACT_AVAILABLE = check_tesseract_installation()["available"]
+except ImportError:
+    TESSERACT_AVAILABLE = False
+    logger = logging.getLogger(__name__)
+    logger.warning("pdf_ocr module not found — OCR fallback disabled.")
+
 # ─────────────────────────────────────────────
 # Logging setup
 # ─────────────────────────────────────────────
@@ -512,7 +520,29 @@ def _extract_raw_text(path: Path) -> str:
                     all_pages_text.append(page_text)
                 else:
                     logger.debug(f"Page {page_number} of '{path.name}' returned no text.")
-        return "\n".join(all_pages_text)
+
+        full_text = "\n".join(all_pages_text)
+
+        # Fallback to OCR if no text was extracted (scanned PDF)
+        if not full_text.strip() and TESSERACT_AVAILABLE:
+            logger.info(
+                f"No text extracted from '{path.name}' via pdfplumber. "
+                "Falling back to OCR (Tesseract)..."
+            )
+            full_text = extract_text_from_scanned_pdf(str(path))
+
+        elif not full_text.strip() and not TESSERACT_AVAILABLE:
+            raise ValueError(
+                f"No readable text found in '{path.name}'. "
+                "The file appears to be scanned (image-based). "
+                "Install Tesseract to enable OCR: "
+                "sudo apt install tesseract-ocr tesseract-ocr-por tesseract-ocr-eng"
+            )
+
+        return full_text
+
+    except ValueError:
+        raise
     except Exception as exc:
         raise ValueError(
             f"Failed to read PDF '{path.name}': {exc}"

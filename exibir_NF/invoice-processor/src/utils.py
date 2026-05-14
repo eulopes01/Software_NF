@@ -71,6 +71,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "reconcile_tolerance": 0.01,
     "backup_enabled":    True,
     "max_transactions":  500,
+    "reference_month":   "",
 }
 
 

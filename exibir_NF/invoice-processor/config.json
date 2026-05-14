@@ -7,5 +7,6 @@
     "payment_method": "A VISTA",
     "reconcile_tolerance": 0.01,
     "backup_enabled": true,
-    "max_transactions": 500
+    "max_transactions": 500,
+    "reference_month": "MAIO 2025"
 }
