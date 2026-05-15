@@ -60,8 +60,15 @@ ITAU_END_MARKERS      = [
 
 # Matches: DD/MM  DESCRIPTION  VALUE
 # Example: 03/10  MERCADOPAGO*MLIVRE  71,24
+# Also matches lines where date appears after other text:
+# Example: Financiamento da Fatura 05/10 POSTO AUSTRAL 10,66
 ITAU_TRANSACTION_PATTERN = re.compile(
     r"^(\d{2}/\d{2})\s+(.+?)\s+([-]?\d{1,3}(?:\.\d{3})*,\d{2})$"
+)
+
+# Fallback pattern for lines where date is not at the start
+ITAU_TRANSACTION_PATTERN_INLINE = re.compile(
+    r"(?:^|\s)(\d{2}/\d{2})\s+([A-Z][A-Z\s\*\.0-9/]+?)\s+([-]?\d{1,3}(?:\.\d{3})*,\d{2})$"
 )
 
 # Matches: Total desta fatura   1.337,61
@@ -84,6 +91,21 @@ class Transaction:
     description: str     # Merchant or transaction description
     amount: float        # Transaction value in BRL (negative = credit)
     bank: str            # Source bank identifier
+
+@dataclass
+class CardHolder:
+    """Represents a cardholder section extracted from the invoice."""
+    name: str                        # Full name of the cardholder
+    card_last_digits: str            # Last 4 digits of the card
+    transactions: list               # List of Transaction objects
+    bank: str                        # Source bank identifier
+
+# Pattern to detect cardholder name and card digits
+# Matches: "CLAYTON PIRES DOS SANTOS (3172)"
+# Also matches with leading date text: "06/10/14 e 05/11/14 CLAYTON PIRES DOS SANTOS (5885)"
+ITAU_CARDHOLDER_PATTERN = re.compile(
+    r"([A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ][A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ\s]+?)\s*\((\d{4})\)\s*$"
+)
 
 
 # ─────────────────────────────────────────────
@@ -266,8 +288,13 @@ def extract_itau(raw_text: str, file_name: str = "") -> tuple[list[Transaction],
         if lower.startswith("data") or lower.startswith("clayton") or lower.startswith("titular"):
             continue
 
-        # Attempt to match a transaction line
+        # Attempt to match a transaction line (primary pattern)
         match = ITAU_TRANSACTION_PATTERN.match(stripped)
+
+        # Try fallback pattern for lines with leading text before the date
+        if not match:
+            match = ITAU_TRANSACTION_PATTERN_INLINE.search(stripped)
+
         if not match:
             logger.debug(f"[itau] Skipped non-transaction line: {stripped!r}")
             continue
@@ -288,6 +315,118 @@ def extract_itau(raw_text: str, file_name: str = "") -> tuple[list[Transaction],
     )
 
     return transactions, invoice_total
+
+
+# ─────────────────────────────────────────────
+# Function 3b — extract_itau_by_cardholder
+# ─────────────────────────────────────────────
+
+def extract_itau_by_cardholder(raw_text: str, file_name: str = "") -> tuple[list, float]:
+    """
+    Extracts Itaú invoice transactions grouped by cardholder.
+
+    Each 'Lançamentos nacionais' section belongs to one cardholder
+    with a specific card number (last 4 digits). This function
+    identifies each section, extracts the cardholder name and card
+    digits, and groups transactions accordingly.
+
+    Args:
+        raw_text: Full plain text extracted from the PDF.
+        file_name: Original file name for logging purposes.
+
+    Returns:
+        A tuple of (list of CardHolder, invoice total as float).
+    """
+    cardholders: list[CardHolder] = []
+    invoice_total: float = 0.0
+    lines = raw_text.splitlines()
+
+    total_match = ITAU_TOTAL_PATTERN.search(raw_text)
+    if total_match:
+        invoice_total = _parse_brazilian_float(total_match.group(1))
+
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+
+        # Detect start of a cardholder section
+        if ITAU_SECTION_MARKER in line.lower():
+            # Look at the next non-empty line for the cardholder name
+            j = i + 1
+            holder_name = ""
+            card_digits = ""
+
+            while j < len(lines) and j < i + 5:
+                candidate = lines[j].strip()
+                match = ITAU_CARDHOLDER_PATTERN.search(candidate)
+                if match:
+                    holder_name = match.group(1).strip()
+                    card_digits = match.group(2).strip()
+                    break
+                j += 1
+
+            if not holder_name:
+                i += 1
+                continue
+
+            # Extract transactions for this cardholder
+            transactions = []
+            k = j + 1
+            while k < len(lines):
+                tx_line = lines[k].strip()
+                lower = tx_line.lower()
+
+                # Stop at end markers or next section
+                if any(marker in lower for marker in ITAU_END_MARKERS):
+                    break
+                if ITAU_SECTION_MARKER in lower:
+                    break
+
+                # Skip headers
+                if lower.startswith("data") or lower.startswith("titular"):
+                    k += 1
+                    continue
+
+                # Try to match transaction
+                tx_match = ITAU_TRANSACTION_PATTERN.match(tx_line)
+                if not tx_match:
+                    tx_match = ITAU_TRANSACTION_PATTERN_INLINE.search(tx_line)
+
+                if tx_match:
+                    date, description, raw_value = tx_match.groups()
+                    amount = _parse_brazilian_float(raw_value)
+                    transactions.append(Transaction(
+                        date=date,
+                        description=description.strip(),
+                        amount=amount,
+                        bank=BANK_ITAU,
+                    ))
+                k += 1
+
+            # Normalize transactions
+            normalized = [normalize_transaction(t) for t in transactions]
+
+            cardholders.append(CardHolder(
+                name=holder_name,
+                card_last_digits=card_digits,
+                transactions=normalized,
+                bank=BANK_ITAU,
+            ))
+
+            logger.info(
+                f"[itau] Cardholder: '{holder_name}' (card ...{card_digits}) "
+                f"→ {len(normalized)} transactions"
+            )
+            i = k
+            continue
+
+        i += 1
+
+    logger.info(
+        f"[itau] Total cardholders: {len(cardholders)} "
+        f"| Invoice total: R$ {invoice_total:.2f} | File: {file_name}"
+    )
+    return cardholders, invoice_total
 
 
 # ─────────────────────────────────────────────

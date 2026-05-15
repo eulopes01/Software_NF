@@ -447,3 +447,497 @@ Traceback (most recent call last):
 AttributeError: 'MergedCell' object attribute 'value' is read-only
 2026-05-14 09:19:07,858 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
 2026-05-14 09:19:08,245 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 20:25:49,017 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 20:25:49,387 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 20:28:07,698 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 20:28:17,622 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 20:28:36,907 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 20:31:59,773 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 20:32:00,115 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 20:32:11,815 | WARNING | spreadsheet_creator_dialog | Form validation failed: Please enter at least one person name.
+2026-05-14 20:32:23,455 | WARNING | spreadsheet_creator_dialog | Form validation failed: Please enter at least one person name.
+2026-05-14 20:32:27,863 | WARNING | spreadsheet_creator_dialog | Form validation failed: Please enter at least one person name.
+2026-05-14 20:32:42,543 | WARNING | spreadsheet_creator_dialog | Form validation failed: Please enter at least one person name.
+2026-05-14 20:32:49,395 | INFO | generate_spreadsheet | Generating spreadsheets for 1 person(s) | Month: MAIO 2026 | Due: 20/01/2025
+2026-05-14 20:32:49,444 | INFO | generate_spreadsheet | ✅ Created: Card_ga_MAIO_2026.xlsx
+2026-05-14 20:32:49,445 | INFO | generate_spreadsheet | Done. 1/1 spreadsheet(s) created in 'spreadsheets/'.
+2026-05-14 20:32:51,004 | INFO | spreadsheet_creator_dialog | Dialog created 1 spreadsheet(s): ['Card_ga_MAIO_2026.xlsx']
+2026-05-14 20:33:46,323 | INFO | generate_spreadsheet | Generating spreadsheets for 1 person(s) | Month: MAIO 2026 | Due: 20/02/2000
+2026-05-14 20:33:46,413 | INFO | generate_spreadsheet | ✅ Created: Card_opa_MAIO_2026.xlsx
+2026-05-14 20:33:46,413 | INFO | generate_spreadsheet | Done. 1/1 spreadsheet(s) created in 'spreadsheets/'.
+2026-05-14 20:33:53,229 | INFO | spreadsheet_creator_dialog | Dialog created 1 spreadsheet(s): ['Card_opa_MAIO_2026.xlsx']
+2026-05-14 20:34:05,090 | WARNING | __main__ | Rejected non-PDF file: 'Card_opa_MAIO_2026.xlsx'
+2026-05-14 20:34:05,090 | INFO | __main__ | PDF selection: added=0, rejected=1, total=0
+2026-05-14 20:34:21,266 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 20:34:23,234 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 20:34:23,234 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:34:23,248 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:34:23,648 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:34:23,648 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:34:23,649 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:34:23,649 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 20:34:26,186 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_opa_MAIO_2026.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-14 20:34:26,187 | INFO | spreadsheet_writer | Backup created: Card_opa_MAIO_2026.20260514_203426.backup.xlsx
+2026-05-14 20:34:26,216 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2025' not found in the workbook. Available sheets: ['MAIO 2026']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-14 20:36:38,501 | INFO | generate_spreadsheet | Generating spreadsheets for 1 person(s) | Month: MAIO 2026 | Due: 20/01/2000
+2026-05-14 20:36:38,536 | INFO | generate_spreadsheet | ✅ Created: Card_Gabriel_MAIO_2026.xlsx
+2026-05-14 20:36:38,536 | INFO | generate_spreadsheet | Done. 1/1 spreadsheet(s) created in 'spreadsheets/'.
+2026-05-14 20:36:40,671 | INFO | spreadsheet_creator_dialog | Dialog created 1 spreadsheet(s): ['Card_Gabriel_MAIO_2026.xlsx']
+2026-05-14 20:37:02,826 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 20:37:02,826 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:02,827 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:03,208 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:03,208 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:03,208 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:03,209 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 20:37:06,755 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Gabriel_MAIO_2026.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-14 20:37:06,756 | INFO | spreadsheet_writer | Backup created: Card_Gabriel_MAIO_2026.20260514_203706.backup.xlsx
+2026-05-14 20:37:06,789 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2025' not found in the workbook. Available sheets: ['MAIO 2026']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-14 20:37:47,086 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 20:37:47,339 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 20:37:57,142 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 20:37:58,701 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 20:37:58,701 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:58,703 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:59,104 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:59,104 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:59,104 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:37:59,105 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 20:38:00,940 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Gabriel_MAIO_2026.xlsx | Sheet: MAIO 2025 | Transactions: 14
+2026-05-14 20:38:00,941 | INFO | spreadsheet_writer | Backup created: Card_Gabriel_MAIO_2026.20260514_203800.backup.xlsx
+2026-05-14 20:38:00,975 | ERROR | __main__ | Validation error processing 'toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf': Sheet 'MAIO 2025' not found in the workbook. Available sheets: ['MAIO 2026']. Make sure the spreadsheet was generated with the correct month name.
+2026-05-14 20:41:10,847 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 20:41:11,128 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 20:41:42,622 | INFO | generate_spreadsheet | Generating spreadsheets for 1 person(s) | Month: MAIO 2026 | Due: 20/01/2000
+2026-05-14 20:41:42,681 | INFO | generate_spreadsheet | ✅ Created: Card_Eu_gabriel_MAIO_2026.xlsx
+2026-05-14 20:41:42,681 | INFO | generate_spreadsheet | Done. 1/1 spreadsheet(s) created in 'spreadsheets/'.
+2026-05-14 20:41:43,695 | INFO | spreadsheet_creator_dialog | Dialog created 1 spreadsheet(s): ['Card_Eu_gabriel_MAIO_2026.xlsx']
+2026-05-14 20:41:55,870 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 20:42:00,013 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 20:42:00,013 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:42:00,018 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:42:00,399 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:42:00,399 | INFO | pdf_reader | [itau] Extracted 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:42:00,400 | INFO | pdf_reader | Extraction complete: 14 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:42:00,400 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 20:42:05,068 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Eu_gabriel_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 14
+2026-05-14 20:42:05,069 | INFO | spreadsheet_writer | Backup created: Card_Eu_gabriel_MAIO_2026.20260514_204205.backup.xlsx
+2026-05-14 20:42:05,093 | INFO | spreadsheet_writer | insert_rows complete: 14 rows written starting at row 5.
+2026-05-14 20:42:05,163 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Eu_gabriel_MAIO_2026.xlsx
+2026-05-14 20:42:05,163 | INFO | spreadsheet_writer | Write complete | 14 transactions inserted | File: Card_Eu_gabriel_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 20:42:05,163 | INFO | reconciler | Starting reconciliation | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 20:42:05,180 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 20:42:05,180 | WARNING | reconciler | ❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 3050.04 (difference: R$ 1712.43). Manual review required.
+2026-05-14 20:42:05,181 | INFO | reconciler | Result reported | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Status: DIVERGENCE | Diff: R$ 1712.43
+{"person_name": "toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66", "sheet_name": "MAIO 2026", "spreadsheet_path": "/home/galopes/Viber_coders/exibir_NF/invoice-processor/spreadsheets/Card_Eu_gabriel_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 3050.04, "difference": 1712.43, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 3050.04 (difference: R$ 1712.43). Manual review required.", "timestamp": "2026-05-14T20:42:05"}
+2026-05-14 20:42:05,182 | INFO | __main__ | Done — 14 transaction(s) processed | 0 ✅ match | 1 ❌ divergence
+2026-05-14 20:53:56,546 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 20:53:56,804 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 20:55:40,207 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 20:56:12,846 | WARNING | spreadsheet_creator_dialog | Form validation failed: Invalid name: 'teste00'. Names must contain only letters, spaces, and hyphens.
+2026-05-14 20:56:31,029 | WARNING | spreadsheet_creator_dialog | Form validation failed: Invalid name: 'teste0'. Names must contain only letters, spaces, and hyphens.
+2026-05-14 20:56:35,375 | INFO | generate_spreadsheet | Generating spreadsheets for 1 person(s) | Month: MAIO 2026 | Due: 20/01/2026
+2026-05-14 20:56:35,421 | INFO | generate_spreadsheet | ✅ Created: Card_teste_MAIO_2026.xlsx
+2026-05-14 20:56:35,421 | INFO | generate_spreadsheet | Done. 1/1 spreadsheet(s) created in 'spreadsheets/'.
+2026-05-14 20:56:36,655 | INFO | spreadsheet_creator_dialog | Dialog created 1 spreadsheet(s): ['Card_teste_MAIO_2026.xlsx']
+2026-05-14 20:56:38,238 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 20:56:38,238 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:56:38,241 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:56:38,616 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:56:38,617 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:56:38,617 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 20:56:38,618 | WARNING | __main__ | No spreadsheet auto-matched for 'toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66'.
+2026-05-14 20:56:41,341 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_teste_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 17
+2026-05-14 20:56:41,342 | INFO | spreadsheet_writer | Backup created: Card_teste_MAIO_2026.20260514_205641.backup.xlsx
+2026-05-14 20:56:41,372 | INFO | spreadsheet_writer | insert_rows complete: 17 rows written starting at row 5.
+2026-05-14 20:56:41,406 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_teste_MAIO_2026.xlsx
+2026-05-14 20:56:41,406 | INFO | spreadsheet_writer | Write complete | 17 transactions inserted | File: Card_teste_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 20:56:41,406 | INFO | reconciler | Starting reconciliation | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 20:56:41,433 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 20:56:41,434 | WARNING | reconciler | ❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.
+2026-05-14 20:56:41,434 | INFO | reconciler | Result reported | Person: toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66 | Status: DIVERGENCE | Diff: R$ 0.17
+{"person_name": "toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66", "sheet_name": "MAIO 2026", "spreadsheet_path": "/home/galopes/Viber_coders/exibir_NF/invoice-processor/spreadsheets/Card_teste_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1337.44, "difference": 0.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — toaz.info fatura itau pr eafae9097007257369aaf6909a24ff66: PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.", "timestamp": "2026-05-14T20:56:41"}
+2026-05-14 20:56:41,436 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 1 ❌ divergence
+2026-05-14 21:07:54,449 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 21:07:54,740 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 21:08:09,022 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 21:09:04,709 | WARNING | spreadsheet_creator_dialog | Form validation failed: Due date is required. Format: DD/MM/YYYY
+2026-05-14 21:09:10,998 | INFO | generate_spreadsheet | Generating spreadsheets for 1 person(s) | Month: MAIO 2026 | Due: 20/02/2000
+2026-05-14 21:09:11,040 | INFO | generate_spreadsheet | ✅ Created: Card_testet_MAIO_2026.xlsx
+2026-05-14 21:09:11,040 | INFO | generate_spreadsheet | Done. 1/1 spreadsheet(s) created in 'spreadsheets/'.
+2026-05-14 21:09:12,152 | INFO | spreadsheet_creator_dialog | Dialog created 1 spreadsheet(s): ['Card_testet_MAIO_2026.xlsx']
+2026-05-14 21:09:14,333 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 21:09:14,333 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:09:14,336 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:09:14,707 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:09:14,708 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:09:14,708 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:09:15,057 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 21:09:15,058 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 21:09:15,058 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:09:15,058 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically.
+2026-05-14 21:09:15,096 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:09:15,097 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 21:09:15,097 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.20260514_210915.backup.xlsx
+2026-05-14 21:09:15,111 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 21:09:15,127 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:09:15,127 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:09:15,127 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:09:15,145 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:09:15,146 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 21:09:15,146 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T21:09:15"}
+2026-05-14 21:09:15,147 | INFO | __main__ | Spreadsheet matched (name only): 'Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx'
+2026-05-14 21:09:15,147 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 21:09:15,147 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.20260514_210915.backup.xlsx
+2026-05-14 21:09:15,171 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 6.
+2026-05-14 21:09:15,193 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:09:15,193 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:09:15,194 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:09:15,208 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:09:15,209 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.
+2026-05-14 21:09:15,209 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 0.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1337.44, "difference": 0.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.", "timestamp": "2026-05-14T21:09:15"}
+2026-05-14 21:09:15,211 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 21:11:40,223 | INFO | generate_spreadsheet | Generating spreadsheets for 1 person(s) | Month: MAIO 2026 | Due: 20/02/2000
+2026-05-14 21:11:40,265 | INFO | generate_spreadsheet | ✅ Created: Card_gab_MAIO_2026.xlsx
+2026-05-14 21:11:40,265 | INFO | generate_spreadsheet | Done. 1/1 spreadsheet(s) created in 'spreadsheets/'.
+2026-05-14 21:11:41,738 | INFO | spreadsheet_creator_dialog | Dialog created 1 spreadsheet(s): ['Card_gab_MAIO_2026.xlsx']
+2026-05-14 21:11:44,294 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 21:11:44,294 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:11:44,296 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:11:44,661 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:11:44,662 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:11:44,672 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:11:45,007 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 21:11:45,007 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 21:11:45,007 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:11:45,007 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically.
+2026-05-14 21:11:45,049 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:11:45,049 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 21:11:45,049 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.20260514_211145.backup.xlsx
+2026-05-14 21:11:45,076 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 21:11:45,093 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:11:45,093 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:11:45,093 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:11:45,109 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:11:45,110 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 21:11:45,110 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T21:11:45"}
+2026-05-14 21:11:45,110 | INFO | __main__ | Spreadsheet matched (name only): 'Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx'
+2026-05-14 21:11:45,110 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 21:11:45,110 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.20260514_211145.backup.xlsx
+2026-05-14 21:11:45,150 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 6.
+2026-05-14 21:11:45,175 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:11:45,175 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:11:45,176 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:11:45,191 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:11:45,192 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.
+2026-05-14 21:11:45,192 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 0.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1337.44, "difference": 0.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.", "timestamp": "2026-05-14T21:11:45"}
+2026-05-14 21:11:45,193 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 21:31:49,129 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 21:31:49,475 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 21:31:59,003 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 21:32:01,529 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 21:32:01,529 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:32:01,554 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:32:01,967 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:32:01,967 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:32:01,968 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:32:02,354 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 21:32:02,354 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 21:32:02,354 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:32:02,355 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically.
+2026-05-14 21:32:02,399 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:32:02,399 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 21:32:02,400 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.20260514_213202.backup.xlsx
+2026-05-14 21:32:02,415 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 21:32:02,431 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:32:02,431 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:32:02,431 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:32:02,450 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:32:02,451 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 21:32:02,452 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T21:32:02"}
+2026-05-14 21:32:02,452 | INFO | __main__ | Spreadsheet matched (name only): 'Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx'
+2026-05-14 21:32:02,453 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 21:32:02,453 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.20260514_213202.backup.xlsx
+2026-05-14 21:32:02,477 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 6.
+2026-05-14 21:32:02,502 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 21:32:02,502 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:32:02,502 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:32:02,523 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:32:02,524 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.
+2026-05-14 21:32:02,524 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 0.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1337.44, "difference": 0.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.", "timestamp": "2026-05-14T21:32:02"}
+2026-05-14 21:32:02,526 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 21:37:09,418 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 21:37:09,729 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 21:37:22,303 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 21:37:25,416 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 21:37:25,416 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:25,416 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:25,821 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:25,822 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:25,822 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:26,190 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 21:37:26,190 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 21:37:26,190 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:26,191 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically with card digits in filename.
+2026-05-14 21:37:26,224 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 21:37:26,224 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx'
+2026-05-14 21:37:26,224 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 21:37:26,225 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.20260514_213726.backup.xlsx
+2026-05-14 21:37:26,238 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 21:37:26,265 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 21:37:26,265 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:37:26,265 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:37:26,298 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:37:26,299 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 21:37:26,299 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T21:37:26"}
+2026-05-14 21:37:26,299 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...3172). Creating automatically with card digits in filename.
+2026-05-14 21:37:26,333 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 21:37:26,333 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx'
+2026-05-14 21:37:26,333 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 21:37:26,334 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.20260514_213726.backup.xlsx
+2026-05-14 21:37:26,348 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 5.
+2026-05-14 21:37:26,368 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 21:37:26,369 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:37:26,369 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:37:26,384 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:37:26,385 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.
+2026-05-14 21:37:26,385 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 69.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1268.44, "difference": 69.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.", "timestamp": "2026-05-14T21:37:26"}
+2026-05-14 21:37:26,387 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 21:37:46,180 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 21:37:46,180 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:46,182 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:46,605 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:46,606 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:46,606 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:46,979 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 21:37:46,979 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 21:37:46,979 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:37:46,980 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically with card digits in filename.
+2026-05-14 21:37:47,018 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 21:37:47,018 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx'
+2026-05-14 21:37:47,018 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 21:37:47,019 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.20260514_213747.backup.xlsx
+2026-05-14 21:37:47,040 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 21:37:47,057 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 21:37:47,057 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:37:47,057 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:37:47,077 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:37:47,078 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 21:37:47,078 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T21:37:47"}
+2026-05-14 21:37:47,078 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...3172). Creating automatically with card digits in filename.
+2026-05-14 21:37:47,108 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 21:37:47,108 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx'
+2026-05-14 21:37:47,108 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 21:37:47,109 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.20260514_213747.backup.xlsx
+2026-05-14 21:37:47,128 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 5.
+2026-05-14 21:37:47,150 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 21:37:47,150 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:37:47,150 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:37:47,171 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:37:47,172 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.
+2026-05-14 21:37:47,173 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 69.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1268.44, "difference": 69.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.", "timestamp": "2026-05-14T21:37:47"}
+2026-05-14 21:37:47,176 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 21:50:43,140 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 21:50:43,598 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 21:51:11,165 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 21:51:13,060 | WARNING | utils | Config file contains unknown keys (ignored): ['reference_month']. Only known configuration keys are accepted.
+2026-05-14 21:51:13,060 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 21:51:13,060 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:13,076 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:13,518 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:13,519 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:13,519 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:13,890 | WARNING | __main__ | 'reference_month' not set in config.json. Using current month as fallback: 'MAIO 2026'. Add 'reference_month' to config.json to avoid this warning.
+2026-05-14 21:51:13,890 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 21:51:13,890 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 21:51:13,890 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:13,891 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically with card digits in filename.
+2026-05-14 21:51:13,940 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 21:51:13,940 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx'
+2026-05-14 21:51:13,941 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 21:51:13,941 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.20260514_215113.backup.xlsx
+2026-05-14 21:51:13,955 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 21:51:13,966 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 21:51:13,966 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:51:13,966 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:51:13,987 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:51:13,989 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 21:51:13,989 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T21:51:13"}
+2026-05-14 21:51:13,989 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...3172). Creating automatically with card digits in filename.
+2026-05-14 21:51:14,017 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 21:51:14,017 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx'
+2026-05-14 21:51:14,017 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 21:51:14,018 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.20260514_215114.backup.xlsx
+2026-05-14 21:51:14,048 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 5.
+2026-05-14 21:51:14,085 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 21:51:14,085 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:51:14,085 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:51:14,106 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:51:14,108 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.
+2026-05-14 21:51:14,108 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 69.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1268.44, "difference": 69.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.", "timestamp": "2026-05-14T21:51:14"}
+2026-05-14 21:51:14,114 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 21:51:37,363 | INFO | __main__ | PDF selection: added=0, rejected=0, total=1
+2026-05-14 21:51:39,340 | WARNING | utils | Config file contains unknown keys (ignored): ['reference_month']. Only known configuration keys are accepted.
+2026-05-14 21:51:39,340 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 21:51:39,340 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:39,343 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:39,750 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:39,750 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:39,750 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:40,112 | WARNING | __main__ | 'reference_month' not set in config.json. Using current month as fallback: 'MAIO 2026'. Add 'reference_month' to config.json to avoid this warning.
+2026-05-14 21:51:40,112 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 21:51:40,112 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 21:51:40,112 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 21:51:40,113 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically with card digits in filename.
+2026-05-14 21:51:40,154 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 21:51:40,154 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx'
+2026-05-14 21:51:40,154 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 21:51:40,155 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.20260514_215140.backup.xlsx
+2026-05-14 21:51:40,172 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 21:51:40,184 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 21:51:40,184 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:51:40,184 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:51:40,206 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:51:40,208 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 21:51:40,208 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T21:51:40"}
+2026-05-14 21:51:40,208 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...3172). Creating automatically with card digits in filename.
+2026-05-14 21:51:40,244 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 21:51:40,244 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx'
+2026-05-14 21:51:40,244 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 21:51:40,245 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.20260514_215140.backup.xlsx
+2026-05-14 21:51:40,267 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 5.
+2026-05-14 21:51:40,294 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 21:51:40,294 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 21:51:40,294 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 21:51:40,310 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 21:51:40,312 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.
+2026-05-14 21:51:40,312 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 69.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1268.44, "difference": 69.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.", "timestamp": "2026-05-14T21:51:40"}
+2026-05-14 21:51:40,314 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 22:05:45,211 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 22:05:45,537 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 22:06:01,036 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 22:06:02,818 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 22:06:02,818 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:06:02,826 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:06:03,219 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:06:03,219 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:06:03,220 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:06:03,578 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 22:06:03,578 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 22:06:03,578 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:06:03,578 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically with card digits in filename.
+2026-05-14 22:06:03,628 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 22:06:03,628 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx'
+2026-05-14 22:06:03,628 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 22:06:03,629 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.20260514_220603.backup.xlsx
+2026-05-14 22:06:03,647 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 22:06:03,659 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 22:06:03,659 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 22:06:03,659 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 22:06:03,679 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 22:06:03,680 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 22:06:03,680 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T22:06:03"}
+2026-05-14 22:06:03,681 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...3172). Creating automatically with card digits in filename.
+2026-05-14 22:06:03,720 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 22:06:03,720 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx'
+2026-05-14 22:06:03,720 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 22:06:03,721 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.20260514_220603.backup.xlsx
+2026-05-14 22:06:03,745 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 5.
+2026-05-14 22:06:03,768 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 22:06:03,768 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 22:06:03,768 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 22:06:03,787 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 22:06:03,788 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.
+2026-05-14 22:06:03,789 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 69.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1268.44, "difference": 69.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.", "timestamp": "2026-05-14T22:06:03"}
+2026-05-14 22:06:03,791 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 22:07:20,562 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 22:07:20,829 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 22:07:35,733 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 22:07:38,451 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 22:07:38,451 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:07:38,453 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:07:38,850 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:07:38,850 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:07:38,851 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:07:39,235 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 22:07:39,235 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 22:07:39,235 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:07:39,236 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically with card digits in filename.
+2026-05-14 22:07:39,289 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 22:07:39,289 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx'
+2026-05-14 22:07:39,289 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 22:07:39,289 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.20260514_220739.backup.xlsx
+2026-05-14 22:07:39,307 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 22:07:39,320 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx
+2026-05-14 22:07:39,320 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 22:07:39,320 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 22:07:39,344 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 22:07:39,346 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 22:07:39,346 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_5885_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T22:07:39"}
+2026-05-14 22:07:39,346 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...3172). Creating automatically with card digits in filename.
+2026-05-14 22:07:39,384 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 22:07:39,384 | INFO | __main__ | Auto-created spreadsheet: 'Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx'
+2026-05-14 22:07:39,384 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 22:07:39,385 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.20260514_220739.backup.xlsx
+2026-05-14 22:07:39,418 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 5.
+2026-05-14 22:07:39,442 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
+2026-05-14 22:07:39,443 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 22:07:39,443 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 22:07:39,464 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 22:07:39,465 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.
+2026-05-14 22:07:39,465 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 69.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1268.44, "difference": 69.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.", "timestamp": "2026-05-14T22:07:39"}
+2026-05-14 22:07:39,466 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-14 22:23:34,912 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-14 22:23:35,326 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-14 22:23:45,448 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-14 22:23:47,377 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-14 22:23:47,377 | INFO | __main__ | Processing: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:23:47,378 | INFO | pdf_reader | Starting PDF read pipeline for: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:23:47,751 | INFO | pdf_reader | Detected bank: itau for file: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:23:47,751 | INFO | pdf_reader | [itau] Extracted 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:23:47,752 | INFO | pdf_reader | Extraction complete: 17 transactions | Total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:23:48,124 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...5885) → 1 transactions
+2026-05-14 22:23:48,124 | INFO | pdf_reader | [itau] Cardholder: 'CLAYTON PIRES DOS SANTOS' (card ...3172) → 16 transactions
+2026-05-14 22:23:48,124 | INFO | pdf_reader | [itau] Total cardholders: 2 | Invoice total: R$ 1337.61 | File: toaz.info-fatura-itau-pr_eafae9097007257369aaf6909a24ff66.pdf
+2026-05-14 22:23:48,125 | INFO | __main__ | No spreadsheet found for 'Clayton Pires Dos Santos' (...5885). Creating automatically.
+2026-05-14 22:23:48,165 | INFO | generate_spreadsheet | ✅ Created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 22:23:48,166 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-05-14 22:23:48,166 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.20260514_222348.backup.xlsx
+2026-05-14 22:23:48,181 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-05-14 22:23:48,196 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 22:23:48,196 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 22:23:48,196 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...5885) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 22:23:48,231 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 22:23:48,232 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.
+2026-05-14 22:23:48,232 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...5885) | Status: DIVERGENCE | Diff: R$ 1249.86
+{"person_name": "Clayton Pires Dos Santos (...5885)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 87.75, "difference": 1249.86, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...5885): PDF R$ 1337.61 ≠ Spreadsheet R$ 87.75 (difference: R$ 1249.86). Manual review required.", "timestamp": "2026-05-14T22:23:48"}
+2026-05-14 22:23:48,233 | INFO | __main__ | Spreadsheet matched (name only): 'Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx'
+2026-05-14 22:23:48,233 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 16
+2026-05-14 22:23:48,233 | INFO | spreadsheet_writer | Backup created: Card_Clayton_Pires_Dos_Santos_MAIO_2026.20260514_222348.backup.xlsx
+2026-05-14 22:23:48,255 | INFO | spreadsheet_writer | insert_rows complete: 16 rows written starting at row 6.
+2026-05-14 22:23:48,284 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx
+2026-05-14 22:23:48,285 | INFO | spreadsheet_writer | Write complete | 16 transactions inserted | File: Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-05-14 22:23:48,285 | INFO | reconciler | Starting reconciliation | Person: Clayton Pires Dos Santos (...3172) | Sheet: MAIO 2026 | PDF total: R$ 1337.61
+2026-05-14 22:23:48,321 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-05-14 22:23:48,325 | WARNING | reconciler | ❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.
+2026-05-14 22:23:48,325 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 0.17
+{"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Clayton_Pires_Dos_Santos_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1337.44, "difference": 0.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1337.44 (difference: R$ 0.17). Manual review required.", "timestamp": "2026-05-14T22:23:48"}
+2026-05-14 22:23:48,333 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence

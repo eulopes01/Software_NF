@@ -495,13 +495,19 @@ def _validate_spreadsheet_inputs(
 
 
 def _create_backup(path: Path) -> None:
+    """
+    Creates a timestamped backup copy of the spreadsheet before
+    any modifications are made.
+
+    Backup file is placed in the same directory as the original,
+    named: original_name.YYYYMMDD_HHMMSS.backup.xlsx
+
+    If the backup fails, a warning is logged but execution continues
+    so that the main write operation is not blocked.
+    """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     backup_name = f"{path.stem}.{timestamp}.backup{path.suffix}"
-    
-    # Save backup in a separate backups/ folder
-    backup_dir = Path("backups")
-    backup_dir.mkdir(parents=True, exist_ok=True)
-    backup_path = backup_dir / backup_name
+    backup_path = path.parent / backup_name
 
     try:
         shutil.copy2(str(path), str(backup_path))

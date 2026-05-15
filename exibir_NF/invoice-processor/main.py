@@ -49,11 +49,12 @@ logger = logging.getLogger(__name__)
 # ─────────────────────────────────────────────
 
 try:
-    from pdf_reader import read_pdf, Transaction
+    from pdf_reader import read_pdf, Transaction, extract_itau_by_cardholder, CardHolder, BANK_ITAU
     from spreadsheet_writer import write_transactions
     from reconciler import reconcile, read_pdf_total
     from utils import load_config, format_currency, sanitize_text
     from pdf_unlocker import is_pdf_protected, unlock_pdf_context
+    from spreadsheet_creator_dialog import open_creator_dialog
 except ImportError as exc:
     # Show a user-friendly error if a module is missing
     root = tk.Tk()
@@ -183,6 +184,13 @@ def build_main_window(root: tk.Tk) -> dict:
     )
     btn_select.pack(side="left", padx=(0, 8))
     widgets["btn_select"] = btn_select
+
+    btn_new_sheet = _make_button(
+        btn_frame, "📊  New Spreadsheet", "#17A589",
+        lambda: open_creator_dialog(root, output_dir=SPREADSHEET_DIR),
+    )
+    btn_new_sheet.pack(side="left", padx=(0, 8))
+    widgets["btn_new_sheet"] = btn_new_sheet
 
     btn_clear = _make_button(
         btn_frame, "🗑  Clear list", "#6C757D",
@@ -470,53 +478,74 @@ def process_all_invoices(widgets: dict, pdf_paths: list[str]) -> None:
                 _set_status(widgets, f"🔒 '{path.name}' is protected — enter the password and try again.")
                 continue
 
+            # Step 2 — Extract raw text
             if protected:
                 with unlock_pdf_context(pdf_path, password) as unlocked_path:
                     transactions, raw_total = read_pdf(str(unlocked_path))
+                    raw_text = _extract_raw_text_from_pdf(str(unlocked_path))
             else:
                 transactions, raw_total = read_pdf(pdf_path)
+                raw_text = _extract_raw_text_from_pdf(pdf_path)
 
             validated_total = read_pdf_total(raw_total, path.name)
-
-            # Step 2 — Resolve person name and spreadsheet path
-            person_name = _resolve_person_name(path)
-            spreadsheet_path = _resolve_spreadsheet_path(person_name, widgets)
-
-            if not spreadsheet_path:
-                logger.warning(f"No spreadsheet found for '{person_name}'. Skipping.")
-                _set_status(widgets, f"⚠️ No spreadsheet found for {person_name} — skipped.")
-                continue
-
-            # Step 3 — Write transactions to spreadsheet
             sheet_name = _resolve_sheet_name(config)
-            write_transactions(
-                spreadsheet_path=str(spreadsheet_path),
-                sheet_name=sheet_name,
-                transactions=transactions,
-            )
 
-            # Step 4 — Reconcile totals
-            result = reconcile(
-                person_name=person_name,
-                sheet_name=sheet_name,
-                spreadsheet_path=str(spreadsheet_path),
-                pdf_total=validated_total,
-            )
+            # Step 3 — Extract by cardholder if Itaú, else single person
+            from pdf_reader import detect_bank, BANK_ITAU
+            bank = detect_bank(raw_text)
 
-            # Step 5 — Prepare table rows
-            status_label = "✅ MATCH" if result.status == "MATCH" else "❌ DIVERGENCE"
-            for transaction in transactions:
-                all_rows.append({
-                    "person":      person_name,
-                    "date":        transaction.date,
-                    "description": transaction.description,
-                    "amount":      format_currency(transaction.amount),
-                    "bank":        transaction.bank.upper(),
-                    "status":      status_label,
-                    "match":       result.status == "MATCH",
-                })
+            if bank == BANK_ITAU:
+                cardholders, _ = extract_itau_by_cardholder(raw_text, path.name)
+            else:
+                # For BB or unknown: treat as single cardholder
+                person_name = _resolve_person_name(path)
+                from pdf_reader import CardHolder
+                cardholders = [CardHolder(
+                    name=person_name,
+                    card_last_digits="0000",
+                    transactions=transactions,
+                    bank=bank,
+                )]
 
-            summary_results.append(result)
+            # Step 4 — Process each cardholder separately
+            for cardholder in cardholders:
+                person_name = _format_cardholder_name(cardholder.name)
+                card_digits = cardholder.card_last_digits
+
+                spreadsheet_path = _resolve_spreadsheet_path_by_card(
+                    person_name, card_digits, sheet_name, widgets
+                )
+
+                if not spreadsheet_path:
+                    logger.warning(f"No spreadsheet for '{person_name}' (...{card_digits}). Skipping.")
+                    continue
+
+                write_transactions(
+                    spreadsheet_path=str(spreadsheet_path),
+                    sheet_name=sheet_name,
+                    transactions=cardholder.transactions,
+                )
+
+                result = reconcile(
+                    person_name=f"{person_name} (...{card_digits})",
+                    sheet_name=sheet_name,
+                    spreadsheet_path=str(spreadsheet_path),
+                    pdf_total=validated_total,
+                )
+
+                status_label = "✅ MATCH" if result.status == "MATCH" else "❌ DIVERGENCE"
+                for transaction in cardholder.transactions:
+                    all_rows.append({
+                        "person":      f"{person_name} (...{card_digits})",
+                        "date":        transaction.date,
+                        "description": transaction.description,
+                        "amount":      format_currency(transaction.amount),
+                        "bank":        transaction.bank.upper(),
+                        "status":      status_label,
+                        "match":       result.status == "MATCH",
+                    })
+
+                summary_results.append(result)
 
         except FileNotFoundError as exc:
             logger.error(f"File not found during processing of '{path.name}': {exc}")
@@ -797,6 +826,105 @@ def _resolve_sheet_name(config: dict) -> str:
     return fallback
 
 
+
+
+def _extract_raw_text_from_pdf(pdf_path: str) -> str:
+    """
+    Extracts raw text from a PDF file using pdfplumber.
+    Returns concatenated text from all pages.
+    Falls back to empty string if extraction fails.
+    """
+    try:
+        import pdfplumber
+        with pdfplumber.open(pdf_path) as pdf:
+            return "\n".join(
+                page.extract_text() for page in pdf.pages
+                if page.extract_text()
+            )
+    except Exception as exc:
+        logger.warning(f"Could not extract raw text from '{pdf_path}': {exc}")
+        return ""
+
+
+def _format_cardholder_name(raw_name: str) -> str:
+    """
+    Formats a cardholder name from the PDF (ALL CAPS) to Title Case
+    for use in spreadsheet file names and display.
+
+    Example: "CLAYTON PIRES DOS SANTOS" → "Clayton Pires Dos Santos"
+    """
+    if not raw_name:
+        return "Unknown"
+    return raw_name.strip().title()
+
+
+def _resolve_spreadsheet_path_by_card(
+    person_name: str,
+    card_digits: str,
+    sheet_name: str,
+    widgets: dict,
+) -> Optional[Path]:
+    """
+    Finds or creates a spreadsheet for a specific cardholder + card number.
+
+    Search order:
+        1. Look for existing file matching name + card digits in spreadsheets/
+        2. Look for file matching name only (without card digits)
+        3. Auto-create a new spreadsheet if not found
+
+    File naming convention:
+        Card_{Name}_{CardDigits}_{Month}_{Year}.xlsx
+        Example: Card_Clayton_Pires_3172_MAIO_2026.xlsx
+    """
+    name_normalized = person_name.lower().replace(" ", "_")
+    month_normalized = sheet_name.replace(" ", "_").upper()
+
+    # Search for existing file matching name + card digits
+    for xlsx_file in SPREADSHEET_DIR.glob("*.xlsx"):
+        stem = xlsx_file.stem.lower()
+        if name_normalized in stem and card_digits in stem:
+            logger.info(f"Spreadsheet matched: '{xlsx_file.name}'")
+            return xlsx_file
+
+    # Search for file matching name only
+    for xlsx_file in SPREADSHEET_DIR.glob("*.xlsx"):
+        stem = xlsx_file.stem.lower()
+        if name_normalized in stem and "backup" not in stem:
+            logger.info(f"Spreadsheet matched (name only): '{xlsx_file.name}'")
+            return xlsx_file
+
+    # Auto-create new spreadsheet
+    logger.info(
+        f"No spreadsheet found for '{person_name}' (...{card_digits}). "
+        "Creating automatically."
+    )
+    try:
+        from generate_spreadsheet import generate_person_spreadsheet
+        safe_name = person_name.replace(" ", "_")
+        file_name = f"Card_{safe_name}_{card_digits}_{month_normalized}.xlsx"
+        file_path = SPREADSHEET_DIR / file_name
+
+        generate_person_spreadsheet(
+            person_name=person_name,
+            reference_month=sheet_name,
+            due_date="",
+            output_dir=SPREADSHEET_DIR,
+        )
+
+        # Find the generated file
+        for xlsx_file in SPREADSHEET_DIR.glob(f"*{safe_name}*{card_digits}*"):
+            return xlsx_file
+
+        # Fallback: find by name
+        for xlsx_file in SPREADSHEET_DIR.glob(f"*{safe_name}*"):
+            if "backup" not in xlsx_file.stem.lower():
+                return xlsx_file
+
+    except Exception as exc:
+        logger.error(f"Failed to auto-create spreadsheet for '{person_name}': {exc}")
+
+    return None
+
 # ─────────────────────────────────────────────
 # Entry point
 # ─────────────────────────────────────────────
@@ -806,6 +934,7 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     widgets = build_main_window(root)
+    widgets['root'] = root
 
     logger.info(f"{APP_TITLE} v{APP_VERSION} started.")
 

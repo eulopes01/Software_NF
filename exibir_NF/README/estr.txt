@@ -1,57 +1,35 @@
 invoice-processor/
 │
-├── pdfs/                              # PDFs das faturas recebidos todo mês
-│   └── .gitkeep
-│
-├── spreadsheets/                      # Planilhas .xlsx geradas/atualizadas
-│   └── .gitkeep
-│
-├── templates/                         # Planilha modelo (em branco)
-│   └── card_template.xlsx             # Base usada para gerar novas planilhas
-│
-├── logs/                              # Registro de execuções e erros
+├── backups/                            # Backups automáticos das planilhas
+├── logs/
 │   └── processing.log
+├── pdfs/
+│   └── .gitkeep
+├── spreadsheets/                       # Planilhas geradas
+│   └── .gitkeep
+├── templates/
+│   └── card_template.xlsx
 │
-├── src/                               # Todo o código-fonte do software
-│   │
-│   ├── pdf_reader.py                  # FASE 2 — leitura PDF
-│   │   ├── read_pdf()
-│   │   ├── detect_bank()
-│   │   ├── extract_itau()
-│   │   ├── extract_banco_brasil()
-│   │   └── normalize_transactions()
-│   │
-│   ├── spreadsheet_writer.py          # FASE 3 — preenchimento
-│   │   ├── open_spreadsheet()
-│   │   ├── locate_sheet()
-│   │   ├── insert_rows()
-│   │   ├── format_cells()
-│   │   └── save_spreadsheet()
-│   │
-│   ├── reconciler.py                  # FASE 4 — conciliação
-│   │   ├── read_pdf_total()
-│   │   ├── read_spreadsheet_total()
-│   │   ├── compare_totals()
-│   │   ├── report_result()
-│   │   └── write_log()
-│   │
-│   └── utils.py                       # Utilitários compartilhados
-│       ├── format_currency()
-│       ├── format_date()
-│       ├── validate_file()
-│       ├── sanitize_text()
-│       └── load_config()
+├── src/
+│   ├── pdf_reader.py                   # Fase 2 — lê PDF (texto + OCR)
+│   ├── pdf_unlocker.py                 # Remove senha do PDF
+│   ├── pdf_ocr.py                      # OCR para PDFs escaneados ← novo
+│   ├── spreadsheet_writer.py           # Fase 3 — grava na planilha
+│   ├── spreadsheet_creator_dialog.py   # Formulário de criação ← novo
+│   ├── reconciler.py                   # Fase 4 — conciliação
+│   └── utils.py                        # Utilitários
 │
 ├── scripts/
-│   └── generate_spreadsheet.py        # FASE 1 ✅ — gera planilhas em branco por pessoa
+│   └── generate_spreadsheet.py         # Fase 1 — gera planilhas
 │
-├── tests/                             # Testes automatizados
-│   ├── test_pdf_reader.py             # Testes da leitura do PDF
-│   ├── test_spreadsheet_writer.py     # Testes do preenchimento
-│   ├── test_reconciler.py             # Testes da conciliação
-│   └── test_utils.py                  # Testes dos utilitários
+├── tests/
+│   ├── test_pdf_reader.py
+│   ├── test_spreadsheet_writer.py
+│   ├── test_reconciler.py
+│   └── test_utils.py
 │
-├── main.py                            # Ponto de entrada — interface gráfica
-├── requirements.txt                   # Dependências Python
-├── .env.example                       # Exemplo de variáveis de ambiente
-└── README.md                          # Instruções de uso
+├── main.py                             # GUI — botão "📊 New Spreadsheet" ← atualizado
+├── config.json                         # reference_month ← atualizado
+├── requirements.txt
+├── .env.example
+└── README.md                       # Instruções de uso

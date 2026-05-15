@@ -125,9 +125,11 @@ def format_currency(value: float, symbol: str = "R$") -> str:
     formatted = formatted.replace(".", ",")        # → "1X337,61"
     formatted = formatted.replace("X", ".")        # → "1.337,61"
 
-    sign = "-" if is_negative else ""
+    if is_negative:
+        result = f"{symbol} ({formatted})"
+    else:
+        result = f"{symbol} {formatted}"
 
-    result = f"{symbol} {sign}{formatted}"
     logger.debug(f"format_currency: {value} → '{result}'")
     return result
 
