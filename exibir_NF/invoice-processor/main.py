@@ -107,8 +107,9 @@ TABLE_COLUMNS = [
     ("Status",      100),
 ]
 
-SPREADSHEET_DIR     = Path("spreadsheets")
-PDF_DIR             = Path("pdfs")
+BASE_DIR            = Path(__file__).parent
+SPREADSHEET_DIR     = BASE_DIR / "spreadsheets"
+PDF_DIR             = BASE_DIR / "pdfs"
 
 
 # ─────────────────────────────────────────────
@@ -867,63 +868,53 @@ def _resolve_spreadsheet_path_by_card(
     """
     Finds or creates a spreadsheet for a specific cardholder + card number.
 
-    Search order:
-        1. Look for existing file matching name + card digits in spreadsheets/
-        2. Look for file matching name only (without card digits)
-        3. Auto-create a new spreadsheet if not found
+    Strategy:
+        1. Build the expected filename deterministically
+        2. If file exists → use it (never create duplicate)
+        3. If file does not exist → create it with the exact expected name
 
-    File naming convention:
+    Expected filename:
         Card_{Name}_{CardDigits}_{Month}_{Year}.xlsx
-        Example: Card_Clayton_Pires_3172_MAIO_2026.xlsx
+        Example: Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx
     """
-    name_normalized = person_name.lower().replace(" ", "_")
-    month_normalized = sheet_name.replace(" ", "_").upper()
+    # Build the expected filename deterministically
+    safe_name  = person_name.replace(" ", "_")
+    safe_month = sheet_name.replace(" ", "_").upper()
+    expected_name = f"Card_{safe_name}_{card_digits}_{safe_month}.xlsx"
+    expected_path = SPREADSHEET_DIR / expected_name
 
-    # Search for existing file matching name + card digits
-    for xlsx_file in SPREADSHEET_DIR.glob("*.xlsx"):
-        stem = xlsx_file.stem.lower()
-        if name_normalized in stem and card_digits in stem:
-            logger.info(f"Spreadsheet matched: '{xlsx_file.name}'")
-            return xlsx_file
+    # If file already exists — use it directly, never create duplicate
+    if expected_path.exists():
+        logger.info(f"Spreadsheet found: '{expected_name}'")
+        return expected_path
 
-    # Search for file matching name only
-    for xlsx_file in SPREADSHEET_DIR.glob("*.xlsx"):
-        stem = xlsx_file.stem.lower()
-        if name_normalized in stem and "backup" not in stem:
-            logger.info(f"Spreadsheet matched (name only): '{xlsx_file.name}'")
-            return xlsx_file
-
-    # Auto-create new spreadsheet
+    # File does not exist — create it with the exact expected name
     logger.info(
-        f"No spreadsheet found for '{person_name}' (...{card_digits}). "
+        f"Spreadsheet not found: '{expected_name}'. "
         "Creating automatically."
     )
+
     try:
         from generate_spreadsheet import generate_person_spreadsheet
-        safe_name = person_name.replace(" ", "_")
-        file_name = f"Card_{safe_name}_{card_digits}_{month_normalized}.xlsx"
-        file_path = SPREADSHEET_DIR / file_name
 
-        generate_person_spreadsheet(
-            person_name=person_name,
+        person_name_with_card = f"{person_name} {card_digits}"
+
+        file_path = generate_person_spreadsheet(
+            person_name=person_name_with_card,
             reference_month=sheet_name,
             due_date="",
             output_dir=SPREADSHEET_DIR,
         )
 
-        # Find the generated file
-        for xlsx_file in SPREADSHEET_DIR.glob(f"*{safe_name}*{card_digits}*"):
-            return xlsx_file
-
-        # Fallback: find by name
-        for xlsx_file in SPREADSHEET_DIR.glob(f"*{safe_name}*"):
-            if "backup" not in xlsx_file.stem.lower():
-                return xlsx_file
+        logger.info(f"Auto-created: '{file_path.name}'")
+        return file_path
 
     except Exception as exc:
-        logger.error(f"Failed to auto-create spreadsheet for '{person_name}': {exc}")
-
-    return None
+        logger.error(
+            f"Failed to create spreadsheet for "
+            f"'{person_name}' (...{card_digits}): {exc}"
+        )
+        return None
 
 # ─────────────────────────────────────────────
 # Entry point

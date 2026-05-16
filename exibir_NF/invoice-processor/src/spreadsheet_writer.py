@@ -128,7 +128,7 @@ def write_transactions(
     )
 
     _validate_spreadsheet_inputs(path, sheet_name, transactions)
-    _create_backup(path)
+    # _create_backup(path)
 
     workbook = open_spreadsheet(spreadsheet_path)
     worksheet = locate_sheet(workbook, sheet_name)
@@ -367,7 +367,7 @@ def format_cells(worksheet, start_row: int, row_count: int) -> None:
         logger.debug("format_cells skipped: row_count is 0.")
         return
 
-    currency_format = 'R$ #,##0.00'
+    currency_format = 'R$ #,##0.00; R$( -#,##0.00)'
 
     column_styles = {
         COL_DATE:           (ALIGNMENT_CENTER, FONT_NORMAL, None),
