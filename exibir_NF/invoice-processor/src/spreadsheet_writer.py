@@ -367,7 +367,7 @@ def format_cells(worksheet, start_row: int, row_count: int) -> None:
         logger.debug("format_cells skipped: row_count is 0.")
         return
 
-    currency_format = 'R$ #,##0.00; R$( -#,##0.00)'
+    currency_format = 'R$ #,##0.00'
 
     column_styles = {
         COL_DATE:           (ALIGNMENT_CENTER, FONT_NORMAL, None),
@@ -396,7 +396,9 @@ def format_cells(worksheet, start_row: int, row_count: int) -> None:
             cell.alignment = alignment
             cell.font = font
             cell.border = BORDER_THIN
-            if number_format:
+            # Only apply currency format to numeric cells
+            # Text cells (negative values) already have their own formatting
+            if number_format and not isinstance(cell.value, str):
                 cell.number_format = number_format
 
     logger.debug(
