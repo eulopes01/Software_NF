@@ -49,7 +49,7 @@ logger = logging.getLogger(__name__)
 # ─────────────────────────────────────────────
 
 try:
-    from pdf_reader import read_pdf, Transaction, extract_itau_by_cardholder, CardHolder, BANK_ITAU
+    from pdf_reader import read_pdf, Transaction, extract_itau_by_cardholder, extract_itau_empresas_by_cardholder, CardHolder, BANK_ITAU, BANK_ITAU_EMPRESAS
     from spreadsheet_writer import write_transactions
     from reconciler import reconcile, read_pdf_total
     from utils import load_config, format_currency, sanitize_text
@@ -107,9 +107,8 @@ TABLE_COLUMNS = [
     ("Status",      100),
 ]
 
-BASE_DIR            = Path(__file__).parent
-SPREADSHEET_DIR     = BASE_DIR / "spreadsheets"
-PDF_DIR             = BASE_DIR / "pdfs"
+SPREADSHEET_DIR     = Path("spreadsheets")
+PDF_DIR             = Path("pdfs")
 
 
 # ─────────────────────────────────────────────
@@ -497,6 +496,8 @@ def process_all_invoices(widgets: dict, pdf_paths: list[str]) -> None:
 
             if bank == BANK_ITAU:
                 cardholders, _ = extract_itau_by_cardholder(raw_text, path.name)
+            elif bank == BANK_ITAU_EMPRESAS:
+                cardholders, _ = extract_itau_empresas_by_cardholder(raw_text, path.name)
             else:
                 # For BB or unknown: treat as single cardholder
                 person_name = _resolve_person_name(path)

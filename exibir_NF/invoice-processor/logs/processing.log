@@ -1496,3 +1496,125 @@ AttributeError: 'MergedCell' object attribute 'value' is read-only
 2026-05-15 21:58:41,654 | INFO | reconciler | Result reported | Person: Clayton Pires Dos Santos (...3172) | Status: DIVERGENCE | Diff: R$ 69.17
 {"person_name": "Clayton Pires Dos Santos (...3172)", "sheet_name": "MAIO 2026", "spreadsheet_path": "/home/galopes/Viber_coders/exibir_NF/invoice-processor/spreadsheets/Card_Clayton_Pires_Dos_Santos_3172_MAIO_2026.xlsx", "pdf_total": 1337.61, "spreadsheet_total": 1268.44, "difference": 69.17, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Clayton Pires Dos Santos (...3172): PDF R$ 1337.61 ≠ Spreadsheet R$ 1268.44 (difference: R$ 69.17). Manual review required.", "timestamp": "2026-05-15T21:58:41"}
 2026-05-15 21:58:41,657 | INFO | __main__ | Done — 17 transaction(s) processed | 0 ✅ match | 2 ❌ divergence
+2026-05-15 22:09:55,089 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-15 22:09:55,538 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-15 22:10:13,301 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-15 22:10:16,487 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-15 22:10:16,488 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-15 22:10:16,496 | WARNING | __main__ | 'Minha_Fatura_BUSINESS.pdf' is password-protected but no password was provided.
+2026-05-15 22:10:27,749 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-15 22:10:27,750 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-15 22:10:27,762 | WARNING | pdf_unlocker | Invalid password provided for 'Minha_Fatura_BUSINESS.pdf'.
+2026-05-15 22:10:27,763 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Incorrect password for 'Minha_Fatura_BUSINESS.pdf'. Please check the password and try again.
+2026-05-15 22:10:39,293 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-15 22:10:39,293 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-15 22:10:39,376 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-15 22:10:39,376 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-15 22:10:39,820 | WARNING | pdf_reader | Could not detect bank. Text sample: 'cartãoitaúempresas\nresumodafaturaemr$\ntotaldafaturaanterior 41.985,84\npagamentoefetuadoem15/04/2026 '
+2026-05-15 22:10:39,821 | INFO | pdf_reader | Detected bank: unknown for file: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-15 22:10:39,821 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-15 22:10:39,821 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Unrecognized bank format in 'Minha_Fatura_BUSINESS_unlocked.pdf'. Supported banks: Itaú, Banco do Brasil.
+2026-05-15 22:10:59,693 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-15 22:10:59,694 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-15 22:10:59,802 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-15 22:10:59,802 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-15 22:11:00,181 | WARNING | pdf_reader | Could not detect bank. Text sample: 'cartãoitaúempresas\nresumodafaturaemr$\ntotaldafaturaanterior 41.985,84\npagamentoefetuadoem15/04/2026 '
+2026-05-15 22:11:00,181 | INFO | pdf_reader | Detected bank: unknown for file: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-15 22:11:00,181 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-15 22:11:00,181 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Unrecognized bank format in 'Minha_Fatura_BUSINESS_unlocked.pdf'. Supported banks: Itaú, Banco do Brasil.
+2026-05-17 14:36:46,006 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 14:36:46,408 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 16:23:02,736 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 16:23:24,719 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 16:23:24,719 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 16:23:24,787 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 16:23:24,787 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:23:25,192 | WARNING | pdf_reader | Could not detect bank. Text sample: 'cartãoitaúempresas\nresumodafaturaemr$\ntotaldafaturaanterior 41.985,84\npagamentoefetuadoem15/04/2026 '
+2026-05-17 16:23:25,192 | INFO | pdf_reader | Detected bank: unknown for file: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:23:25,192 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 16:23:25,192 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Unrecognized bank format in 'Minha_Fatura_BUSINESS_unlocked.pdf'. Supported banks: Itaú, Banco do Brasil.
+2026-05-17 16:33:10,543 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 16:33:10,886 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 16:33:21,380 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 16:33:28,948 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 16:33:28,948 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 16:33:28,960 | WARNING | pdf_unlocker | Invalid password provided for 'Minha_Fatura_BUSINESS.pdf'.
+2026-05-17 16:33:28,960 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Incorrect password for 'Minha_Fatura_BUSINESS.pdf'. Please check the password and try again.
+2026-05-17 16:37:58,627 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 16:37:58,921 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 16:38:11,711 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 16:38:25,493 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 16:38:25,493 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 16:38:25,561 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 16:38:25,561 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:38:25,953 | WARNING | pdf_reader | Could not detect bank. Text sample: 'cartãoitaúempresas\nresumodafaturaemr$\ntotaldafaturaanterior 41.985,84\npagamentoefetuadoem15/04/2026 '
+2026-05-17 16:38:25,953 | INFO | pdf_reader | Detected bank: unknown for file: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:38:25,954 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 16:38:25,954 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Unrecognized bank format in 'Minha_Fatura_BUSINESS_unlocked.pdf'. Supported banks: Itaú, Banco do Brasil.
+2026-05-17 16:46:11,123 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 16:46:11,494 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 16:46:24,931 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 16:46:32,241 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 16:46:32,241 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 16:46:32,250 | WARNING | pdf_unlocker | Invalid password provided for 'Minha_Fatura_BUSINESS.pdf'.
+2026-05-17 16:46:32,250 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Incorrect password for 'Minha_Fatura_BUSINESS.pdf'. Please check the password and try again.
+2026-05-17 16:48:33,018 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 16:48:33,019 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 16:48:33,085 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 16:48:33,085 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:48:33,500 | INFO | pdf_reader | Detected bank: itau for file: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:48:33,501 | INFO | pdf_reader | [itau] Extracted 0 transactions | Total: R$ 0.00 | File: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:48:33,501 | INFO | pdf_reader | Extraction complete: 0 transactions | Total: R$ 0.00 | File: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:48:33,922 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 16:48:33,922 | WARNING | reconciler | PDF total is R$ 0.00 for 'Minha_Fatura_BUSINESS.pdf'. This may indicate an extraction failure.
+2026-05-17 16:48:33,923 | INFO | pdf_reader | [itau] Total cardholders: 0 | Invoice total: R$ 0.00 | File: Minha_Fatura_BUSINESS.pdf
+2026-05-17 16:55:29,648 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 16:55:30,023 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 16:56:01,495 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 16:56:03,285 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 16:56:03,285 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 16:56:03,380 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 16:56:03,380 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:56:03,798 | INFO | pdf_reader | Detected bank: itau for file: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:56:03,798 | INFO | pdf_reader | [itau] Extracted 0 transactions | Total: R$ 0.00 | File: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:56:03,798 | INFO | pdf_reader | Extraction complete: 0 transactions | Total: R$ 0.00 | File: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 16:56:04,200 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 16:56:04,201 | WARNING | reconciler | PDF total is R$ 0.00 for 'Minha_Fatura_BUSINESS.pdf'. This may indicate an extraction failure.
+2026-05-17 16:56:04,201 | INFO | pdf_reader | [itau] Total cardholders: 0 | Invoice total: R$ 0.00 | File: Minha_Fatura_BUSINESS.pdf
+2026-05-17 23:32:22,498 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 23:32:22,814 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 23:32:31,686 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 23:32:39,087 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 23:32:39,088 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 23:32:39,106 | WARNING | pdf_unlocker | Invalid password provided for 'Minha_Fatura_BUSINESS.pdf'.
+2026-05-17 23:32:39,106 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Incorrect password for 'Minha_Fatura_BUSINESS.pdf'. Please check the password and try again.
+2026-05-17 23:33:41,748 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 23:33:42,052 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 23:33:57,263 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 23:33:59,079 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 23:33:59,079 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 23:33:59,094 | WARNING | pdf_unlocker | Invalid password provided for 'Minha_Fatura_BUSINESS.pdf'.
+2026-05-17 23:33:59,095 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Incorrect password for 'Minha_Fatura_BUSINESS.pdf'. Please check the password and try again.
+2026-05-17 23:36:06,012 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 23:36:06,383 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 23:36:21,157 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 23:36:23,135 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 23:36:23,135 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 23:36:23,260 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 23:36:23,260 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 23:36:23,666 | INFO | pdf_reader | Detected bank: itau_empresas for file: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 23:36:23,666 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 23:36:23,666 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Unrecognized bank format in 'Minha_Fatura_BUSINESS_unlocked.pdf'. Supported banks: Itaú, Banco do Brasil.
+2026-05-17 23:39:52,143 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-05-17 23:39:52,453 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-05-17 23:40:00,480 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-05-17 23:40:06,547 | INFO | utils | Configuration loaded from 'config.json'.
+2026-05-17 23:40:06,547 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-05-17 23:40:06,608 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 23:40:06,608 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 23:40:06,993 | INFO | pdf_reader | Detected bank: itau_empresas for file: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 23:40:06,994 | INFO | pdf_reader | [itau_empresas] Total cardholders: 0 | Invoice total: R$ 0.00 | File: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 23:40:06,994 | INFO | pdf_reader | Extraction complete: 0 transactions | Total: R$ 0.00 | File: Minha_Fatura_BUSINESS_unlocked.pdf
+2026-05-17 23:40:07,384 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-05-17 23:40:07,384 | WARNING | reconciler | PDF total is R$ 0.00 for 'Minha_Fatura_BUSINESS.pdf'. This may indicate an extraction failure.
+2026-05-17 23:40:07,385 | INFO | pdf_reader | [itau_empresas] Total cardholders: 0 | Invoice total: R$ 0.00 | File: Minha_Fatura_BUSINESS.pdf

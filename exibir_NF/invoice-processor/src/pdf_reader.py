@@ -43,6 +43,7 @@ logger = logging.getLogger(__name__)
 # ─────────────────────────────────────────────
 
 BANK_ITAU          = "itau"
+BANK_ITAU_EMPRESAS = "itau_empresas"
 BANK_BANCO_BRASIL  = "banco_brasil"
 BANK_UNKNOWN       = "unknown"
 
@@ -103,6 +104,57 @@ class CardHolder:
 # Pattern to detect cardholder name and card digits
 # Matches: "CLAYTON PIRES DOS SANTOS (3172)"
 # Also matches with leading date text: "06/10/14 e 05/11/14 CLAYTON PIRES DOS SANTOS (5885)"
+# ─────────────────────────────────────────────
+# Itaú Empresas constants
+# ─────────────────────────────────────────────
+
+# Matches: "Lançamentos no cartão (final 3172)"
+ITAU_EMP_SECTION_START  = "lançamentos no cartão (final"
+ITAU_EMP_SECTION_END    = "lançamentos no cartão (final"
+
+# Matches: "NOME DA PESSOA (final 7221)"
+ITAU_EMP_HOLDER_PATTERN = re.compile(
+    r"^([A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ][A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ\s]+?)\s*\(final\s+(\d{4})\)",
+    re.IGNORECASE,
+)
+
+# Matches transaction line: "09/10 MERCADOLIVRE*24PRO07/12"
+ITAU_EMP_TX_DATE_DESC = re.compile(
+    r"^(\d{2}/\d{2})\s+(.+?)(?:\s+\d{2}/\d{2})?$"
+)
+
+# Matches value line: "206,35" or "1.226,00"
+ITAU_EMP_VALUE_PATTERN = re.compile(
+    r"^([-]?\d{1,3}(?:\.\d{3})*,\d{2})$"
+)
+
+# Itaú Empresas total pattern
+ITAU_EMP_TOTAL_PATTERN = re.compile(
+    r"total\s+desta\s+fatura\s+([-]?\d{1,3}(?:\.\d{3})*,\d{2})",
+    re.IGNORECASE,
+)
+
+ITAU_EMP_IDENTIFIER    = "itaú empresas"
+
+ITAU_EMP_SKIP_MARKERS  = [
+    "lançamentos internacionais",
+    "lançamentos: produtos e serviços",
+    "data estabelecimento",
+    "data produtos",
+    "valor em r$",
+    "limite de gastos",
+    "limite retirada",
+    "dólar de conversão",
+    "total transações",
+    "repasse de iof",
+    "total lançamentos",
+]
+
+ITAU_EMP_CARDHOLDER_PATTERN = re.compile(
+    r"^([A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ][A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ\s]+?)\s*\(final\s+(\d{4})\)",
+    re.IGNORECASE,
+)
+
 ITAU_CARDHOLDER_PATTERN = re.compile(
     r"([A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ][A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ\s]+?)\s*\((\d{4})\)\s*$"
 )
@@ -149,12 +201,15 @@ def read_pdf(file_path: str) -> tuple[list[Transaction], float]:
 
     if bank == BANK_ITAU:
         transactions, total = extract_itau(raw_text, path.name)
+    elif bank == BANK_ITAU_EMPRESAS:
+        cardholders, total = extract_itau_empresas_by_cardholder(raw_text, path.name)
+        transactions = [t for ch in cardholders for t in ch.transactions]
     elif bank == BANK_BANCO_BRASIL:
         transactions, total = extract_banco_brasil(raw_text, path.name)
     else:
         raise ValueError(
             f"Unrecognized bank format in '{path.name}'. "
-            f"Supported banks: Itaú, Banco do Brasil."
+            f"Supported banks: Itaú, Itaú Empresas, Banco do Brasil."
         )
 
     normalized = [normalize_transaction(t) for t in transactions]
@@ -176,50 +231,65 @@ def detect_bank(raw_text: str) -> str:
     Identifies which bank issued the invoice based on keywords
     found in the extracted PDF text.
 
-    The detection is case-insensitive and searches the first
-    500 characters of the document, where bank identifiers
-    are consistently present in both Itaú and BB invoices.
+    Detection order (important — Itaú Empresas before generic Itaú):
+        1. Itaú Empresas  → "itauempresas", "cartaoitauempresas"
+        2. Itaú personal  → "itau"
+        3. Banco do Brasil → "banco do brasil"
+
+    Uses accent normalization (NFKD) for robust matching of
+    Portuguese text that may have or lack accents depending on
+    the PDF extraction quality.
 
     Args:
         raw_text: Full plain text extracted from the PDF pages.
 
     Returns:
-        One of the bank constants: BANK_ITAU, BANK_BANCO_BRASIL,
+        One of: BANK_ITAU_EMPRESAS, BANK_ITAU, BANK_BANCO_BRASIL,
         or BANK_UNKNOWN if detection fails.
     """
+    import unicodedata
+
     if not raw_text or not isinstance(raw_text, str):
         logger.warning("detect_bank received empty or invalid text.")
         return BANK_UNKNOWN
 
-    # Sample the beginning of the document for faster and safer detection.
-    # Both banks place their identifier in the first visible block.
-    sample = raw_text[:500].lower().strip()
+    def normalize(text: str) -> str:
+        """Remove accents and lowercase for robust matching."""
+        return unicodedata.normalize("NFKD", text.lower()).encode("ascii", "ignore").decode("ascii")
+
+    sample = normalize(raw_text[:1000])
+    full   = normalize(raw_text)
 
     if not sample:
         logger.warning("PDF text sample is empty after stripping.")
         return BANK_UNKNOWN
 
-    if ITAU_IDENTIFIER in sample:
-        logger.debug("Bank detected: Itaú (matched 'itaucard')")
+    # Itaú Empresas — checked BEFORE generic Itaú to avoid false positives
+    itau_empresas_signals = [
+        "itau empresas",
+        "cartaoitauempresas",
+        "itauempresas",
+        "cartao itau empresas",
+        "lancamentos no cartao (final",
+        "lançamentos no cartão (final",
+    ]
+    for signal in itau_empresas_signals:
+        normalized_signal = normalize(signal)
+        if normalized_signal in sample or normalized_signal in full:
+            logger.debug(f"Bank detected: Itaú Empresas (matched '{signal}')")
+            return BANK_ITAU_EMPRESAS
+
+    # Generic Itaú (personal cards)
+    if "itau" in sample or "itau" in full:
+        logger.debug("Bank detected: Itaú")
         return BANK_ITAU
 
-    if BB_IDENTIFIER in sample:
-        logger.debug("Bank detected: Banco do Brasil (matched 'banco do brasil')")
+    # Banco do Brasil
+    if "banco do brasil" in sample or "banco do brasil" in full:
+        logger.debug("Bank detected: Banco do Brasil")
         return BANK_BANCO_BRASIL
 
-    # If the identifier is not in the first 500 chars, widen the search
-    # to account for different PDF layouts with headers or images.
-    full_lower = raw_text.lower()
-
-    if ITAU_IDENTIFIER in full_lower:
-        logger.debug("Bank detected (full scan): Itaú")
-        return BANK_ITAU
-
-    if BB_IDENTIFIER in full_lower:
-        logger.debug("Bank detected (full scan): Banco do Brasil")
-        return BANK_BANCO_BRASIL
-
-    logger.warning(f"Could not detect bank. Text sample: {sample[:100]!r}")
+    logger.warning(f"Could not detect bank. Text sample: {raw_text[:100]!r}")
     return BANK_UNKNOWN
 
 
@@ -428,6 +498,150 @@ def extract_itau_by_cardholder(raw_text: str, file_name: str = "") -> tuple[list
     )
     return cardholders, invoice_total
 
+
+
+# ─────────────────────────────────────────────
+# Function 3c — extract_itau_empresas_by_cardholder
+# ─────────────────────────────────────────────
+
+def extract_itau_empresas_by_cardholder(raw_text: str, file_name: str = "") -> tuple[list, float]:
+    """
+    Extracts Itaú Empresas invoice transactions grouped by cardholder.
+
+    Itaú Empresas layout:
+        "Lançamentos no cartão (final XXXX)"
+        "HOLDER NAME (final XXXX)"
+        "Limite de gastos R$ ..."
+        "DATA  ESTABELECIMENTO"
+        "DD/MM  DESCRIPTION"
+        "CATEGORY .CITY"
+        "VALUE"
+        ...
+        "Lançamentos no cartão (final XXXX)"  ← marks end of section + subtotal
+
+    Args:
+        raw_text: Full plain text extracted from the PDF.
+        file_name: Original file name for logging purposes.
+
+    Returns:
+        A tuple of (list of CardHolder, invoice total as float).
+    """
+    cardholders: list = []
+    invoice_total: float = 0.0
+    lines = raw_text.splitlines()
+
+    # Find invoice total
+    total_match = ITAU_EMP_TOTAL_PATTERN.search(raw_text)
+    if total_match:
+        invoice_total = _parse_brazilian_float(total_match.group(1))
+
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        lower = line.lower()
+
+        # Detect start of a cardholder section
+        if "lançamentos no cartão (final" in lower:
+            card_match = re.search(r'\(final\s+(\d{4})\)', line, re.IGNORECASE)
+            card_digits = card_match.group(1) if card_match else "0000"
+
+            # Next non-empty line should be the holder name
+            holder_name = ""
+            j = i + 1
+            while j < len(lines) and j < i + 5:
+                candidate = lines[j].strip()
+                if not candidate:
+                    j += 1
+                    continue
+                holder_match = ITAU_EMP_CARDHOLDER_PATTERN.match(candidate)
+                if holder_match:
+                    holder_name = holder_match.group(1).strip()
+                    card_digits = holder_match.group(2).strip()
+                    break
+                j += 1
+
+            if not holder_name:
+                i += 1
+                continue
+
+            # Extract transactions for this cardholder
+            transactions = []
+            k = j + 1
+            pending_date = None
+            pending_desc = None
+
+            while k < len(lines):
+                tx_line = lines[k].strip()
+                tx_lower = tx_line.lower()
+
+                # Stop at end of section markers
+                if "lançamentos no cartão (final" in tx_lower and k > j + 2:
+                    break
+                if any(marker in tx_lower for marker in [
+                    "lançamentos internacionais",
+                    "lançamentos: produtos",
+                ]):
+                    break
+
+                # Skip header and metadata lines
+                if any(marker in tx_lower for marker in ITAU_EMP_SKIP_MARKERS):
+                    k += 1
+                    continue
+
+                # Skip category lines (ALIMENTAÇÃO, VEÍCULOS, etc.)
+                if re.match(r'^[A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ\s]+\s*\.[A-Za-záéíóúàãõâêîôûç\s]+$', tx_line):
+                    k += 1
+                    continue
+
+                # Try to match a value line
+                value_match = ITAU_EMP_VALUE_PATTERN.match(tx_line)
+                if value_match and pending_date and pending_desc:
+                    amount = _parse_brazilian_float(value_match.group(1))
+                    transactions.append(Transaction(
+                        date=pending_date,
+                        description=pending_desc.strip(),
+                        amount=amount,
+                        bank=BANK_ITAU,
+                    ))
+                    pending_date = None
+                    pending_desc = None
+                    k += 1
+                    continue
+
+                # Try to match a transaction line: DD/MM DESCRIPTION
+                date_match = re.match(r'^(\d{2}/\d{2})\s+(.+)$', tx_line)
+                if date_match:
+                    pending_date = date_match.group(1)
+                    pending_desc = date_match.group(2)
+                    k += 1
+                    continue
+
+                k += 1
+
+            # Normalize transactions
+            normalized = [normalize_transaction(t) for t in transactions]
+
+            cardholders.append(CardHolder(
+                name=holder_name,
+                card_last_digits=card_digits,
+                transactions=normalized,
+                bank=BANK_ITAU,
+            ))
+
+            logger.info(
+                f"[itau_empresas] Cardholder: '{holder_name}' "
+                f"(card ...{card_digits}) → {len(normalized)} transactions"
+            )
+            i = k
+            continue
+
+        i += 1
+
+    logger.info(
+        f"[itau_empresas] Total cardholders: {len(cardholders)} "
+        f"| Invoice total: R$ {invoice_total:.2f} | File: {file_name}"
+    )
+    return cardholders, invoice_total
 
 # ─────────────────────────────────────────────
 # Function 4 — extract_banco_brasil
