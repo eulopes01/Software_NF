@@ -35,28 +35,16 @@ jobs:
 
       # Step 5 — Build the .exe with PyInstaller
       - name: Build executable with PyInstaller
+        working-directory: exibir_NF/invoice-processor
         run: |
-          pyinstaller `
-            --onefile `
-            --windowed `
-            --name "InvoiceProcessor" `
-            --add-data "src;src" `
-            --add-data "scripts;scripts" `
-            --add-data "config.json;." `
-            --hidden-import "pdfplumber" `
-            --hidden-import "openpyxl" `
-            --hidden-import "pypdf" `
-            --hidden-import "pytesseract" `
-            --hidden-import "pdf2image" `
-            --hidden-import "PIL" `
-            main.py
+          pyinstaller --onefile --windowed --name "InvoiceProcessor" --add-data "src;src" --add-data "scripts;scripts" --add-data "config.json;." --hidden-import "pdfplumber" --hidden-import "openpyxl" --hidden-import "pypdf" --hidden-import "pytesseract" --hidden-import "pdf2image" --hidden-import "PIL" main.py
 
       # Step 6 — Upload .exe as artifact
       - name: Upload executable as artifact
         uses: actions/upload-artifact@v4
         with:
           name: InvoiceProcessor-Windows
-          path: dist/InvoiceProcessor.exe
+          path: exibir_NF/invoice-processor/dist/InvoiceProcessor.exe
           retention-days: 30
 
       # Step 7 — Create GitHub Release with the .exe
@@ -81,6 +69,6 @@ jobs:
             2. Place it in a folder of your choice
             3. Double-click to run
 
-          files: dist/InvoiceProcessor.exe
+          files: exibir_NF/invoice-processor/dist/InvoiceProcessor.exe
           draft: false
           prerelease: false
