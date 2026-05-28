@@ -53,7 +53,7 @@ try:
     from spreadsheet_writer import write_transactions
     from reconciler import reconcile, read_pdf_total
     from utils import load_config, format_currency, sanitize_text
-    from pdf_unlocker import is_pdf_protected, unlock_pdf_context
+    from pdf_unlocker import is_pdf_protected, unlock_pdf_context, unlock_pdf_qpdf
     from spreadsheet_creator_dialog import open_creator_dialog
 except ImportError as exc:
     # Show a user-friendly error if a module is missing
@@ -287,8 +287,24 @@ def build_main_window(root: tk.Tk) -> dict:
     widgets["status_bar"] = status_bar
 
     # ── Progress bar ──────────────────────────
-    progress = ttk.Progressbar(root, mode="indeterminate")
+    progress_frame = tk.Frame(root, bg=COLOR_BG)
+    widgets["progress_frame"] = progress_frame
+
+    progress = ttk.Progressbar(
+        progress_frame, mode="determinate",
+        maximum=100, value=0,
+    )
+    progress.pack(fill="x", padx=0, pady=(0, 2))
+
+    progress_label = tk.Label(
+        progress_frame,
+        text="",
+        font=FONT_LABEL, bg=COLOR_BG, fg=COLOR_ACCENT,
+        anchor="w",
+    )
+    progress_label.pack(fill="x")
     widgets["progress"] = progress
+    widgets["progress_label"] = progress_label
 
     return widgets
 
@@ -412,8 +428,9 @@ def start_processing_thread(widgets: dict) -> None:
     widgets["btn_process"].config(state="disabled")
     widgets["btn_select"].config(state="disabled")
     widgets["btn_clear"].config(state="disabled")
-    widgets["progress"].pack(fill="x", padx=16, pady=2)
-    widgets["progress"].start(10)
+    widgets["progress_frame"].pack(fill="x", padx=16, pady=2)
+    widgets["progress"]["value"] = 0
+    widgets["progress_label"].config(text="")
     _set_status(widgets, f"Processing {len(pdf_paths)} invoice(s)... please wait.")
 
     def run():
@@ -469,6 +486,11 @@ def process_all_invoices(widgets: dict, pdf_paths: list[str]) -> None:
         logger.info(f"Processing: {path.name}")
 
         try:
+            # Calculate total steps per PDF
+            total_steps = 5
+
+            _update_progress(widgets, 1, total_steps, f"Verificando '{path.name}'...")
+
             # Step 1 — Unlock if protected, then read PDF
             password = widgets.get("password_var", tk.StringVar()).get().strip()
             protected = is_pdf_protected(pdf_path)
@@ -478,8 +500,32 @@ def process_all_invoices(widgets: dict, pdf_paths: list[str]) -> None:
                 _set_status(widgets, f"🔒 '{path.name}' is protected — enter the password and try again.")
                 continue
 
+            _update_progress(widgets, 2, total_steps, f"Lendo PDF '{path.name}'...")
+
             # Step 2 — Extract raw text
+            # First pass: unlock with pypdf and detect bank
             if protected:
+                with unlock_pdf_context(pdf_path, password) as unlocked_path:
+                    raw_text_probe = _extract_raw_text_from_pdf(str(unlocked_path))
+            else:
+                raw_text_probe = _extract_raw_text_from_pdf(pdf_path)
+
+            from pdf_reader import detect_bank as _detect_bank
+            bank_probe = _detect_bank(raw_text_probe)
+
+            # Itaú Empresas needs qpdf for proper text extraction
+            if bank_probe == BANK_ITAU_EMPRESAS and protected:
+                qpdf_path = unlock_pdf_qpdf(pdf_path, password)
+                try:
+                    transactions, raw_total = read_pdf(str(qpdf_path))
+                    raw_text = _extract_raw_text_from_pdf(str(qpdf_path))
+                finally:
+                    from pdf_unlocker import cleanup_unlocked_pdf
+                    cleanup_unlocked_pdf(qpdf_path)
+            elif bank_probe == BANK_ITAU_EMPRESAS and not protected:
+                transactions, raw_total = read_pdf(pdf_path)
+                raw_text = _extract_raw_text_from_pdf(pdf_path)
+            elif protected:
                 with unlock_pdf_context(pdf_path, password) as unlocked_path:
                     transactions, raw_total = read_pdf(str(unlocked_path))
                     raw_text = _extract_raw_text_from_pdf(str(unlocked_path))
@@ -522,11 +568,15 @@ def process_all_invoices(widgets: dict, pdf_paths: list[str]) -> None:
                     logger.warning(f"No spreadsheet for '{person_name}' (...{card_digits}). Skipping.")
                     continue
 
+                _update_progress(widgets, 3, total_steps, f"Gravando planilha '{spreadsheet_path.name}'...")
+
                 write_transactions(
                     spreadsheet_path=str(spreadsheet_path),
                     sheet_name=sheet_name,
                     transactions=cardholder.transactions,
                 )
+
+                _update_progress(widgets, 4, total_steps, f"Conciliando '{person_name}'...")
 
                 result = reconcile(
                     person_name=f"{person_name} (...{card_digits})",
@@ -558,6 +608,9 @@ def process_all_invoices(widgets: dict, pdf_paths: list[str]) -> None:
         except Exception as exc:
             logger.error(f"Unexpected error processing '{path.name}': {exc}", exc_info=True)
             _set_status(widgets, f"❌ Unexpected error in '{path.name}'.")
+
+    # Final step
+    _update_progress(widgets, 5, 5, "Concluído! Atualizando tabela...")
 
     # Schedule UI update on the main thread
     widgets["tree"].after(0, lambda: populate_table(widgets, all_rows, summary_results))
@@ -698,8 +751,9 @@ def _restore_ui_after_processing(widgets: dict) -> None:
     widgets["btn_process"].config(state="normal")
     widgets["btn_select"].config(state="normal")
     widgets["btn_clear"].config(state="normal")
-    widgets["progress"].stop()
-    widgets["progress"].pack_forget()
+    widgets["progress"]["value"] = 0
+    widgets["progress_label"].config(text="")
+    widgets["progress_frame"].pack_forget()
 
 
 def _make_button(parent, text: str, color: str, command) -> tk.Button:
@@ -916,6 +970,36 @@ def _resolve_spreadsheet_path_by_card(
             f"'{person_name}' (...{card_digits}): {exc}"
         )
         return None
+
+def _update_progress(widgets: dict, step: int, total_steps: int, message: str) -> None:
+    """
+    Updates the progress bar and step label in the main window.
+
+    Args:
+        widgets:     Dictionary of widget references.
+        step:        Current step number (1-based).
+        total_steps: Total number of steps.
+        message:     Description of the current step.
+    """
+    if total_steps <= 0:
+        return
+
+    percent = int((step / total_steps) * 100)
+
+    def update():
+        try:
+            widgets["progress"]["value"] = percent
+            widgets["progress_label"].config(
+                text=f"Etapa {step}/{total_steps} — {message}  ({percent}%)"
+            )
+        except Exception:
+            pass
+
+    try:
+        widgets["progress_label"].after(0, update)
+    except Exception:
+        pass
+
 
 # ─────────────────────────────────────────────
 # Entry point

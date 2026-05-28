@@ -261,6 +261,70 @@ def unlock_pdf(file_path: str, password: str) -> Path:
 # Function 4 — cleanup_unlocked_pdf
 # ─────────────────────────────────────────────
 
+
+def unlock_pdf_qpdf(file_path: str, password: str) -> Path:
+    """
+    Decrypts a password-protected PDF using the system qpdf tool.
+
+    This is used as a fallback when pypdf cannot extract text from
+    the unlocked PDF (e.g. Itaú Empresas PDFs with vector graphics).
+    qpdf produces a fully decrypted PDF that pdfplumber can read.
+
+    Requires qpdf to be installed: sudo apt install qpdf
+
+    Args:
+        file_path: Path to the password-protected PDF.
+        password:  The correct password for the PDF.
+
+    Returns:
+        Path to the decrypted PDF file.
+
+    Raises:
+        ValueError: If qpdf is not installed or decryption fails.
+    """
+    import subprocess
+
+    path = Path(file_path)
+
+    if not path.exists():
+        raise FileNotFoundError(f"PDF file not found: '{path}'")
+
+    if not password or not isinstance(password, str):
+        raise ValueError("Password must be a non-empty string.")
+
+    # Check qpdf is available
+    try:
+        subprocess.run(["qpdf", "--version"], capture_output=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        raise ValueError(
+            "qpdf is not installed. "
+            "Install it with: sudo apt install qpdf"
+        )
+
+    output_path = path.parent / f"{path.stem}_qpdf_unlocked{path.suffix}"
+
+    result = subprocess.run(
+        ["qpdf", f"--password={password}", "--decrypt",
+         str(path), str(output_path)],
+        capture_output=True, text=True,
+    )
+
+    if result.returncode != 0:
+        raise ValueError(
+            f"qpdf failed to decrypt '{path.name}': {result.stderr.strip()}"
+        )
+
+    if not output_path.exists():
+        raise ValueError(
+            f"qpdf did not produce output file for '{path.name}'."
+        )
+
+    logger.info(
+        f"PDF decrypted with qpdf: '{path.name}' -> '{output_path.name}'"
+    )
+    return output_path
+
+
 def cleanup_unlocked_pdf(unlocked_path: Path) -> None:
     """
     Deletes the temporary unlocked PDF copy after processing

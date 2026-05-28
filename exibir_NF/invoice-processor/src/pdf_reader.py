@@ -508,16 +508,11 @@ def extract_itau_empresas_by_cardholder(raw_text: str, file_name: str = "") -> t
     """
     Extracts Itaú Empresas invoice transactions grouped by cardholder.
 
-    Itaú Empresas layout:
-        "Lançamentos no cartão (final XXXX)"
-        "HOLDER NAME (final XXXX)"
-        "Limite de gastos R$ ..."
-        "DATA  ESTABELECIMENTO"
-        "DD/MM  DESCRIPTION"
-        "CATEGORY .CITY"
-        "VALUE"
-        ...
-        "Lançamentos no cartão (final XXXX)"  ← marks end of section + subtotal
+    Itaú Empresas (qpdf-decrypted) layout — text is compressed without spaces:
+        Total:         "LTotaldoslançamentosatuais 32.287,55"
+        Cardholder:    "NOMESOBRENOME(finalXXXX)"
+        Transactions:  "DD/MM DESCRIPTION VALUE" on same line
+        Two per line:  "DD/MM DESC VAL DD/MM DESC VAL"
 
     Args:
         raw_text: Full plain text extracted from the PDF.
@@ -526,113 +521,148 @@ def extract_itau_empresas_by_cardholder(raw_text: str, file_name: str = "") -> t
     Returns:
         A tuple of (list of CardHolder, invoice total as float).
     """
+    import unicodedata
+
+    def norm(text: str) -> str:
+        return unicodedata.normalize("NFKD", text.lower()).encode("ascii", "ignore").decode("ascii")
+
     cardholders: list = []
     invoice_total: float = 0.0
-    lines = raw_text.splitlines()
 
     # Find invoice total
-    total_match = ITAU_EMP_TOTAL_PATTERN.search(raw_text)
-    if total_match:
-        invoice_total = _parse_brazilian_float(total_match.group(1))
+    total_pats = [
+        re.compile(r"[Ll]?[Tt]otaldosl[aã]nçamentosatuais\s+([\d.,]+)", re.IGNORECASE),
+        re.compile(r"=?[Tt]otaldestafatura\s+([\d.,]+)", re.IGNORECASE),
+        re.compile(r"[Ll]{1,2}[aã]nçamentosatuais\s+([\d.,]+)", re.IGNORECASE),
+    ]
+    for pat in total_pats:
+        m = pat.search(raw_text)
+        if m:
+            invoice_total = _parse_brazilian_float(m.group(1))
+            logger.debug(f"[itau_empresas] Invoice total: R$ {invoice_total:.2f}")
+            break
 
+    # Cardholder pattern: NAME(finalXXXX)
+    holder_pat = re.compile(
+        r"([A-ZÀ-Ü]{3,}(?:\s+[A-ZÀ-Ü]{2,})*)\s*\(final\s*(\d{4})\)",
+        re.IGNORECASE,
+    )
+
+    # Transaction: DD/MM DESCRIPTION VALUE (optional suffix CL/CT)
+    tx_pat = re.compile(
+        r"^(\d{2}/\d{2})\s+(.+?)\s+([-]?\d{1,3}(?:[.]\d{3})*,\d{2})\s*(?:CL|CT|DIF)?$"
+    )
+
+    # Two transactions on same line
+    multi_pat = re.compile(
+        r"(\d{2}/\d{2})\s+([A-Z][^\d\n]+?)\s+([-]?\d{1,3}(?:[.]\d{3})*,\d{2})"
+    )
+
+    # Skip markers (normalized)
+    skip = [
+        "limitedegastos", "limiteretirada", "dataestabelecimento",
+        "data estabelecimento", "valoremr", "lancamentosproduto",
+        "lançamentosproduto", "anuidade", "estorno", "novotetodejuros",
+        "jurosdacompra", "cetdacompra", "encargos", "limitemaximo",
+        "lançamentosnocar", "lancamentosnocar", "previsaodo",
+        "seguefatura", "pagamentominimo", "parcelasfixas",
+    ]
+
+    lines = raw_text.splitlines()
     i = 0
+
     while i < len(lines):
-        line = lines[i].strip()
-        lower = line.lower()
+        line      = lines[i].strip()
+        line_norm = norm(line)
 
-        # Detect start of a cardholder section
-        if "lançamentos no cartão (final" in lower:
-            card_match = re.search(r'\(final\s+(\d{4})\)', line, re.IGNORECASE)
-            card_digits = card_match.group(1) if card_match else "0000"
+        # Skip section total lines (not cardholders)
+        if re.search(r"[Ll]ançamentosnocar|[Ll]ancamentosnocar", line, re.IGNORECASE):
+            i += 1
+            continue
 
-            # Next non-empty line should be the holder name
-            holder_name = ""
+        holder_match = holder_pat.search(line)
+        if holder_match:
+            holder_name = holder_match.group(1).strip()
+            card_digits = holder_match.group(2).strip()
+            transactions = []
+
+            # Check if cardholder line itself contains a transaction
+            # Example: "CAMILAMHSANTOS(final0667) 01/05 STARLINKINTERNET 211,97"
+            inline_tx = re.search(
+                r"\)\s+(\d{2}/\d{2})\s+(.+?)\s+([-]?\d{1,3}(?:[.]\d{3})*,\d{2})\s*$",
+                line
+            )
+            if inline_tx:
+                amount = _parse_brazilian_float(inline_tx.group(3))
+                transactions.append(Transaction(
+                    date=inline_tx.group(1),
+                    description=inline_tx.group(2).strip(),
+                    amount=amount,
+                    bank=BANK_ITAU_EMPRESAS,
+                ))
+
             j = i + 1
-            while j < len(lines) and j < i + 5:
-                candidate = lines[j].strip()
-                if not candidate:
+
+            while j < len(lines):
+                tx_line      = lines[j].strip()
+                tx_norm      = norm(tx_line)
+
+                # Stop at next cardholder section
+                if holder_pat.search(tx_line) and j > i + 1:
+                    break
+
+                # Stop at products/services section
+                if "lancamentosproduto" in tx_norm or "lançamentosproduto" in tx_norm:
+                    break
+
+                # Skip metadata lines
+                if any(mk in tx_norm for mk in skip):
                     j += 1
                     continue
-                holder_match = ITAU_EMP_CARDHOLDER_PATTERN.match(candidate)
-                if holder_match:
-                    holder_name = holder_match.group(1).strip()
-                    card_digits = holder_match.group(2).strip()
-                    break
+
+                # Try single transaction match
+                tx_m = tx_pat.match(tx_line)
+                if tx_m:
+                    amount = _parse_brazilian_float(tx_m.group(3))
+                    transactions.append(Transaction(
+                        date=tx_m.group(1),
+                        description=tx_m.group(2).strip(),
+                        amount=amount,
+                        bank=BANK_ITAU_EMPRESAS,
+                    ))
+                    j += 1
+                    continue
+
+                # Try multiple transactions on same line
+                multi_matches = multi_pat.findall(tx_line)
+                if len(multi_matches) >= 2:
+                    for date, desc, raw_val in multi_matches:
+                        amount = _parse_brazilian_float(raw_val)
+                        transactions.append(Transaction(
+                            date=date,
+                            description=desc.strip(),
+                            amount=amount,
+                            bank=BANK_ITAU_EMPRESAS,
+                        ))
+                    j += 1
+                    continue
+
                 j += 1
 
-            if not holder_name:
-                i += 1
-                continue
-
-            # Extract transactions for this cardholder
-            transactions = []
-            k = j + 1
-            pending_date = None
-            pending_desc = None
-
-            while k < len(lines):
-                tx_line = lines[k].strip()
-                tx_lower = tx_line.lower()
-
-                # Stop at end of section markers
-                if "lançamentos no cartão (final" in tx_lower and k > j + 2:
-                    break
-                if any(marker in tx_lower for marker in [
-                    "lançamentos internacionais",
-                    "lançamentos: produtos",
-                ]):
-                    break
-
-                # Skip header and metadata lines
-                if any(marker in tx_lower for marker in ITAU_EMP_SKIP_MARKERS):
-                    k += 1
-                    continue
-
-                # Skip category lines (ALIMENTAÇÃO, VEÍCULOS, etc.)
-                if re.match(r'^[A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ\s]+\s*\.[A-Za-záéíóúàãõâêîôûç\s]+$', tx_line):
-                    k += 1
-                    continue
-
-                # Try to match a value line
-                value_match = ITAU_EMP_VALUE_PATTERN.match(tx_line)
-                if value_match and pending_date and pending_desc:
-                    amount = _parse_brazilian_float(value_match.group(1))
-                    transactions.append(Transaction(
-                        date=pending_date,
-                        description=pending_desc.strip(),
-                        amount=amount,
-                        bank=BANK_ITAU,
-                    ))
-                    pending_date = None
-                    pending_desc = None
-                    k += 1
-                    continue
-
-                # Try to match a transaction line: DD/MM DESCRIPTION
-                date_match = re.match(r'^(\d{2}/\d{2})\s+(.+)$', tx_line)
-                if date_match:
-                    pending_date = date_match.group(1)
-                    pending_desc = date_match.group(2)
-                    k += 1
-                    continue
-
-                k += 1
-
-            # Normalize transactions
             normalized = [normalize_transaction(t) for t in transactions]
 
             cardholders.append(CardHolder(
                 name=holder_name,
                 card_last_digits=card_digits,
                 transactions=normalized,
-                bank=BANK_ITAU,
+                bank=BANK_ITAU_EMPRESAS,
             ))
 
             logger.info(
                 f"[itau_empresas] Cardholder: '{holder_name}' "
-                f"(card ...{card_digits}) → {len(normalized)} transactions"
+                f"(card ...{card_digits}) -> {len(normalized)} transactions"
             )
-            i = k
+            i = j
             continue
 
         i += 1
@@ -642,6 +672,8 @@ def extract_itau_empresas_by_cardholder(raw_text: str, file_name: str = "") -> t
         f"| Invoice total: R$ {invoice_total:.2f} | File: {file_name}"
     )
     return cardholders, invoice_total
+
+
 
 # ─────────────────────────────────────────────
 # Function 4 — extract_banco_brasil

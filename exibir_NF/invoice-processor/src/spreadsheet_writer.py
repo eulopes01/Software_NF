@@ -308,13 +308,23 @@ def insert_rows(
     for index, transaction in enumerate(transactions):
         current_row = start_row + index
 
+    # Unmerge any merged cells in this row before writing
+    merged_ranges = list(worksheet.merged_cells.ranges)
+    for merged_range in merged_ranges:
+        if current_row in range(merged_range.min_row, merged_range.max_row + 1):
+            worksheet.unmerge_cells(str(merged_range))
+
         # Truncate supplier to 30 chars (fits the FORNECEDOR column width)
         supplier = transaction.description[:30] if transaction.description else ""
 
         # Write each column
         worksheet.cell(row=current_row, column=COL_DATE,           value=transaction.date)
         worksheet.cell(row=current_row, column=COL_NF,             value=None)
-        worksheet.cell(row=current_row, column=COL_SUPPLIER,       value=supplier)
+        cell = worksheet.cell(row=current_row, column=COL_SUPPLIER)
+        if not hasattr(cell, 'column') or cell.__class__.__name__ == 'MergedCell':
+            pass
+        else:
+            cell.value = supplier
         worksheet.cell(row=current_row, column=COL_DESCRIPTION,    value=transaction.description)
         worksheet.cell(row=current_row, column=COL_AMOUNT,         value=transaction.amount)
         worksheet.cell(row=current_row, column=COL_PAYMENT_METHOD, value=PAYMENT_METHOD)
