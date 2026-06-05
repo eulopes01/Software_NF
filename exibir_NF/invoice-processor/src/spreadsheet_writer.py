@@ -102,16 +102,14 @@ def write_transactions(
     """
     Main entry point for the spreadsheet writing pipeline.
 
-    Validates inputs, creates a backup of the original file,
-    opens the workbook, locates the correct sheet, inserts all
-    transactions, formats the cells, and saves the file safely.
+    Validates inputs, opens the workbook, locates the correct sheet,
+    unmerges header cells if needed, inserts all transactions,
+    formats the cells, and saves the file safely.
 
     Args:
         spreadsheet_path: Path to the person's .xlsx file.
         sheet_name: Name of the sheet (tab) for the target month.
-                    Example: "MAIO 2025"
-        transactions: List of normalized Transaction objects
-                      returned by pdf_reader.read_pdf().
+        transactions: List of normalized Transaction objects.
 
     Returns:
         The number of transactions successfully written.
@@ -128,13 +126,14 @@ def write_transactions(
     )
 
     _validate_spreadsheet_inputs(path, sheet_name, transactions)
-    # _create_backup(path)
 
-    workbook = open_spreadsheet(spreadsheet_path)
+    workbook  = open_spreadsheet(spreadsheet_path)
     worksheet = locate_sheet(workbook, sheet_name)
-    first_empty_row = _find_first_empty_data_row(worksheet)
 
-    written_count = insert_rows(worksheet, transactions, first_empty_row)
+    _unmerge_data_area(worksheet)
+
+    first_empty_row = _find_first_empty_data_row(worksheet)
+    written_count   = insert_rows(worksheet, transactions, first_empty_row)
     format_cells(worksheet, first_empty_row, written_count)
     save_spreadsheet(workbook, spreadsheet_path)
 
@@ -156,8 +155,8 @@ def open_spreadsheet(spreadsheet_path: str):
 
     Validates that the file exists, is a valid .xlsx file, and is
     within the allowed size limit before attempting to open it.
-    Uses keep_vba=False and data_only=False to preserve formulas
-    (SUM formulas in SUB TOTAL and TOTAL rows must remain intact).
+    Uses data_only=False to preserve formulas (SUM formulas in
+    SUB TOTAL and TOTAL rows must remain intact).
 
     Args:
         spreadsheet_path: Absolute or relative path to the .xlsx file.
@@ -238,18 +237,13 @@ def locate_sheet(workbook, sheet_name: str):
 
     normalized_target = sheet_name.strip().upper()
 
-    # Try exact match first (most common case)
     if sheet_name in workbook.sheetnames:
         logger.debug(f"Sheet found (exact match): '{sheet_name}'")
         return workbook[sheet_name]
 
-    # Try case-insensitive match
     for name in workbook.sheetnames:
         if name.strip().upper() == normalized_target:
-            logger.debug(
-                f"Sheet found (normalized match): '{name}' "
-                f"matched target '{sheet_name}'"
-            )
+            logger.debug(f"Sheet found (normalized match): '{name}'")
             return workbook[name]
 
     available = ", ".join(f"'{s}'" for s in workbook.sheetnames)
@@ -277,8 +271,8 @@ def insert_rows(
         COL_DATE           → transaction.date       (DD/MM)
         COL_SUPPLIER       → transaction.description (first 30 chars)
         COL_DESCRIPTION    → transaction.description (full, up to 100 chars)
-        COL_AMOUNT         → transaction.amount      (float, BRL format)
-        COL_PAYMENT_METHOD → "A VISTA"               (always)
+        COL_AMOUNT         → transaction.amount (negative shown as text)
+        COL_PAYMENT_METHOD → "A VISTA" (always)
 
     Columns left blank for manual entry:
         COL_NF, COL_INSTALLMENTS, COL_PROJECT,
@@ -307,32 +301,35 @@ def insert_rows(
 
     for index, transaction in enumerate(transactions):
         current_row = start_row + index
+        supplier    = transaction.description[:30] if transaction.description else ""
 
-    # Unmerge any merged cells in this row before writing
-    merged_ranges = list(worksheet.merged_cells.ranges)
-    for merged_range in merged_ranges:
-        if current_row in range(merged_range.min_row, merged_range.max_row + 1):
-            worksheet.unmerge_cells(str(merged_range))
-
-        # Truncate supplier to 30 chars (fits the FORNECEDOR column width)
-        supplier = transaction.description[:30] if transaction.description else ""
-
-        # Write each column
-        worksheet.cell(row=current_row, column=COL_DATE,           value=transaction.date)
-        worksheet.cell(row=current_row, column=COL_NF,             value=None)
-        cell = worksheet.cell(row=current_row, column=COL_SUPPLIER)
-        if not hasattr(cell, 'column') or cell.__class__.__name__ == 'MergedCell':
-            pass
+        # Format negative amounts as text "(-value)" so they don't subtract
+        if transaction.amount < 0:
+            abs_val   = abs(transaction.amount)
+            formatted = f"{abs_val:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            amount_value = f"(-{formatted})"
         else:
-            cell.value = supplier
-        worksheet.cell(row=current_row, column=COL_DESCRIPTION,    value=transaction.description)
-        worksheet.cell(row=current_row, column=COL_AMOUNT,         value=transaction.amount)
-        worksheet.cell(row=current_row, column=COL_PAYMENT_METHOD, value=PAYMENT_METHOD)
-        worksheet.cell(row=current_row, column=COL_INSTALLMENTS,   value=None)
-        worksheet.cell(row=current_row, column=COL_PROJECT,        value=None)
-        worksheet.cell(row=current_row, column=COL_REIMBURSABLE,   value=None)
-        worksheet.cell(row=current_row, column=COL_MANAGER,        value=None)
-        worksheet.cell(row=current_row, column=COL_OBSERVATION,    value=None)
+            amount_value = transaction.amount
+
+        # Write all columns safely — skips MergedCell objects
+        column_values = [
+            (COL_DATE,           transaction.date),
+            (COL_NF,             None),
+            (COL_SUPPLIER,       supplier),
+            (COL_DESCRIPTION,    transaction.description),
+            (COL_AMOUNT,         amount_value),
+            (COL_PAYMENT_METHOD, PAYMENT_METHOD),
+            (COL_INSTALLMENTS,   None),
+            (COL_PROJECT,        None),
+            (COL_REIMBURSABLE,   None),
+            (COL_MANAGER,        None),
+            (COL_OBSERVATION,    None),
+        ]
+
+        for col, val in column_values:
+            cell = worksheet.cell(row=current_row, column=col)
+            if cell.__class__.__name__ != "MergedCell":
+                cell.value = val
 
         written += 1
         logger.debug(
@@ -364,6 +361,7 @@ def format_cells(worksheet, start_row: int, row_count: int) -> None:
 
     A thin border is applied to all cells in each written row.
     Row height is set to 18pt for consistent visual spacing.
+    Skips MergedCell objects to avoid AttributeError.
 
     Args:
         worksheet: An open openpyxl Worksheet object.
@@ -377,7 +375,7 @@ def format_cells(worksheet, start_row: int, row_count: int) -> None:
         logger.debug("format_cells skipped: row_count is 0.")
         return
 
-    currency_format = 'R$ #,##0.00'
+    currency_format = "R$ #,##0.00"
 
     column_styles = {
         COL_DATE:           (ALIGNMENT_CENTER, FONT_NORMAL, None),
@@ -399,15 +397,19 @@ def format_cells(worksheet, start_row: int, row_count: int) -> None:
 
         for col_index in range(1, TOTAL_COLUMNS + 1):
             cell = worksheet.cell(row=current_row, column=col_index)
+
+            # Skip merged cells — they cannot be styled directly
+            if cell.__class__.__name__ == "MergedCell":
+                continue
+
             alignment, font, number_format = column_styles.get(
-                col_index,
-                (ALIGNMENT_LEFT, FONT_NORMAL, None)
+                col_index, (ALIGNMENT_LEFT, FONT_NORMAL, None)
             )
             cell.alignment = alignment
-            cell.font = font
-            cell.border = BORDER_THIN
+            cell.font      = font
+            cell.border    = BORDER_THIN
+
             # Only apply currency format to numeric cells
-            # Text cells (negative values) already have their own formatting
             if number_format and not isinstance(cell.value, str):
                 cell.number_format = number_format
 
@@ -438,7 +440,7 @@ def save_spreadsheet(workbook, spreadsheet_path: str) -> None:
     Raises:
         ValueError: If saving fails for any reason.
     """
-    path = Path(spreadsheet_path)
+    path      = Path(spreadsheet_path)
     temp_path = path.with_suffix(".tmp.xlsx")
 
     logger.debug(f"Saving spreadsheet to temp file: {temp_path.name}")
@@ -446,7 +448,6 @@ def save_spreadsheet(workbook, spreadsheet_path: str) -> None:
     try:
         workbook.save(str(temp_path))
     except Exception as exc:
-        # Clean up temp file if it was partially written
         if temp_path.exists():
             temp_path.unlink()
         raise ValueError(
@@ -454,7 +455,6 @@ def save_spreadsheet(workbook, spreadsheet_path: str) -> None:
         ) from exc
 
     try:
-        # Atomically replace original with saved temp file
         temp_path.replace(path)
         logger.info(f"Spreadsheet saved successfully: {path.name}")
     except Exception as exc:
@@ -467,6 +467,40 @@ def save_spreadsheet(workbook, spreadsheet_path: str) -> None:
 # ─────────────────────────────────────────────
 # Private helpers
 # ─────────────────────────────────────────────
+
+def _unmerge_data_area(worksheet) -> None:
+    """
+    Unmerges any merged cell ranges that overlap with the data
+    entry area (rows DATA_START_ROW and beyond).
+
+    This prevents 'MergedCell object attribute value is read-only'
+    errors when writing transaction data into rows that were
+    previously part of a merged range.
+
+    Only ranges that start at or after DATA_START_ROW are unmerged
+    to preserve the header formatting (rows 1–4).
+
+    Args:
+        worksheet: The active openpyxl Worksheet object.
+
+    Returns:
+        None. Modifies the worksheet in place.
+    """
+    ranges_to_unmerge = [
+        str(r) for r in worksheet.merged_cells.ranges
+        if r.min_row >= DATA_START_ROW
+    ]
+
+    for cell_range in ranges_to_unmerge:
+        try:
+            worksheet.unmerge_cells(cell_range)
+            logger.debug(f"Unmerged cells: {cell_range}")
+        except Exception as exc:
+            logger.warning(f"Could not unmerge {cell_range}: {exc}")
+
+    if ranges_to_unmerge:
+        logger.debug(f"Unmerged {len(ranges_to_unmerge)} range(s) in data area.")
+
 
 def _validate_spreadsheet_inputs(
     path: Path,
@@ -511,13 +545,10 @@ def _create_backup(path: Path) -> None:
     Creates a timestamped backup copy of the spreadsheet before
     any modifications are made.
 
-    Backup file is placed in the same directory as the original,
-    named: original_name.YYYYMMDD_HHMMSS.backup.xlsx
-
-    If the backup fails, a warning is logged but execution continues
-    so that the main write operation is not blocked.
+    Backup file is placed in the same directory as the original.
+    If the backup fails, a warning is logged but execution continues.
     """
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp   = datetime.now().strftime("%Y%m%d_%H%M%S")
     backup_name = f"{path.stem}.{timestamp}.backup{path.suffix}"
     backup_path = path.parent / backup_name
 
@@ -546,21 +577,20 @@ def _find_first_empty_data_row(worksheet) -> int:
     row = DATA_START_ROW
 
     while True:
-        cell_value = worksheet.cell(row=row, column=COL_DATE).value
+        cell      = worksheet.cell(row=row, column=COL_DATE)
+        cell_value = None if cell.__class__.__name__ == "MergedCell" else cell.value
 
-        # If cell is empty, this is our insertion point
         if cell_value is None or str(cell_value).strip() == "":
-            # Double check: make sure it is not a summary row
-            # by checking the description column
-            desc_value = worksheet.cell(row=row, column=COL_DESCRIPTION).value
-            desc_str = str(desc_value).strip().lower() if desc_value else ""
+            desc_cell  = worksheet.cell(row=row, column=COL_DESCRIPTION)
+            desc_value = None if desc_cell.__class__.__name__ == "MergedCell" else desc_cell.value
+            desc_str   = str(desc_value).strip().lower() if desc_value else ""
+
             if not any(marker in desc_str for marker in END_SECTION_MARKERS):
                 logger.debug(f"First empty data row found: {row}")
                 return row
 
         row += 1
 
-        # Safety guard to prevent infinite loops on malformed sheets
         if row > DATA_START_ROW + MAX_TRANSACTIONS:
             logger.warning(
                 f"Could not find empty row after scanning {MAX_TRANSACTIONS} rows. "
