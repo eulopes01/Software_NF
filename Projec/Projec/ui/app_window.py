@@ -1,23 +1,48 @@
-import tkinter as tk
+import customtkinter as ctk
 from tkinter import ttk, filedialog, messagebox
 import json
 import os
+from datetime import datetime
 from typing import List
 from domain.expense import ExpenseRecord
 from services.pdf_service import SecurePdfMergerService
 from utils.validators import parse_date, parse_value, is_valid_pdf_path
 
 class ExpenseApp:
-    def __init__(self, root: tk.Tk):
+    def __init__(self, root: ctk.CTk):
         self.root = root
         self.root.title("Expense PDF Merger")
-        self.records: List[ExpenseRecord] = []
         self.pdf_service = SecurePdfMergerService()
         
         self.vendors_file = "vendors.json"
         self.saved_vendors = self._load_vendors()
         
+        self.expenses_file = "expenses.json" 
+        self.records: List[ExpenseRecord] = self._load_expenses()
+        
+        self._style_treeview()
         self._build_ui()
+        
+        if self.records:
+            self._refresh_ui()
+
+    def _style_treeview(self) -> None:
+        style = ttk.Style()
+        style.theme_use("default")
+        style.configure("Treeview",
+                        background="#2b2b2b",
+                        foreground="white",
+                        rowheight=28,
+                        fieldbackground="#2b2b2b",
+                        bordercolor="#343638",
+                        borderwidth=0)
+        style.map('Treeview', background=[('selected', '#1f538d')])
+        style.configure("Treeview.Heading",
+                        background="#565b5e",
+                        foreground="white",
+                        relief="flat",
+                        font=("Arial", 10, "bold"))
+        style.map("Treeview.Heading", background=[('active', '#343638')])
 
     def _load_vendors(self) -> List[str]:
         if os.path.exists(self.vendors_file):
@@ -35,9 +60,45 @@ class ExpenseApp:
             try:
                 with open(self.vendors_file, "w", encoding="utf-8") as f:
                     json.dump(self.saved_vendors, f)
-                self.vendor_combobox['values'] = self.saved_vendors
+                self.vendor_combobox.configure(values=self.saved_vendors)
             except Exception:
                 pass 
+
+    def _load_expenses(self) -> List[ExpenseRecord]:
+        if os.path.exists(self.expenses_file):
+            try:
+                with open(self.expenses_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    loaded_records = []
+                    for item in data:
+                        date_obj = datetime.strptime(item["date"], "%d/%m/%Y")
+                        loaded_records.append(ExpenseRecord(
+                            date=date_obj,
+                            vendor=item.get("vendor", ""),
+                            description=item.get("description", ""),
+                            value=item.get("value", 0.0),
+                            pdf_path=item.get("pdf_path", "")
+                        ))
+                    return loaded_records
+            except Exception:
+                return [] 
+        return []
+
+    def _save_expenses(self) -> None:
+        try:
+            data = []
+            for r in self.records:
+                data.append({
+                    "date": r.date.strftime("%d/%m/%Y"),
+                    "vendor": r.vendor,
+                    "description": r.description,
+                    "value": r.value,
+                    "pdf_path": r.pdf_path
+                })
+            with open(self.expenses_file, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=4) 
+        except Exception:
+            pass 
 
     def _format_currency(self, value: float) -> str:
         standard_format = f"{value:,.2f}"
@@ -50,29 +111,33 @@ class ExpenseApp:
         self._build_footer_frame()
 
     def _build_input_frame(self) -> None:
-        frame = tk.Frame(self.root)
-        frame.pack(pady=10, padx=10, fill=tk.X)
+        frame = ctk.CTkFrame(self.root, corner_radius=10)
+        frame.pack(pady=15, padx=15, fill="x")
 
-        tk.Label(frame, text="Date:").grid(row=0, column=0)
-        self.date_entry = tk.Entry(frame, width=8)
-        self.date_entry.grid(row=0, column=1, padx=5)
+        ctk.CTkLabel(frame, text="Date:", font=("Arial", 12, "bold")).grid(row=0, column=0, padx=(10, 2), pady=10)
+        self.date_entry = ctk.CTkEntry(frame, width=80, placeholder_text="DD/MM")
+        self.date_entry.grid(row=0, column=1, padx=5, pady=10)
 
-        tk.Label(frame, text="Vendor:").grid(row=0, column=2)
-        self.vendor_combobox = ttk.Combobox(frame, values=self.saved_vendors, width=15)
-        self.vendor_combobox.grid(row=0, column=3, padx=5)
+        ctk.CTkLabel(frame, text="Vendor:", font=("Arial", 12, "bold")).grid(row=0, column=2, padx=(10, 2), pady=10)
+        self.vendor_combobox = ctk.CTkComboBox(frame, values=self.saved_vendors, width=140)
+        self.vendor_combobox.grid(row=0, column=3, padx=5, pady=10)
 
-        tk.Label(frame, text="Description:").grid(row=0, column=4)
-        self.desc_entry = tk.Entry(frame, width=20)
-        self.desc_entry.grid(row=0, column=5, padx=5)
+        ctk.CTkLabel(frame, text="Description:", font=("Arial", 12, "bold")).grid(row=0, column=4, padx=(10, 2), pady=10)
+        self.desc_entry = ctk.CTkEntry(frame, width=180)
+        self.desc_entry.grid(row=0, column=5, padx=5, pady=10)
 
-        tk.Label(frame, text="Value (R$):").grid(row=0, column=6)
-        self.val_entry = tk.Entry(frame, width=8)
-        self.val_entry.grid(row=0, column=7, padx=5)
+        ctk.CTkLabel(frame, text="Value (R$):", font=("Arial", 12, "bold")).grid(row=0, column=6, padx=(10, 2), pady=10)
+        self.val_entry = ctk.CTkEntry(frame, width=80)
+        self.val_entry.grid(row=0, column=7, padx=5, pady=10)
 
-        self.pdf_path_var = tk.StringVar()
-        tk.Button(frame, text="Attach PDF", command=self._select_pdf).grid(row=0, column=8, padx=5)
+        self.pdf_path_var = ctk.StringVar()
+        ctk.CTkButton(frame, text="Attach PDF", width=90, fg_color="#4A4A4A", hover_color="#333333", command=self._select_pdf).grid(row=0, column=8, padx=5, pady=10)
         
-        tk.Button(frame, text="Add Expense", command=self._add_expense).grid(row=0, column=9, padx=5)
+        self.clear_pdf_btn = ctk.CTkButton(frame, text="Clear PDF", width=80, fg_color="#C21807", hover_color="#960018", command=self._clear_pdf)
+        self.clear_pdf_btn.grid(row=0, column=9, padx=5, pady=10)
+        self.clear_pdf_btn.grid_remove() 
+        
+        ctk.CTkButton(frame, text="Add Expense", width=100, command=self._add_expense).grid(row=0, column=10, padx=(5, 10), pady=10)
 
     def _build_treeview(self) -> None:
         columns = ("Date", "Vendor", "Description", "Value", "PDF Path")
@@ -80,29 +145,37 @@ class ExpenseApp:
         for col in columns:
             self.tree.heading(col, text=col)
             self.tree.column(col, width=120)
-        self.tree.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
+            
+        # NOVO: Configurando a 'tag' visual para as linhas sem PDF
+        self.tree.tag_configure("no_pdf", foreground="#ff6666") # Vermelho claro otimizado para modo escuro
+            
+        self.tree.pack(pady=5, padx=15, fill="both", expand=True)
 
     def _build_footer_frame(self) -> None:
-        footer_frame = tk.Frame(self.root)
-        footer_frame.pack(pady=10, padx=10, fill=tk.X)
+        footer_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        footer_frame.pack(pady=10, padx=15, fill="x")
 
-        self.total_var = tk.StringVar()
+        self.total_var = ctk.StringVar()
         self.total_var.set("Total: R$ 0,00")
-        total_label = tk.Label(footer_frame, textvariable=self.total_var, font=("Arial", 12, "bold"))
-        total_label.pack(side=tk.LEFT)
+        total_label = ctk.CTkLabel(footer_frame, textvariable=self.total_var, font=("Arial", 18, "bold"), text_color="#28a745")
+        total_label.pack(side="left")
 
-        # NOVO: Botões de Edição e Remoção na interface
-        tk.Button(footer_frame, text="Edit Selected", command=self._edit_expense).pack(side=tk.LEFT, padx=15)
-        tk.Button(footer_frame, text="Delete Selected", fg="red", command=self._delete_expense).pack(side=tk.LEFT)
+        ctk.CTkButton(footer_frame, text="Edit Selected", width=110, fg_color="#5a6268", hover_color="#41474b", command=self._edit_expense).pack(side="left", padx=15)
+        ctk.CTkButton(footer_frame, text="Delete Selected", width=110, fg_color="#C21807", hover_color="#960018", command=self._delete_expense).pack(side="left")
+        ctk.CTkButton(footer_frame, text="Delete All", width=100, fg_color="#8B0000", hover_color="#5c0000", font=("Arial", 12, "bold"), command=self._delete_all_expenses).pack(side="left", padx=15)
 
-        tk.Button(footer_frame, text="Merge PDFs", bg="green", fg="white", 
-                  command=self._merge_pdfs).pack(side=tk.RIGHT)
+        ctk.CTkButton(footer_frame, text="Merge PDFs", width=130, height=35, fg_color="#28a745", hover_color="#218838", font=("Arial", 14, "bold"), command=self._merge_pdfs).pack(side="right")
 
     def _select_pdf(self) -> None:
         file_path = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf")])
         if file_path:
             self.pdf_path_var.set(file_path)
             messagebox.showinfo("Success", "PDF attached temporarily.")
+
+    def _clear_pdf(self) -> None:
+        self.pdf_path_var.set("")
+        messagebox.showinfo("Info", "PDF attachment removed.")
+        self.clear_pdf_btn.grid_remove()
 
     def _add_expense(self) -> None:
         try:
@@ -123,7 +196,6 @@ class ExpenseApp:
             record = ExpenseRecord(date_obj, vendor, desc, value_float, pdf_path)
             self.records.append(record)
             
-            # Centralizamos a atualização da tela na função _refresh_ui (DRY)
             self._refresh_ui()
             self._clear_inputs()
         except ValueError as e:
@@ -135,11 +207,9 @@ class ExpenseApp:
             messagebox.showwarning("Warning", "Please select an expense to edit.")
             return
 
-        # Pega o ID exato da linha e remove a nota da memória
         idx = int(selected[0])
         record = self.records.pop(idx)
 
-        # Devolve os dados para os campos de preenchimento lá em cima
         self._clear_inputs()
         self.date_entry.insert(0, record.date.strftime("%d/%m/%Y"))
         self.vendor_combobox.set(record.vendor)
@@ -149,7 +219,7 @@ class ExpenseApp:
         if record.pdf_path:
             self.pdf_path_var.set(record.pdf_path)
 
-        # Atualiza a tela (a nota sumirá da tabela até você clicar em Add de novo)
+        self.clear_pdf_btn.grid()
         self._refresh_ui()
 
     def _delete_expense(self) -> None:
@@ -163,32 +233,50 @@ class ExpenseApp:
             self.records.pop(idx)
             self._refresh_ui()
 
+    def _delete_all_expenses(self) -> None:
+        if not self.records:
+            messagebox.showinfo("Info", "There are no expenses to delete.")
+            return
+            
+        if messagebox.askyesno("Confirm Delete All", "Are you sure you want to delete ALL expenses? This action cannot be undone."):
+            self.records.clear()
+            self._clear_inputs() 
+            self._refresh_ui()   
+
     def _refresh_ui(self) -> None:
-        # 1. Ordena a lista
         self.records.sort(key=lambda r: r.date)
         
-        # 2. Limpa a tabela
         for item in self.tree.get_children():
             self.tree.delete(item)
             
-        # 3. Reconstrói a tabela ancorando o iid (identificador) ao índice da memória
         for idx, rec in enumerate(self.records):
             date_str = rec.date.strftime("%d/%m/%Y")
             formatted_value = self._format_currency(rec.value)
-            display_pdf = rec.pdf_path if rec.pdf_path else "No PDF"
-            self.tree.insert("", tk.END, iid=str(idx), values=(date_str, rec.vendor, rec.description, f"R$ {formatted_value}", display_pdf))
             
-        # 4. Atualiza o Total
+            # NOVO: Lógica para aplicar a tag vermelha caso não haja PDF
+            row_tags = ()
+            if rec.pdf_path:
+                display_pdf = rec.pdf_path
+            else:
+                display_pdf = "No PDF"
+                row_tags = ("no_pdf",) # Vincula a tag vermelha apenas a esta linha
+                
+            self.tree.insert("", "end", iid=str(idx), values=(date_str, rec.vendor, rec.description, f"R$ {formatted_value}", display_pdf), tags=row_tags)
+            
         total = sum(record.value for record in self.records)
         formatted_total = self._format_currency(total)
         self.total_var.set(f"Total: R$ {formatted_total}")
+        
+        self._save_expenses()
 
     def _clear_inputs(self) -> None:
-        self.date_entry.delete(0, tk.END)
+        self.date_entry.delete(0, "end")
         self.vendor_combobox.set("") 
-        self.desc_entry.delete(0, tk.END)
-        self.val_entry.delete(0, tk.END)
+        self.desc_entry.delete(0, "end")
+        self.val_entry.delete(0, "end")
         self.pdf_path_var.set("")
+        
+        self.clear_pdf_btn.grid_remove()
 
     def _merge_pdfs(self) -> None:
         if not self.records:
