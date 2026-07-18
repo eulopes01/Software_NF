@@ -1,0 +1,297 @@
+2026-06-07 14:51:13,885 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-06-07 14:51:14,307 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-06-07 14:51:42,706 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-06-07 14:51:54,254 | INFO | utils | Configuration loaded from 'config.json'.
+2026-06-07 14:51:54,254 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-06-07 14:51:54,346 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-06-07 14:51:54,757 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-06-07 14:51:54,792 | INFO | pdf_unlocker | PDF decrypted with qpdf: 'Minha_Fatura_BUSINESS.pdf' -> 'Minha_Fatura_BUSINESS_qpdf_unlocked.pdf'
+2026-06-07 14:51:54,792 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-07 14:51:55,207 | INFO | pdf_reader | Detected bank: itau_empresas for file: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-07 14:51:55,210 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CAMILAMHSANTOS' (card ...0667) -> 1 transactions
+2026-06-07 14:51:55,211 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CLAUDIOSVJUNIOR' (card ...2956) -> 15 transactions
+2026-06-07 14:51:55,211 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 1 transactions
+2026-06-07 14:51:55,212 | INFO | pdf_reader | [itau_empresas] Cardholder: 'MONICAMENDESTORRES' (card ...4047) -> 4 transactions
+2026-06-07 14:51:55,212 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ANDREDEOLIVEIRA' (card ...8863) -> 2 transactions
+2026-06-07 14:51:55,213 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 13 transactions
+2026-06-07 14:51:55,216 | INFO | pdf_reader | [itau_empresas] Total cardholders: 6 | Invoice total: R$ 32287.55 | File: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-07 14:51:55,216 | INFO | pdf_reader | Extraction complete: 36 transactions | Total: R$ 32287.55 | File: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-07 14:51:55,687 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_qpdf_unlocked.pdf'
+2026-06-07 14:51:55,690 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CAMILAMHSANTOS' (card ...0667) -> 1 transactions
+2026-06-07 14:51:55,691 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CLAUDIOSVJUNIOR' (card ...2956) -> 15 transactions
+2026-06-07 14:51:55,692 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 1 transactions
+2026-06-07 14:51:55,692 | INFO | pdf_reader | [itau_empresas] Cardholder: 'MONICAMENDESTORRES' (card ...4047) -> 4 transactions
+2026-06-07 14:51:55,692 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ANDREDEOLIVEIRA' (card ...8863) -> 2 transactions
+2026-06-07 14:51:55,693 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 13 transactions
+2026-06-07 14:51:55,695 | INFO | pdf_reader | [itau_empresas] Total cardholders: 6 | Invoice total: R$ 32287.55 | File: Minha_Fatura_BUSINESS.pdf
+2026-06-07 14:51:55,696 | INFO | __main__ | Spreadsheet not found: 'Card_Camilamhsantos_0667_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 14:51:55,801 | INFO | generate_spreadsheet | ✅ Created: Card_Camilamhsantos_0667_MAIO_2026.xlsx
+2026-06-07 14:51:55,802 | INFO | __main__ | Auto-created: 'Card_Camilamhsantos_0667_MAIO_2026.xlsx'
+2026-06-07 14:51:55,802 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Camilamhsantos_0667_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-06-07 14:51:55,820 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-06-07 14:51:55,834 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Camilamhsantos_0667_MAIO_2026.xlsx
+2026-06-07 14:51:55,834 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Camilamhsantos_0667_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 14:51:55,834 | INFO | reconciler | Starting reconciliation | Person: Camilamhsantos (...0667) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 14:51:55,858 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 14:51:55,860 | WARNING | reconciler | ❌ DIVERGENCE — Camilamhsantos (...0667): PDF R$ 32287.55 ≠ Spreadsheet R$ 230.72 (difference: R$ 32056.83). Manual review required.
+2026-06-07 14:51:55,860 | INFO | reconciler | Result reported | Person: Camilamhsantos (...0667) | Status: DIVERGENCE | Diff: R$ 32056.83
+{"person_name": "Camilamhsantos (...0667)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Camilamhsantos_0667_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 230.72, "difference": 32056.83, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Camilamhsantos (...0667): PDF R$ 32287.55 ≠ Spreadsheet R$ 230.72 (difference: R$ 32056.83). Manual review required.", "timestamp": "2026-06-07T14:51:55"}
+2026-06-07 14:51:55,861 | INFO | __main__ | Spreadsheet not found: 'Card_Claudiosvjunior_2956_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 14:51:55,892 | INFO | generate_spreadsheet | ✅ Created: Card_Claudiosvjunior_2956_MAIO_2026.xlsx
+2026-06-07 14:51:55,892 | INFO | __main__ | Auto-created: 'Card_Claudiosvjunior_2956_MAIO_2026.xlsx'
+2026-06-07 14:51:55,892 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Claudiosvjunior_2956_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 15
+2026-06-07 14:51:55,913 | INFO | spreadsheet_writer | insert_rows complete: 15 rows written starting at row 5.
+2026-06-07 14:51:55,948 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Claudiosvjunior_2956_MAIO_2026.xlsx
+2026-06-07 14:51:55,948 | INFO | spreadsheet_writer | Write complete | 15 transactions inserted | File: Card_Claudiosvjunior_2956_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 14:51:55,948 | INFO | reconciler | Starting reconciliation | Person: Claudiosvjunior (...2956) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 14:51:55,965 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 14:51:55,966 | WARNING | reconciler | ❌ DIVERGENCE — Claudiosvjunior (...2956): PDF R$ 32287.55 ≠ Spreadsheet R$ 8105.86 (difference: R$ 24181.69). Manual review required.
+2026-06-07 14:51:55,966 | INFO | reconciler | Result reported | Person: Claudiosvjunior (...2956) | Status: DIVERGENCE | Diff: R$ 24181.69
+{"person_name": "Claudiosvjunior (...2956)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Claudiosvjunior_2956_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 8105.86, "difference": 24181.69, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Claudiosvjunior (...2956): PDF R$ 32287.55 ≠ Spreadsheet R$ 8105.86 (difference: R$ 24181.69). Manual review required.", "timestamp": "2026-06-07T14:51:55"}
+2026-06-07 14:51:55,966 | INFO | __main__ | Spreadsheet not found: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 14:51:55,995 | INFO | generate_spreadsheet | ✅ Created: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-07 14:51:55,995 | INFO | __main__ | Auto-created: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'
+2026-06-07 14:51:55,995 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-06-07 14:51:56,016 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-06-07 14:51:56,028 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-07 14:51:56,029 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 14:51:56,029 | INFO | reconciler | Starting reconciliation | Person: Alinemptosta (...7221) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 14:51:56,050 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 14:51:56,052 | WARNING | reconciler | ❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 274.67 (difference: R$ 32012.88). Manual review required.
+2026-06-07 14:51:56,052 | INFO | reconciler | Result reported | Person: Alinemptosta (...7221) | Status: DIVERGENCE | Diff: R$ 32012.88
+{"person_name": "Alinemptosta (...7221)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Alinemptosta_7221_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 274.67, "difference": 32012.88, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 274.67 (difference: R$ 32012.88). Manual review required.", "timestamp": "2026-06-07T14:51:56"}
+2026-06-07 14:51:56,053 | INFO | __main__ | Spreadsheet not found: 'Card_Monicamendestorres_4047_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 14:51:56,088 | INFO | generate_spreadsheet | ✅ Created: Card_Monicamendestorres_4047_MAIO_2026.xlsx
+2026-06-07 14:51:56,088 | INFO | __main__ | Auto-created: 'Card_Monicamendestorres_4047_MAIO_2026.xlsx'
+2026-06-07 14:51:56,088 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Monicamendestorres_4047_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 4
+2026-06-07 14:51:56,109 | INFO | spreadsheet_writer | insert_rows complete: 4 rows written starting at row 5.
+2026-06-07 14:51:56,126 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Monicamendestorres_4047_MAIO_2026.xlsx
+2026-06-07 14:51:56,127 | INFO | spreadsheet_writer | Write complete | 4 transactions inserted | File: Card_Monicamendestorres_4047_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 14:51:56,127 | INFO | reconciler | Starting reconciliation | Person: Monicamendestorres (...4047) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 14:51:56,146 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 14:51:56,147 | WARNING | reconciler | ❌ DIVERGENCE — Monicamendestorres (...4047): PDF R$ 32287.55 ≠ Spreadsheet R$ 1348.56 (difference: R$ 30938.99). Manual review required.
+2026-06-07 14:51:56,148 | INFO | reconciler | Result reported | Person: Monicamendestorres (...4047) | Status: DIVERGENCE | Diff: R$ 30938.99
+{"person_name": "Monicamendestorres (...4047)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Monicamendestorres_4047_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 1348.56, "difference": 30938.99, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Monicamendestorres (...4047): PDF R$ 32287.55 ≠ Spreadsheet R$ 1348.56 (difference: R$ 30938.99). Manual review required.", "timestamp": "2026-06-07T14:51:56"}
+2026-06-07 14:51:56,148 | INFO | __main__ | Spreadsheet not found: 'Card_Andredeoliveira_8863_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 14:51:56,194 | INFO | generate_spreadsheet | ✅ Created: Card_Andredeoliveira_8863_MAIO_2026.xlsx
+2026-06-07 14:51:56,194 | INFO | __main__ | Auto-created: 'Card_Andredeoliveira_8863_MAIO_2026.xlsx'
+2026-06-07 14:51:56,194 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Andredeoliveira_8863_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 2
+2026-06-07 14:51:56,212 | INFO | spreadsheet_writer | insert_rows complete: 2 rows written starting at row 5.
+2026-06-07 14:51:56,242 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Andredeoliveira_8863_MAIO_2026.xlsx
+2026-06-07 14:51:56,243 | INFO | spreadsheet_writer | Write complete | 2 transactions inserted | File: Card_Andredeoliveira_8863_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 14:51:56,243 | INFO | reconciler | Starting reconciliation | Person: Andredeoliveira (...8863) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 14:51:56,261 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 14:51:56,262 | WARNING | reconciler | ❌ DIVERGENCE — Andredeoliveira (...8863): PDF R$ 32287.55 ≠ Spreadsheet R$ 3383.17 (difference: R$ 28904.38). Manual review required.
+2026-06-07 14:51:56,262 | INFO | reconciler | Result reported | Person: Andredeoliveira (...8863) | Status: DIVERGENCE | Diff: R$ 28904.38
+{"person_name": "Andredeoliveira (...8863)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Andredeoliveira_8863_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 3383.17, "difference": 28904.38, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Andredeoliveira (...8863): PDF R$ 32287.55 ≠ Spreadsheet R$ 3383.17 (difference: R$ 28904.38). Manual review required.", "timestamp": "2026-06-07T14:51:56"}
+2026-06-07 14:51:56,262 | INFO | __main__ | Spreadsheet found: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'
+2026-06-07 14:51:56,263 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 13
+2026-06-07 14:51:56,278 | INFO | spreadsheet_writer | insert_rows complete: 13 rows written starting at row 6.
+2026-06-07 14:51:56,301 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-07 14:51:56,301 | INFO | spreadsheet_writer | Write complete | 13 transactions inserted | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 14:51:56,302 | INFO | reconciler | Starting reconciliation | Person: Alinemptosta (...7221) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 14:51:56,322 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 14:51:56,323 | WARNING | reconciler | ❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 5321.59 (difference: R$ 26965.96). Manual review required.
+2026-06-07 14:51:56,323 | INFO | reconciler | Result reported | Person: Alinemptosta (...7221) | Status: DIVERGENCE | Diff: R$ 26965.96
+{"person_name": "Alinemptosta (...7221)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Alinemptosta_7221_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 5321.59, "difference": 26965.96, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 5321.59 (difference: R$ 26965.96). Manual review required.", "timestamp": "2026-06-07T14:51:56"}
+2026-06-07 14:51:56,326 | INFO | __main__ | Done — 36 transaction(s) processed | 0 ✅ match | 6 ❌ divergence
+2026-06-07 14:57:57,144 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-06-07 14:57:57,477 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-06-07 18:00:04,344 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-06-07 18:00:04,843 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-06-07 18:01:05,401 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-06-07 18:01:13,180 | INFO | utils | Configuration loaded from 'config.json'.
+2026-06-07 18:01:13,180 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-06-07 18:01:13,190 | WARNING | pdf_unlocker | Invalid password provided for 'Minha_Fatura_BUSINESS.pdf'.
+2026-06-07 18:01:13,191 | ERROR | __main__ | Validation error processing 'Minha_Fatura_BUSINESS.pdf': Incorrect password for 'Minha_Fatura_BUSINESS.pdf'. Please check the password and try again.
+2026-06-07 18:01:29,513 | INFO | utils | Configuration loaded from 'config.json'.
+2026-06-07 18:01:29,514 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-06-07 18:01:29,581 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-06-07 18:01:30,041 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-06-07 18:01:30,078 | INFO | pdf_unlocker | PDF decrypted with qpdf: 'Minha_Fatura_BUSINESS.pdf' -> 'Minha_Fatura_BUSINESS_qpdf_unlocked.pdf'
+2026-06-07 18:01:30,078 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-07 18:01:30,543 | INFO | pdf_reader | Detected bank: itau_empresas for file: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-07 18:01:30,546 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CAMILAMHSANTOS' (card ...0667) -> 1 transactions
+2026-06-07 18:01:30,547 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CLAUDIOSVJUNIOR' (card ...2956) -> 15 transactions
+2026-06-07 18:01:30,547 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 1 transactions
+2026-06-07 18:01:30,547 | INFO | pdf_reader | [itau_empresas] Cardholder: 'MONICAMENDESTORRES' (card ...4047) -> 4 transactions
+2026-06-07 18:01:30,547 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ANDREDEOLIVEIRA' (card ...8863) -> 2 transactions
+2026-06-07 18:01:30,548 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 13 transactions
+2026-06-07 18:01:30,551 | INFO | pdf_reader | [itau_empresas] Total cardholders: 6 | Invoice total: R$ 32287.55 | File: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-07 18:01:30,551 | INFO | pdf_reader | Extraction complete: 36 transactions | Total: R$ 32287.55 | File: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-07 18:01:31,029 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_qpdf_unlocked.pdf'
+2026-06-07 18:01:31,030 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CAMILAMHSANTOS' (card ...0667) -> 1 transactions
+2026-06-07 18:01:31,031 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CLAUDIOSVJUNIOR' (card ...2956) -> 15 transactions
+2026-06-07 18:01:31,031 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 1 transactions
+2026-06-07 18:01:31,031 | INFO | pdf_reader | [itau_empresas] Cardholder: 'MONICAMENDESTORRES' (card ...4047) -> 4 transactions
+2026-06-07 18:01:31,032 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ANDREDEOLIVEIRA' (card ...8863) -> 2 transactions
+2026-06-07 18:01:31,033 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 13 transactions
+2026-06-07 18:01:31,035 | INFO | pdf_reader | [itau_empresas] Total cardholders: 6 | Invoice total: R$ 32287.55 | File: Minha_Fatura_BUSINESS.pdf
+2026-06-07 18:01:31,036 | INFO | __main__ | Spreadsheet not found: 'Card_Camilamhsantos_0667_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 18:01:31,072 | INFO | generate_spreadsheet | ✅ Created: Card_Camilamhsantos_0667_MAIO_2026.xlsx
+2026-06-07 18:01:31,072 | INFO | __main__ | Auto-created: 'Card_Camilamhsantos_0667_MAIO_2026.xlsx'
+2026-06-07 18:01:31,073 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Camilamhsantos_0667_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-06-07 18:01:31,160 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-06-07 18:01:31,187 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Camilamhsantos_0667_MAIO_2026.xlsx
+2026-06-07 18:01:31,188 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Camilamhsantos_0667_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 18:01:31,188 | INFO | reconciler | Starting reconciliation | Person: Camilamhsantos (...0667) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 18:01:31,211 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 18:01:31,214 | WARNING | reconciler | ❌ DIVERGENCE — Camilamhsantos (...0667): PDF R$ 32287.55 ≠ Spreadsheet R$ 230.72 (difference: R$ 32056.83). Manual review required.
+2026-06-07 18:01:31,214 | INFO | reconciler | Result reported | Person: Camilamhsantos (...0667) | Status: DIVERGENCE | Diff: R$ 32056.83
+{"person_name": "Camilamhsantos (...0667)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Camilamhsantos_0667_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 230.72, "difference": 32056.83, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Camilamhsantos (...0667): PDF R$ 32287.55 ≠ Spreadsheet R$ 230.72 (difference: R$ 32056.83). Manual review required.", "timestamp": "2026-06-07T18:01:31"}
+2026-06-07 18:01:31,215 | INFO | __main__ | Spreadsheet not found: 'Card_Claudiosvjunior_2956_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 18:01:31,250 | INFO | generate_spreadsheet | ✅ Created: Card_Claudiosvjunior_2956_MAIO_2026.xlsx
+2026-06-07 18:01:31,250 | INFO | __main__ | Auto-created: 'Card_Claudiosvjunior_2956_MAIO_2026.xlsx'
+2026-06-07 18:01:31,251 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Claudiosvjunior_2956_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 15
+2026-06-07 18:01:31,280 | INFO | spreadsheet_writer | insert_rows complete: 15 rows written starting at row 5.
+2026-06-07 18:01:31,304 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Claudiosvjunior_2956_MAIO_2026.xlsx
+2026-06-07 18:01:31,304 | INFO | spreadsheet_writer | Write complete | 15 transactions inserted | File: Card_Claudiosvjunior_2956_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 18:01:31,304 | INFO | reconciler | Starting reconciliation | Person: Claudiosvjunior (...2956) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 18:01:31,330 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 18:01:31,332 | WARNING | reconciler | ❌ DIVERGENCE — Claudiosvjunior (...2956): PDF R$ 32287.55 ≠ Spreadsheet R$ 8105.86 (difference: R$ 24181.69). Manual review required.
+2026-06-07 18:01:31,332 | INFO | reconciler | Result reported | Person: Claudiosvjunior (...2956) | Status: DIVERGENCE | Diff: R$ 24181.69
+{"person_name": "Claudiosvjunior (...2956)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Claudiosvjunior_2956_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 8105.86, "difference": 24181.69, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Claudiosvjunior (...2956): PDF R$ 32287.55 ≠ Spreadsheet R$ 8105.86 (difference: R$ 24181.69). Manual review required.", "timestamp": "2026-06-07T18:01:31"}
+2026-06-07 18:01:31,332 | INFO | __main__ | Spreadsheet not found: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 18:01:31,374 | INFO | generate_spreadsheet | ✅ Created: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-07 18:01:31,374 | INFO | __main__ | Auto-created: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'
+2026-06-07 18:01:31,374 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-06-07 18:01:31,400 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-06-07 18:01:31,422 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-07 18:01:31,422 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 18:01:31,422 | INFO | reconciler | Starting reconciliation | Person: Alinemptosta (...7221) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 18:01:31,441 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 18:01:31,443 | WARNING | reconciler | ❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 274.67 (difference: R$ 32012.88). Manual review required.
+2026-06-07 18:01:31,443 | INFO | reconciler | Result reported | Person: Alinemptosta (...7221) | Status: DIVERGENCE | Diff: R$ 32012.88
+{"person_name": "Alinemptosta (...7221)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Alinemptosta_7221_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 274.67, "difference": 32012.88, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 274.67 (difference: R$ 32012.88). Manual review required.", "timestamp": "2026-06-07T18:01:31"}
+2026-06-07 18:01:31,443 | INFO | __main__ | Spreadsheet not found: 'Card_Monicamendestorres_4047_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 18:01:31,492 | INFO | generate_spreadsheet | ✅ Created: Card_Monicamendestorres_4047_MAIO_2026.xlsx
+2026-06-07 18:01:31,492 | INFO | __main__ | Auto-created: 'Card_Monicamendestorres_4047_MAIO_2026.xlsx'
+2026-06-07 18:01:31,493 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Monicamendestorres_4047_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 4
+2026-06-07 18:01:31,529 | INFO | spreadsheet_writer | insert_rows complete: 4 rows written starting at row 5.
+2026-06-07 18:01:31,551 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Monicamendestorres_4047_MAIO_2026.xlsx
+2026-06-07 18:01:31,551 | INFO | spreadsheet_writer | Write complete | 4 transactions inserted | File: Card_Monicamendestorres_4047_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 18:01:31,551 | INFO | reconciler | Starting reconciliation | Person: Monicamendestorres (...4047) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 18:01:31,570 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 18:01:31,571 | WARNING | reconciler | ❌ DIVERGENCE — Monicamendestorres (...4047): PDF R$ 32287.55 ≠ Spreadsheet R$ 1348.56 (difference: R$ 30938.99). Manual review required.
+2026-06-07 18:01:31,571 | INFO | reconciler | Result reported | Person: Monicamendestorres (...4047) | Status: DIVERGENCE | Diff: R$ 30938.99
+{"person_name": "Monicamendestorres (...4047)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Monicamendestorres_4047_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 1348.56, "difference": 30938.99, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Monicamendestorres (...4047): PDF R$ 32287.55 ≠ Spreadsheet R$ 1348.56 (difference: R$ 30938.99). Manual review required.", "timestamp": "2026-06-07T18:01:31"}
+2026-06-07 18:01:31,572 | INFO | __main__ | Spreadsheet not found: 'Card_Andredeoliveira_8863_MAIO_2026.xlsx'. Creating automatically.
+2026-06-07 18:01:31,622 | INFO | generate_spreadsheet | ✅ Created: Card_Andredeoliveira_8863_MAIO_2026.xlsx
+2026-06-07 18:01:31,623 | INFO | __main__ | Auto-created: 'Card_Andredeoliveira_8863_MAIO_2026.xlsx'
+2026-06-07 18:01:31,623 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Andredeoliveira_8863_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 2
+2026-06-07 18:01:31,647 | INFO | spreadsheet_writer | insert_rows complete: 2 rows written starting at row 5.
+2026-06-07 18:01:31,668 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Andredeoliveira_8863_MAIO_2026.xlsx
+2026-06-07 18:01:31,668 | INFO | spreadsheet_writer | Write complete | 2 transactions inserted | File: Card_Andredeoliveira_8863_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 18:01:31,670 | INFO | reconciler | Starting reconciliation | Person: Andredeoliveira (...8863) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 18:01:31,695 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 18:01:31,696 | WARNING | reconciler | ❌ DIVERGENCE — Andredeoliveira (...8863): PDF R$ 32287.55 ≠ Spreadsheet R$ 3383.17 (difference: R$ 28904.38). Manual review required.
+2026-06-07 18:01:31,697 | INFO | reconciler | Result reported | Person: Andredeoliveira (...8863) | Status: DIVERGENCE | Diff: R$ 28904.38
+{"person_name": "Andredeoliveira (...8863)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Andredeoliveira_8863_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 3383.17, "difference": 28904.38, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Andredeoliveira (...8863): PDF R$ 32287.55 ≠ Spreadsheet R$ 3383.17 (difference: R$ 28904.38). Manual review required.", "timestamp": "2026-06-07T18:01:31"}
+2026-06-07 18:01:31,697 | INFO | __main__ | Spreadsheet found: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'
+2026-06-07 18:01:31,698 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 13
+2026-06-07 18:01:31,722 | INFO | spreadsheet_writer | insert_rows complete: 13 rows written starting at row 6.
+2026-06-07 18:01:31,752 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-07 18:01:31,752 | INFO | spreadsheet_writer | Write complete | 13 transactions inserted | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-07 18:01:31,753 | INFO | reconciler | Starting reconciliation | Person: Alinemptosta (...7221) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-07 18:01:31,772 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-07 18:01:31,774 | WARNING | reconciler | ❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 5321.59 (difference: R$ 26965.96). Manual review required.
+2026-06-07 18:01:31,774 | INFO | reconciler | Result reported | Person: Alinemptosta (...7221) | Status: DIVERGENCE | Diff: R$ 26965.96
+{"person_name": "Alinemptosta (...7221)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Alinemptosta_7221_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 5321.59, "difference": 26965.96, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 5321.59 (difference: R$ 26965.96). Manual review required.", "timestamp": "2026-06-07T18:01:31"}
+2026-06-07 18:01:31,779 | INFO | __main__ | Done — 36 transaction(s) processed | 0 ✅ match | 6 ❌ divergence
+2026-06-15 20:32:48,841 | INFO | pdf_ocr | Tesseract ready: version=5.3.4 | languages=['eng', 'osd', 'por']
+2026-06-15 20:32:49,379 | INFO | __main__ | Invoice Processor v1.0.0 started.
+2026-06-15 20:33:12,402 | INFO | __main__ | PDF selection: added=1, rejected=0, total=1
+2026-06-15 20:33:32,561 | INFO | utils | Configuration loaded from 'config.json'.
+2026-06-15 20:33:32,561 | INFO | __main__ | Processing: Minha_Fatura_BUSINESS.pdf
+2026-06-15 20:33:32,628 | INFO | pdf_unlocker | PDF unlocked successfully: 'Minha_Fatura_BUSINESS.pdf' → 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-06-15 20:33:32,996 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_unlocked.pdf'
+2026-06-15 20:33:33,025 | INFO | pdf_unlocker | PDF decrypted with qpdf: 'Minha_Fatura_BUSINESS.pdf' -> 'Minha_Fatura_BUSINESS_qpdf_unlocked.pdf'
+2026-06-15 20:33:33,025 | INFO | pdf_reader | Starting PDF read pipeline for: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-15 20:33:33,400 | INFO | pdf_reader | Detected bank: itau_empresas for file: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-15 20:33:33,403 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CAMILAMHSANTOS' (card ...0667) -> 1 transactions
+2026-06-15 20:33:33,404 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CLAUDIOSVJUNIOR' (card ...2956) -> 15 transactions
+2026-06-15 20:33:33,404 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 1 transactions
+2026-06-15 20:33:33,404 | INFO | pdf_reader | [itau_empresas] Cardholder: 'MONICAMENDESTORRES' (card ...4047) -> 4 transactions
+2026-06-15 20:33:33,404 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ANDREDEOLIVEIRA' (card ...8863) -> 2 transactions
+2026-06-15 20:33:33,405 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 13 transactions
+2026-06-15 20:33:33,408 | INFO | pdf_reader | [itau_empresas] Total cardholders: 6 | Invoice total: R$ 32287.55 | File: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-15 20:33:33,409 | INFO | pdf_reader | Extraction complete: 36 transactions | Total: R$ 32287.55 | File: Minha_Fatura_BUSINESS_qpdf_unlocked.pdf
+2026-06-15 20:33:33,779 | INFO | pdf_unlocker | Temporary unlocked PDF deleted: 'Minha_Fatura_BUSINESS_qpdf_unlocked.pdf'
+2026-06-15 20:33:33,781 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CAMILAMHSANTOS' (card ...0667) -> 1 transactions
+2026-06-15 20:33:33,782 | INFO | pdf_reader | [itau_empresas] Cardholder: 'CLAUDIOSVJUNIOR' (card ...2956) -> 15 transactions
+2026-06-15 20:33:33,782 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 1 transactions
+2026-06-15 20:33:33,782 | INFO | pdf_reader | [itau_empresas] Cardholder: 'MONICAMENDESTORRES' (card ...4047) -> 4 transactions
+2026-06-15 20:33:33,782 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ANDREDEOLIVEIRA' (card ...8863) -> 2 transactions
+2026-06-15 20:33:33,783 | INFO | pdf_reader | [itau_empresas] Cardholder: 'ALINEMPTOSTA' (card ...7221) -> 13 transactions
+2026-06-15 20:33:33,785 | INFO | pdf_reader | [itau_empresas] Total cardholders: 6 | Invoice total: R$ 32287.55 | File: Minha_Fatura_BUSINESS.pdf
+2026-06-15 20:33:33,785 | INFO | __main__ | Spreadsheet not found: 'Card_Camilamhsantos_0667_MAIO_2026.xlsx'. Creating automatically.
+2026-06-15 20:33:33,849 | INFO | generate_spreadsheet | ✅ Created: Card_Camilamhsantos_0667_MAIO_2026.xlsx
+2026-06-15 20:33:33,849 | INFO | __main__ | Auto-created: 'Card_Camilamhsantos_0667_MAIO_2026.xlsx'
+2026-06-15 20:33:33,849 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Camilamhsantos_0667_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-06-15 20:33:33,863 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-06-15 20:33:33,872 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Camilamhsantos_0667_MAIO_2026.xlsx
+2026-06-15 20:33:33,873 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Camilamhsantos_0667_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-15 20:33:33,873 | INFO | reconciler | Starting reconciliation | Person: Camilamhsantos (...0667) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-15 20:33:33,885 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-15 20:33:33,886 | WARNING | reconciler | ❌ DIVERGENCE — Camilamhsantos (...0667): PDF R$ 32287.55 ≠ Spreadsheet R$ 230.72 (difference: R$ 32056.83). Manual review required.
+2026-06-15 20:33:33,886 | INFO | reconciler | Result reported | Person: Camilamhsantos (...0667) | Status: DIVERGENCE | Diff: R$ 32056.83
+{"person_name": "Camilamhsantos (...0667)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Camilamhsantos_0667_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 230.72, "difference": 32056.83, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Camilamhsantos (...0667): PDF R$ 32287.55 ≠ Spreadsheet R$ 230.72 (difference: R$ 32056.83). Manual review required.", "timestamp": "2026-06-15T20:33:33"}
+2026-06-15 20:33:33,887 | INFO | __main__ | Spreadsheet not found: 'Card_Claudiosvjunior_2956_MAIO_2026.xlsx'. Creating automatically.
+2026-06-15 20:33:33,914 | INFO | generate_spreadsheet | ✅ Created: Card_Claudiosvjunior_2956_MAIO_2026.xlsx
+2026-06-15 20:33:33,914 | INFO | __main__ | Auto-created: 'Card_Claudiosvjunior_2956_MAIO_2026.xlsx'
+2026-06-15 20:33:33,914 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Claudiosvjunior_2956_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 15
+2026-06-15 20:33:33,929 | INFO | spreadsheet_writer | insert_rows complete: 15 rows written starting at row 5.
+2026-06-15 20:33:33,946 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Claudiosvjunior_2956_MAIO_2026.xlsx
+2026-06-15 20:33:33,946 | INFO | spreadsheet_writer | Write complete | 15 transactions inserted | File: Card_Claudiosvjunior_2956_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-15 20:33:33,946 | INFO | reconciler | Starting reconciliation | Person: Claudiosvjunior (...2956) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-15 20:33:33,960 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-15 20:33:33,961 | WARNING | reconciler | ❌ DIVERGENCE — Claudiosvjunior (...2956): PDF R$ 32287.55 ≠ Spreadsheet R$ 8105.86 (difference: R$ 24181.69). Manual review required.
+2026-06-15 20:33:33,961 | INFO | reconciler | Result reported | Person: Claudiosvjunior (...2956) | Status: DIVERGENCE | Diff: R$ 24181.69
+{"person_name": "Claudiosvjunior (...2956)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Claudiosvjunior_2956_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 8105.86, "difference": 24181.69, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Claudiosvjunior (...2956): PDF R$ 32287.55 ≠ Spreadsheet R$ 8105.86 (difference: R$ 24181.69). Manual review required.", "timestamp": "2026-06-15T20:33:33"}
+2026-06-15 20:33:33,962 | INFO | __main__ | Spreadsheet not found: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'. Creating automatically.
+2026-06-15 20:33:33,989 | INFO | generate_spreadsheet | ✅ Created: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-15 20:33:33,989 | INFO | __main__ | Auto-created: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'
+2026-06-15 20:33:33,990 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 1
+2026-06-15 20:33:34,005 | INFO | spreadsheet_writer | insert_rows complete: 1 rows written starting at row 5.
+2026-06-15 20:33:34,017 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-15 20:33:34,017 | INFO | spreadsheet_writer | Write complete | 1 transactions inserted | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-15 20:33:34,017 | INFO | reconciler | Starting reconciliation | Person: Alinemptosta (...7221) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-15 20:33:34,032 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-15 20:33:34,033 | WARNING | reconciler | ❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 274.67 (difference: R$ 32012.88). Manual review required.
+2026-06-15 20:33:34,033 | INFO | reconciler | Result reported | Person: Alinemptosta (...7221) | Status: DIVERGENCE | Diff: R$ 32012.88
+{"person_name": "Alinemptosta (...7221)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Alinemptosta_7221_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 274.67, "difference": 32012.88, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 274.67 (difference: R$ 32012.88). Manual review required.", "timestamp": "2026-06-15T20:33:34"}
+2026-06-15 20:33:34,033 | INFO | __main__ | Spreadsheet not found: 'Card_Monicamendestorres_4047_MAIO_2026.xlsx'. Creating automatically.
+2026-06-15 20:33:34,062 | INFO | generate_spreadsheet | ✅ Created: Card_Monicamendestorres_4047_MAIO_2026.xlsx
+2026-06-15 20:33:34,062 | INFO | __main__ | Auto-created: 'Card_Monicamendestorres_4047_MAIO_2026.xlsx'
+2026-06-15 20:33:34,062 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Monicamendestorres_4047_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 4
+2026-06-15 20:33:34,078 | INFO | spreadsheet_writer | insert_rows complete: 4 rows written starting at row 5.
+2026-06-15 20:33:34,092 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Monicamendestorres_4047_MAIO_2026.xlsx
+2026-06-15 20:33:34,092 | INFO | spreadsheet_writer | Write complete | 4 transactions inserted | File: Card_Monicamendestorres_4047_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-15 20:33:34,092 | INFO | reconciler | Starting reconciliation | Person: Monicamendestorres (...4047) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-15 20:33:34,105 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-15 20:33:34,106 | WARNING | reconciler | ❌ DIVERGENCE — Monicamendestorres (...4047): PDF R$ 32287.55 ≠ Spreadsheet R$ 1348.56 (difference: R$ 30938.99). Manual review required.
+2026-06-15 20:33:34,106 | INFO | reconciler | Result reported | Person: Monicamendestorres (...4047) | Status: DIVERGENCE | Diff: R$ 30938.99
+{"person_name": "Monicamendestorres (...4047)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Monicamendestorres_4047_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 1348.56, "difference": 30938.99, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Monicamendestorres (...4047): PDF R$ 32287.55 ≠ Spreadsheet R$ 1348.56 (difference: R$ 30938.99). Manual review required.", "timestamp": "2026-06-15T20:33:34"}
+2026-06-15 20:33:34,106 | INFO | __main__ | Spreadsheet not found: 'Card_Andredeoliveira_8863_MAIO_2026.xlsx'. Creating automatically.
+2026-06-15 20:33:34,134 | INFO | generate_spreadsheet | ✅ Created: Card_Andredeoliveira_8863_MAIO_2026.xlsx
+2026-06-15 20:33:34,134 | INFO | __main__ | Auto-created: 'Card_Andredeoliveira_8863_MAIO_2026.xlsx'
+2026-06-15 20:33:34,134 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Andredeoliveira_8863_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 2
+2026-06-15 20:33:34,148 | INFO | spreadsheet_writer | insert_rows complete: 2 rows written starting at row 5.
+2026-06-15 20:33:34,159 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Andredeoliveira_8863_MAIO_2026.xlsx
+2026-06-15 20:33:34,159 | INFO | spreadsheet_writer | Write complete | 2 transactions inserted | File: Card_Andredeoliveira_8863_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-15 20:33:34,159 | INFO | reconciler | Starting reconciliation | Person: Andredeoliveira (...8863) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-15 20:33:34,171 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-15 20:33:34,171 | WARNING | reconciler | ❌ DIVERGENCE — Andredeoliveira (...8863): PDF R$ 32287.55 ≠ Spreadsheet R$ 3383.17 (difference: R$ 28904.38). Manual review required.
+2026-06-15 20:33:34,171 | INFO | reconciler | Result reported | Person: Andredeoliveira (...8863) | Status: DIVERGENCE | Diff: R$ 28904.38
+{"person_name": "Andredeoliveira (...8863)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Andredeoliveira_8863_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 3383.17, "difference": 28904.38, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Andredeoliveira (...8863): PDF R$ 32287.55 ≠ Spreadsheet R$ 3383.17 (difference: R$ 28904.38). Manual review required.", "timestamp": "2026-06-15T20:33:34"}
+2026-06-15 20:33:34,172 | INFO | __main__ | Spreadsheet found: 'Card_Alinemptosta_7221_MAIO_2026.xlsx'
+2026-06-15 20:33:34,172 | INFO | spreadsheet_writer | Starting spreadsheet write | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026 | Transactions: 13
+2026-06-15 20:33:34,184 | INFO | spreadsheet_writer | insert_rows complete: 13 rows written starting at row 6.
+2026-06-15 20:33:34,200 | INFO | spreadsheet_writer | Spreadsheet saved successfully: Card_Alinemptosta_7221_MAIO_2026.xlsx
+2026-06-15 20:33:34,201 | INFO | spreadsheet_writer | Write complete | 13 transactions inserted | File: Card_Alinemptosta_7221_MAIO_2026.xlsx | Sheet: MAIO 2026
+2026-06-15 20:33:34,201 | INFO | reconciler | Starting reconciliation | Person: Alinemptosta (...7221) | Sheet: MAIO 2026 | PDF total: R$ 32287.55
+2026-06-15 20:33:34,215 | WARNING | reconciler | SUB TOTAL row not found in 'MAIO 2026'. Falling back to manual sum of transaction rows.
+2026-06-15 20:33:34,216 | WARNING | reconciler | ❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 5321.59 (difference: R$ 26965.96). Manual review required.
+2026-06-15 20:33:34,216 | INFO | reconciler | Result reported | Person: Alinemptosta (...7221) | Status: DIVERGENCE | Diff: R$ 26965.96
+{"person_name": "Alinemptosta (...7221)", "sheet_name": "MAIO 2026", "spreadsheet_path": "spreadsheets/Card_Alinemptosta_7221_MAIO_2026.xlsx", "pdf_total": 32287.55, "spreadsheet_total": 5321.59, "difference": 26965.96, "status": "DIVERGENCE", "message": "❌ DIVERGENCE — Alinemptosta (...7221): PDF R$ 32287.55 ≠ Spreadsheet R$ 5321.59 (difference: R$ 26965.96). Manual review required.", "timestamp": "2026-06-15T20:33:34"}
+2026-06-15 20:33:34,219 | INFO | __main__ | Done — 36 transaction(s) processed | 0 ✅ match | 6 ❌ divergence

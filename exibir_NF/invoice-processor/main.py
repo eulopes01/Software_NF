@@ -28,7 +28,7 @@ import threading
 import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
-from typing import Optional
+from typing import Optional 
 
 # ─────────────────────────────────────────────
 # Logging setup

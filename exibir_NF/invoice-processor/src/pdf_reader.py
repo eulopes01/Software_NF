@@ -550,12 +550,13 @@ def extract_itau_empresas_by_cardholder(raw_text: str, file_name: str = "") -> t
 
     # Transaction: DD/MM DESCRIPTION VALUE (optional suffix CL/CT)
     tx_pat = re.compile(
-        r"^(\d{2}/\d{2})\s+(.+?)\s+([-]?\d{1,3}(?:[.]\d{3})*,\d{2})\s*(?:CL|CT|DIF)?$"
+    r"^(\d{2}/\d{2})\s+(.+?)\s+([-]?\d{1,3}(?:[.]\d{3})*,\d{2})(?:\s|$)"
     )
 
     # Two transactions on same line
+    # Two transactions on same line — capture each independently
     multi_pat = re.compile(
-        r"(\d{2}/\d{2})\s+([A-Z][^\d\n]+?)\s+([-]?\d{1,3}(?:[.]\d{3})*,\d{2})"
+    r"(\d{2}/\d{2})\s+([A-ZÁÉÍÓÚÀÃÕÂÊÎÔÛÇ*][^\d\n]{3,40}?)\s+([-]?\d{1,3}(?:[.]\d{3})*,\d{2})(?:\s|$)"
     )
 
     # Skip markers (normalized)
@@ -565,7 +566,9 @@ def extract_itau_empresas_by_cardholder(raw_text: str, file_name: str = "") -> t
         "lançamentosproduto", "anuidade", "estorno", "novotetodejuros",
         "jurosdacompra", "cetdacompra", "encargos", "limitemaximo",
         "lançamentosnocar", "lancamentosnocar", "previsaodo",
-        "seguefatura", "pagamentominimo", "parcelasfixas",
+        "seguefatura", "pagamentominimo", "parcelasfixas","limite retirada pais","limite retirada país",
+    "valor da fatura", "lançamentos atuais",  "total desta fatura",
+
     ]
 
     lines = raw_text.splitlines()

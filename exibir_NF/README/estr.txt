@@ -14,9 +14,11 @@ invoice-processor/
 │   ├── pdf_reader.py                   # Fase 2 — lê PDF (texto + OCR)
 │   ├── pdf_unlocker.py                 # Remove senha do PDF
 │   ├── pdf_ocr.py                      # OCR para PDFs escaneados ← novo
-│   ├── spreadsheet_writer.py           # Fase 3 — grava na planilha
-│   ├── spreadsheet_creator_dialog.py   # Formulário de criação ← novo
-│   ├── reconciler.py                   # Fase 4 — conciliação
+│   ├── spreadsheet_writer.py 
+|   |__ pdf_unlocker.py                               # Fase 3 — grava na planilha
+│   ├── spreadsheet_creator_dialog.py
+|   |___spreadsheet_write              # Formulário de criação ← novo
+│   ├── reconciler.py                  # Fase 4 — conciliação
 │   └── utils.py                        # Utilitários
 │
 ├── scripts/
