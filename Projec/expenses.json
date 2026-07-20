@@ -1,16 +1,1 @@
-[
-    {
-        "date": "01/01/2026",
-        "vendor": "Mercado Livre",
-        "description": "Compra",
-        "value": 157.0,
-        "pdf_path": "/home/galopes/Downloads/old.pdf"
-    },
-    {
-        "date": "02/01/2026",
-        "vendor": "Mercado Livre",
-        "description": "oi",
-        "value": 300.0,
-        "pdf_path": "/home/galopes/Downloads/Controle_Entrega_Equipamentos_MINE_SARA.pdf"
-    }
-]
+[]
