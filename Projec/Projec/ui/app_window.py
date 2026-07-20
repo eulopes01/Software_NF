@@ -14,10 +14,18 @@ class ExpenseApp:
         self.root.title("Expense PDF Merger")
         self.pdf_service = SecurePdfMergerService()
         
-        self.vendors_file = "vendors.json"
-        self.saved_vendors = self._load_vendors()
+        # Define o diretório de dados na pasta AppData (oculta e segura)
+        # O os.getenv('APPDATA') aponta para C:\Users\SeuUsuario\AppData\Roaming
+        appdata_path = os.getenv('APPDATA')
+        self.data_dir = os.path.join(appdata_path, 'ExpenseApp')
         
-        self.expenses_file = "expenses.json" 
+        if not os.path.exists(self.data_dir):
+            os.makedirs(self.data_dir)
+            
+        self.vendors_file = os.path.join(self.data_dir, "vendors.json")
+        self.expenses_file = os.path.join(self.data_dir, "expenses.json")
+        
+        self.saved_vendors = self._load_vendors()
         self.records: List[ExpenseRecord] = self._load_expenses()
         
         self._style_treeview()
@@ -25,7 +33,7 @@ class ExpenseApp:
         
         if self.records:
             self._refresh_ui()
-
+            
     def _style_treeview(self) -> None:
         style = ttk.Style()
         style.theme_use("default")
