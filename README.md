@@ -127,7 +127,7 @@ Os conhecimentos utilizados no desenvolvimento deste projeto foram adquiridos po
 
 ➡️ **Visualizar certificado:**
 
-**https://mineraleng-my.sharepoint.com/:b:/g/personal/gabriel_sousa_mineral_eng_br/IQDrbDrh2j89RpIUzRZ0tjIbAS2nS3PyuvdwW7V-5wkWGUY?e=BibVhn](https://drive.google.com/file/d/1YH8BqCvM4AVb1g4437YPVxnryH9IH9YU/view?usp=sharing**
+**https://shre.ink/Certificado-Python**
 
 ---
 
