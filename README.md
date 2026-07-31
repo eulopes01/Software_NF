@@ -1,6 +1,6 @@
 # Expense PDF Merger
 
-Aplicativo desktop desenvolvido para facilitar o controle de despesas e a organização de notas fiscais em PDF.
+Aplicativo desktop desenvolvido para facilitar o controle de despesas, a organização de notas fiscais em PDF e o preenchimento automático de planilhas de controle.
 
 ---
 
@@ -8,7 +8,7 @@ Aplicativo desktop desenvolvido para facilitar o controle de despesas e a organi
 
 O **Expense PDF Merger** surgiu a partir de uma necessidade do meu trabalho. Todos os meses eu precisava organizar as notas fiscais e comprovantes de despesas, deixando tudo na mesma ordem da fatura antes de enviar para o setor financeiro.
 
-Para automatizar esse processo, decidi desenvolver uma aplicação desktop onde fosse possível registrar cada despesa, anexar o PDF correspondente e, ao final, gerar um único arquivo contendo todos os documentos na ordem correta.
+Para automatizar esse processo, decidi desenvolver uma aplicação desktop onde fosse possível registrar cada despesa, anexar o PDF correspondente e, ao final, gerar um único arquivo contendo todos os documentos na ordem correta, além de **lançar todos esses dados automaticamente em uma planilha do Excel**.
 
 Optei por armazenar todos os dados localmente por questões de segurança, evitando que informações financeiras fossem enviadas para serviços externos.
 
@@ -19,11 +19,13 @@ O projeto foi desenvolvido em **Python**, utilizando **CustomTkinter** para a in
 ## Funcionalidades
 
 - Junta vários PDFs em um único arquivo.
-- Organiza automaticamente os documentos por data.
+- **Automação de Excel:** Preenche automaticamente a planilha de controle (preservando fórmulas e formatações originais) e atualiza os dados sem duplicar lançamentos.
+- Organiza automaticamente os documentos e lançamentos por data.
 - Cadastro de fornecedores com preenchimento automático.
 - Aceita datas digitadas sem necessidade de barras (ex.: `0108` → `01/08/2026`).
 - Armazena despesas e fornecedores localmente.
-- Destaque visual para despesas que ainda não possuem PDF anexado.
+- Destaque visual (linhas vermelhas) para despesas que ainda não possuem PDF anexado.
+- **Alerta visual de segurança** ao entrar no "Modo de Edição", evitando confusões na alteração de registros.
 - Permite adicionar, editar e excluir registros.
 - Funciona totalmente offline.
 - Pode ser distribuído como um executável (.exe), sem necessidade de instalar Python.
@@ -36,103 +38,88 @@ O projeto foi desenvolvido em **Python**, utilizando **CustomTkinter** para a in
 ├── domain/
 │   └── expense.py
 ├── services/
-│   └── pdf_service.py
+│   ├── pdf_service.py
+│   └── excel_service.py
 ├── utils/
 │   └── validators.py
 ├── ui/
 │   └── app_window.py
 ├── main.py
 └── requirements.txt
-```
-
-Cada pasta possui uma responsabilidade específica, facilitando a manutenção e futuras melhorias.
-
----
+````
+Cada pasta possui uma responsabilidade específica, facilitando a manutenção e futuras melhorias seguindo os princípios de Clean Architecture.
 
 ## Executando o projeto
+Clone o repositório.
 
-1. Clone o repositório.
+Crie um ambiente virtual:
 
-2. Crie um ambiente virtual:
-
-```powershell
+PowerShell
+```
 python -m venv venv
-```
+````
+Ative o ambiente:
 
-3. Ative o ambiente:
-
-```powershell
+PowerShell
+````
 .\venv\Scripts\Activate.ps1
-```
+````
+Instale as dependências:
 
-4. Instale as dependências:
-
-```powershell
+PowerShell
+````
 pip install -r requirements.txt
-```
+````
+Execute o programa:
 
-5. Execute o programa:
-
-```powershell
+PowerShell
 python main.py
-```
-
----
-
-## Gerando o executável
-
-```powershell
+Gerando o executável
+PowerShell
+````
 python -m PyInstaller --noconsole --onefile --name "ExpenseApp" --add-data "C:\caminho\para\customtkinter;customtkinter" main.py
-```
-
+````
 O executável será criado na pasta:
 
-```text
+Plaintext
 dist/
-```
-
----
-
-## Armazenamento dos dados
-
+Armazenamento dos dados
 Os dados são armazenados localmente em:
 
-```text
+Plaintext
+````
 %APPDATA%\ExpenseApp
-```
-
+````
 Nesse diretório ficam os arquivos:
+````
+expenses.json
 
-- `expenses.json`
-- `vendors.json`
-
+vendors.json
+````
 Essa abordagem mantém o histórico do usuário mesmo após fechar o programa e evita que informações fiquem espalhadas pelo computador.
 
----
-
 ## Tecnologias utilizadas
+````
+Python
 
-- Python
-- CustomTkinter
-- PyPDF2
-- PyInstaller
+CustomTkinter
 
----
+PyPDF2
 
-## Certificados
+openpyxl (Automação de planilhas Excel)
 
+PyInstaller
+````
+Certificados
 Os conhecimentos utilizados no desenvolvimento deste projeto foram adquiridos por meio de cursos e estudos práticos.
 
-📜 **Python Completo - Danki Code**
+📜 Python Completo - Danki Code
 
-➡️ **Visualizar certificado:**
+➡️ Visualizar certificado:
 
-**https://shre.ink/Certificado-Python**
+https://shre.ink/Certificado-Python
 
----
+Status
+Versão: 1.0.0
 
-## Status
-
-**Versão:** 1.0.0
-
-Projeto funcional desenvolvido para automatizar a organização de despesas e a consolidação de documentos em PDF.
+Projeto funcional desenvolvido para automatizar a organização de despesas, a consolidação de documentos em PDF e o preenchimento de relatórios no Excel.
