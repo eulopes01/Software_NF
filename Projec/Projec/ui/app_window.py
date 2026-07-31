@@ -1,4 +1,6 @@
 import customtkinter as ctk
+from services.pdf_service import SecurePdfMergerService
+from services.excel_service import ExcelAutomatorService
 from tkinter import ttk, filedialog, messagebox
 import json
 import os
@@ -13,9 +15,8 @@ class ExpenseApp:
         self.root = root
         self.root.title("Expense PDF Merger")
         self.pdf_service = SecurePdfMergerService()
+        self.excel_service = ExcelAutomatorService()
         
-        # Define o diretório de dados na pasta AppData (oculta e segura)
-        # O os.getenv('APPDATA') aponta para C:\Users\SeuUsuario\AppData\Roaming
         appdata_path = os.getenv('APPDATA')
         self.data_dir = os.path.join(appdata_path, 'ExpenseApp')
         
@@ -147,6 +148,14 @@ class ExpenseApp:
         
         ctk.CTkButton(frame, text="Add Expense", width=100, command=self._add_expense).grid(row=0, column=10, padx=(5, 10), pady=10)
 
+       
+        self.edit_mode_label = ctk.CTkLabel(
+            frame, 
+            text="⚠️ MODO DE EDIÇÃO", 
+            text_color="#ff6666", 
+            font=ctk.CTkFont(weight="bold", size=14)
+        )
+
     def _build_treeview(self) -> None:
         columns = ("Date", "Vendor", "Description", "Value", "PDF Path")
         self.tree = ttk.Treeview(self.root, columns=columns, show="headings")
@@ -154,8 +163,7 @@ class ExpenseApp:
             self.tree.heading(col, text=col)
             self.tree.column(col, width=120)
             
-        # NOVO: Configurando a 'tag' visual para as linhas sem PDF
-        self.tree.tag_configure("no_pdf", foreground="#ff6666") # Vermelho claro otimizado para modo escuro
+        self.tree.tag_configure("no_pdf", foreground="#ff6666") 
             
         self.tree.pack(pady=5, padx=15, fill="both", expand=True)
 
@@ -228,6 +236,8 @@ class ExpenseApp:
             self.pdf_path_var.set(record.pdf_path)
 
         self.clear_pdf_btn.grid()
+        # NOVO: Exibe o aviso de edição
+        self.edit_mode_label.grid(row=1, column=0, columnspan=11, pady=(0, 5))
         self._refresh_ui()
 
     def _delete_expense(self) -> None:
@@ -261,13 +271,12 @@ class ExpenseApp:
             date_str = rec.date.strftime("%d/%m/%Y")
             formatted_value = self._format_currency(rec.value)
             
-            # NOVO: Lógica para aplicar a tag vermelha caso não haja PDF
             row_tags = ()
             if rec.pdf_path:
                 display_pdf = rec.pdf_path
             else:
                 display_pdf = "No PDF"
-                row_tags = ("no_pdf",) # Vincula a tag vermelha apenas a esta linha
+                row_tags = ("no_pdf",)
                 
             self.tree.insert("", "end", iid=str(idx), values=(date_str, rec.vendor, rec.description, f"R$ {formatted_value}", display_pdf), tags=row_tags)
             
@@ -285,6 +294,10 @@ class ExpenseApp:
         self.pdf_path_var.set("")
         
         self.clear_pdf_btn.grid_remove()
+        
+       
+        if hasattr(self, 'edit_mode_label'):
+            self.edit_mode_label.grid_remove()
 
     def _merge_pdfs(self) -> None:
         if not self.records:
@@ -296,16 +309,40 @@ class ExpenseApp:
             messagebox.showwarning("Warning", "None of the registered expenses have a PDF attached to merge.")
             return
 
-        output_path = filedialog.asksaveasfilename(defaultextension=".pdf", 
-                                                   filetypes=[("PDF Files", "*.pdf")])
-        if not output_path:
+        # 1. Pergunta onde salvar o PDF unificado
+        output_pdf_path = filedialog.asksaveasfilename(
+            title="Onde salvar o PDF unificado?",
+            defaultextension=".pdf", 
+            filetypes=[("PDF Files", "*.pdf")]
+        )
+        if not output_pdf_path:
             return
 
+        # 2. Pergunta qual planilha Excel preencher
+        messagebox.showinfo("Integração Excel", "PDF configurado. Agora, selecione a sua planilha para lançar os dados.")
+        excel_path = filedialog.askopenfilename(
+            title="Selecione a Planilha de Lançamentos",
+            filetypes=[("Excel Files", "*.xlsx")]
+        )
+
         try:
-            success = self.pdf_service.merge_chronologically(self.records, output_path)
-            if success:
-                messagebox.showinfo("Success", "PDFs merged successfully in chronological order!")
+            # Processa o PDF
+            pdf_success = self.pdf_service.merge_chronologically(self.records, output_pdf_path)
+            
+            # Processa o Excel
+            excel_success = False
+            if excel_path:
+                excel_success = self.excel_service.update_spreadsheet(self.records, excel_path)
+
+            # Relatório Final para o Usuário
+            if pdf_success and excel_success:
+                messagebox.showinfo("Sucesso Total", "PDFs mesclados e planilha Excel atualizada com sucesso!")
+            elif pdf_success and not excel_path:
+                messagebox.showinfo("Sucesso Parcial", "PDFs mesclados, mas nenhuma planilha foi selecionada para atualização.")
+            elif pdf_success and not excel_success:
+                messagebox.showwarning("Aviso", "PDFs mesclados, mas ocorreu um erro ao tentar salvar os dados na planilha. Verifique se o arquivo Excel não está aberto em outro programa.")
             else:
-                messagebox.showwarning("Warning", "Failed to merge. No valid PDFs found.")
+                messagebox.showwarning("Warning", "Falha ao gerar os arquivos.")
+                
         except Exception:
-            messagebox.showerror("Error", "Failed to merge PDFs securely. Check if files exist and are valid.")
+            messagebox.showerror("Error", "Ocorreu um erro crítico durante a automação. Verifique os arquivos.")
